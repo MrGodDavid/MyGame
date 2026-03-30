@@ -16,8 +16,9 @@ public final class GameWrapper {
     private GameLoop gameLoop;
 
     public GameWrapper() {
-        window = new Window();
-        gameLoop = new GameLoop();
+        Game game = new Game();
+        window = new Window(game);
+        gameLoop = new GameLoop(game);
     }
 
     /**

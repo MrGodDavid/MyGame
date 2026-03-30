@@ -1,18 +1,26 @@
 package core;
 
+import game.Game;
+
 /**
  * Game loop of this game.
+ *
+ * @author Mr. GodDavid
+ * @since 3/30/2026
  */
 public final class GameLoop implements Runnable {
 
     private Thread gameLoopThread;
+    private final Game game;
 
     private boolean running;
     private long nextStatTime;
     private final double updateRate = 1.0d / 60.0d;
     private int fps, ups;
+    private double deltaTime;
 
-    public GameLoop() {
+    public GameLoop(Game game) {
+        this.game = game;
         running = false;
     }
 
@@ -33,13 +41,14 @@ public final class GameLoop implements Runnable {
 
         while (running) {
             currentTime = System.currentTimeMillis();
+            deltaTime = currentTime - lastUpdate;
             double lastRenderTimeInSeconds = (currentTime - lastUpdate) / 1000.0d;
             accumulator += lastRenderTimeInSeconds;
             lastUpdate = currentTime;
 
             if (accumulator >= updateRate) {
                 while (accumulator >= updateRate) {
-                    update();
+                    update(deltaTime);
                     accumulator -= updateRate;
                 }
                 render();
@@ -48,12 +57,14 @@ public final class GameLoop implements Runnable {
         }
     }
 
-    private void update() {
+    private void update(double deltaTime) {
         ups++;
+        game.update(deltaTime);
     }
 
     private void render() {
         fps++;
+        game.render();
     }
 
     private void printStat() {
