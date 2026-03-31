@@ -44,6 +44,10 @@ public abstract class GameObject {
         return position;
     }
 
+    public void setPosition(Vector2d position) {
+        this.position = position;
+    }
+
     public Image getSpriteImage() {
         return this.sprite;
     }

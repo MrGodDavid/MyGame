@@ -1,6 +1,7 @@
 package game;
 
 import entity.GameObject;
+import entity.MovingEntityManager;
 import entity.player.Player;
 import input.InputManager;
 import input.KeyboardListener;
@@ -12,6 +13,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -23,8 +25,7 @@ import java.util.List;
 public final class Game extends JPanel {
 
     private final InputManager inputManager;
-    private final List<GameObject> gameObjects;
-    private static Player player;
+    private final MovingEntityManager movingEntityManager;
 
     private static Font font_m6x11plus;
 
@@ -34,6 +35,7 @@ public final class Game extends JPanel {
         final KeyboardListener keyboardListener = new KeyboardListener();
         final MouseInputListener mouseInputListener = new MouseInputListener();
         this.inputManager = new InputManager(keyboardListener, mouseInputListener);
+        this.movingEntityManager = new MovingEntityManager();
 
         super.setPreferredSize(new Dimension(800, 600));
         super.setDoubleBuffered(true);
@@ -42,16 +44,11 @@ public final class Game extends JPanel {
         super.addKeyListener(keyboardListener);
         super.addMouseListener(mouseInputListener);
         super.addMouseMotionListener(mouseInputListener);
-
-        this.gameObjects = new ArrayList<>();
-        player = new Player();
-        gameObjects.add(player);
     }
 
     public void update(double deltaTime) {
         inputManager.update(deltaTime);
-
-        gameObjects.forEach(gameObject -> gameObject.update(deltaTime));
+        movingEntityManager.update(deltaTime);
     }
 
     public void render() {
@@ -94,17 +91,10 @@ public final class Game extends JPanel {
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0, 0, getWidth(), getHeight());
 
-        for (GameObject gameObject : gameObjects) {
-            g2d.drawImage(
-                    gameObject.getSpriteImage(),
-                    (int) gameObject.getPosition().getX(),
-                    (int) gameObject.getPosition().getY(),
-                    null
-            );
-        }
+        movingEntityManager.render(g2d);
     }
 
-    public Font createFont(final String filePath) {
+    private Font createFont(final String filePath) {
         InputStream iS = Game.class.getResourceAsStream(filePath);
         if (iS == null) return null;
         try {
@@ -116,9 +106,5 @@ public final class Game extends JPanel {
 
     public static Font getGameFont() {
         return Game.font_m6x11plus;
-    }
-
-    public static Player getPlayer() {
-        return player;
     }
 }

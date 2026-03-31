@@ -13,7 +13,13 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * Player class.
+ * Player class. Player class is a subclass of the {@code MovingEntity}. Player class implements the
+ * {@link entity.GameObject#getSprite()}, {@link entity.GameObject#update(double)}, and {@link MovingEntity#move(double)}
+ * methods. The player can move, shoot projectiles, and endure damages from enemies.
+ * <p>
+ * If player dies, the game is over. When player shoots projectiles and kills enemy, the player gains scores and earns
+ * money and experience points. The player can use money to buy skills and equipments to increase its life points, damage
+ * strength, and additional awards.
  *
  * @author Mr. GodDavid
  * @since 3/30/2026
@@ -52,17 +58,6 @@ public final class Player extends MovingEntity {
         g2d.dispose();
 
         return sprite;
-    }
-
-    /**
-     * Update the subclass of {@code GameObject} 60 times per frame.
-     *
-     * @param deltaTime that is not null.
-     * @see GameLoop
-     */
-    @Override
-    public void update(double deltaTime) {
-        position = position.add(velocity.scale(deltaTime));
     }
 
     @Override

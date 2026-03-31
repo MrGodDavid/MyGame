@@ -2,6 +2,7 @@ package input;
 
 import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
+import entity.MovingEntityManager;
 import game.Game;
 
 import java.awt.event.KeyEvent;
@@ -31,9 +32,9 @@ public final class InputManager {
         }
 
         if (keyboardListener.isKeyDown(KeyEvent.VK_W)) {
-            Game.getPlayer().move(deltaTime);
+            MovingEntityManager.getPlayer().move(deltaTime);
         } else {
-            Game.getPlayer().stop();
+            MovingEntityManager.getPlayer().stop();
         }
     }
 
