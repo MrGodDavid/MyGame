@@ -1,6 +1,6 @@
 package entity.player;
 
-import com.mrgoddavid.vectorMath.Vector2d;
+import com.mrgoddavid.vector.Vector2d;
 import core.GameLoop;
 import entity.GameObject;
 import entity.component.Size;
@@ -18,7 +18,7 @@ public final class Player extends GameObject {
 
     public Player() {
         position = new Vector2d(100, 100);
-        velocity = new Vector2d(1, 0);
+        velocity = new Vector2d(10, 0);
         size = new Size(100, 100);
     }
 
@@ -47,7 +47,6 @@ public final class Player extends GameObject {
      */
     @Override
     public void update(double deltaTime) {
-        velocity = velocity.scale(deltaTime);
-        position = position.add(velocity);
+        position = position.add(velocity.scale(deltaTime));
     }
 }

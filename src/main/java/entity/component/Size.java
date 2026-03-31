@@ -1,8 +1,16 @@
 package entity.component;
 
-import com.mrgoddavid.vectorMath.Vector2d;
+import com.mrgoddavid.vector.Vector2i;
 
-public final class Size extends Vector2d {
+/**
+ * Size component of {@code GameObject}.
+ * <p>
+ * This class is a subclass of {@link Vector2i}.
+ *
+ * @author Mr. GodDavid
+ * @since 3/30/2026
+ */
+public final class Size extends Vector2i {
 
     public Size() {
         super();
@@ -13,10 +21,10 @@ public final class Size extends Vector2d {
     }
 
     public int getWidth() {
-        return (int) getX();
+        return super.getX();
     }
 
     public int getHeight() {
-        return (int) getY();
+        return super.getY();
     }
 }

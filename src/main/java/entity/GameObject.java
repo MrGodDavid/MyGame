@@ -1,6 +1,6 @@
 package entity;
 
-import com.mrgoddavid.vectorMath.Vector2d;
+import com.mrgoddavid.vector.Vector2d;
 import entity.component.Size;
 
 import java.awt.*;

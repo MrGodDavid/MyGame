@@ -2,6 +2,9 @@ package game;
 
 import entity.GameObject;
 import entity.player.Player;
+import input.InputManager;
+import input.KeyboardListener;
+import input.MouseInputListener;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -17,16 +20,30 @@ import java.util.List;
  */
 public final class Game extends JPanel {
 
-    List<GameObject> gameObjects;
+    private final InputManager inputManager;
+
+    private final List<GameObject> gameObjects;
 
     public Game() {
-        setPreferredSize(new Dimension(800, 600));
+        final KeyboardListener keyboardListener = new KeyboardListener();
+        final MouseInputListener mouseInputListener = new MouseInputListener();
+        this.inputManager = new InputManager(keyboardListener, mouseInputListener);
+
+        super.setPreferredSize(new Dimension(800, 600));
+        super.setDoubleBuffered(true);
+        super.setFocusable(true);
+
+        super.addKeyListener(keyboardListener);
+        super.addMouseListener(mouseInputListener);
+        super.addMouseMotionListener(mouseInputListener);
 
         this.gameObjects = new ArrayList<>();
         gameObjects.add(new Player());
     }
 
     public void update(double deltaTime) {
+        inputManager.update(deltaTime);
+
         gameObjects.forEach(gameObject -> gameObject.update(deltaTime));
     }
 

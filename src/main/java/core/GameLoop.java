@@ -41,14 +41,13 @@ public final class GameLoop implements Runnable {
 
         while (running) {
             currentTime = System.currentTimeMillis();
-            deltaTime = currentTime - lastUpdate;
-            double lastRenderTimeInSeconds = (currentTime - lastUpdate) / 1000.0d;
-            accumulator += lastRenderTimeInSeconds;
+            deltaTime = (currentTime - lastUpdate) / 1000.0d;
+            accumulator += deltaTime;
             lastUpdate = currentTime;
 
             if (accumulator >= updateRate) {
                 while (accumulator >= updateRate) {
-                    update(deltaTime);
+                    update(updateRate);
                     accumulator -= updateRate;
                 }
                 render();
