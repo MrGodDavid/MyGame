@@ -24,6 +24,7 @@ public final class Game extends JPanel {
 
     private final InputManager inputManager;
     private final List<GameObject> gameObjects;
+    private static Player player;
 
     private static Font font_m6x11plus;
 
@@ -43,7 +44,8 @@ public final class Game extends JPanel {
         super.addMouseMotionListener(mouseInputListener);
 
         this.gameObjects = new ArrayList<>();
-        gameObjects.add(new Player());
+        player = new Player();
+        gameObjects.add(player);
     }
 
     public void update(double deltaTime) {
@@ -104,10 +106,9 @@ public final class Game extends JPanel {
 
     public Font createFont(final String filePath) {
         InputStream iS = Game.class.getResourceAsStream(filePath);
+        if (iS == null) return null;
         try {
-            Font font =  Font.createFont(Font.TRUETYPE_FONT, iS);
-
-            return font;
+            return Font.createFont(Font.TRUETYPE_FONT, iS);
         } catch (IOException | FontFormatException e) {
             throw new RuntimeException("ERROR: Could not find font through file path [" + filePath + "]");
         }
@@ -115,5 +116,9 @@ public final class Game extends JPanel {
 
     public static Font getGameFont() {
         return Game.font_m6x11plus;
+    }
+
+    public static Player getPlayer() {
+        return player;
     }
 }

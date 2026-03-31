@@ -3,9 +3,10 @@ package entity.player;
 import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
 import core.GameLoop;
-import entity.GameObject;
+import entity.MovingEntity;
 import entity.component.Size;
 import game.Game;
+import input.InputManager;
 import utils.TextUtils;
 
 import java.awt.*;
@@ -17,12 +18,15 @@ import java.awt.image.BufferedImage;
  * @author Mr. GodDavid
  * @since 3/30/2026
  */
-public final class Player extends GameObject {
+public final class Player extends MovingEntity {
 
     public Player() {
+        super();
         position = new Vector2d(100, 100);
         velocity = new Vector2d(0, 0);
         size = new Size(48, 48);
+        speed = 200d;
+
         sprite = getSprite();
     }
 
@@ -59,5 +63,12 @@ public final class Player extends GameObject {
     @Override
     public void update(double deltaTime) {
         position = position.add(velocity.scale(deltaTime));
+    }
+
+    @Override
+    public void move(double deltaTime) {
+        Vector2d mousePosition = new Vector2d(InputManager.getMousePosition());
+        Vector2d direction = mousePosition.subtract(position).normalize();
+        this.velocity = direction.scale(speed);
     }
 }
