@@ -9,6 +9,8 @@ import input.MouseInputListener;
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +23,13 @@ import java.util.List;
 public final class Game extends JPanel {
 
     private final InputManager inputManager;
-
     private final List<GameObject> gameObjects;
 
+    private static Font font_m6x11plus;
+
     public Game() {
+        Game.font_m6x11plus = createFont("/font/m6x11plus.ttf");
+
         final KeyboardListener keyboardListener = new KeyboardListener();
         final MouseInputListener mouseInputListener = new MouseInputListener();
         this.inputManager = new InputManager(keyboardListener, mouseInputListener);
@@ -89,11 +94,26 @@ public final class Game extends JPanel {
 
         for (GameObject gameObject : gameObjects) {
             g2d.drawImage(
-                    gameObject.getSprite(),
+                    gameObject.getSpriteImage(),
                     (int) gameObject.getPosition().getX(),
                     (int) gameObject.getPosition().getY(),
                     null
             );
         }
+    }
+
+    public Font createFont(final String filePath) {
+        InputStream iS = Game.class.getResourceAsStream(filePath);
+        try {
+            Font font =  Font.createFont(Font.TRUETYPE_FONT, iS);
+
+            return font;
+        } catch (IOException | FontFormatException e) {
+            throw new RuntimeException("ERROR: Could not find font through file path [" + filePath + "]");
+        }
+    }
+
+    public static Font getGameFont() {
+        return Game.font_m6x11plus;
     }
 }

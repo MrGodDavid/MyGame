@@ -1,9 +1,12 @@
 package entity.player;
 
 import com.mrgoddavid.vector.Vector2d;
+import com.mrgoddavid.vector.Vector2i;
 import core.GameLoop;
 import entity.GameObject;
 import entity.component.Size;
+import game.Game;
+import utils.TextUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -18,8 +21,9 @@ public final class Player extends GameObject {
 
     public Player() {
         position = new Vector2d(100, 100);
-        velocity = new Vector2d(10, 0);
-        size = new Size(100, 100);
+        velocity = new Vector2d(0, 0);
+        size = new Size(48, 48);
+        sprite = getSprite();
     }
 
     /**
@@ -28,12 +32,19 @@ public final class Player extends GameObject {
      * @return the sprite of the subclass of {@code GameObject}.
      */
     @Override
-    public Image getSprite() {
+    protected Image getSprite() {
         BufferedImage sprite = new BufferedImage(size.getWidth(), size.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = sprite.createGraphics();
+        String text = "ME";
+        Vector2i centeredPosition = TextUtils.getCenteredFontPosition(g2d, text, size);
 
-        g2d.setColor(Color.RED);
-        g2d.fillRect(0, 0, size.getWidth(), size.getHeight());
+        g2d.setFont(Game.getGameFont().deriveFont(Font.PLAIN, 24F));
+        g2d.setColor(new Color(255, 255, 255, 255));
+        g2d.drawString(
+                text,
+                centeredPosition.getX(),
+                centeredPosition.getY()
+        );
         g2d.dispose();
 
         return sprite;

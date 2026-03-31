@@ -17,6 +17,8 @@ public abstract class GameObject {
     protected Vector2d velocity;
     protected Size size;
 
+    protected Image sprite;
+
     public GameObject() {
         position = new Vector2d();
         velocity = new Vector2d();
@@ -28,7 +30,7 @@ public abstract class GameObject {
      *
      * @return the sprite of the subclass of {@code GameObject}.
      */
-    public abstract Image getSprite();
+    protected abstract Image getSprite();
 
     /**
      * Update the subclass of {@code GameObject} 60 times per frame.
@@ -40,5 +42,9 @@ public abstract class GameObject {
 
     public Vector2d getPosition() {
         return position;
+    }
+
+    public Image getSpriteImage() {
+        return this.sprite;
     }
 }
