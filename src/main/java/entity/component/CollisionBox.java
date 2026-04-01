@@ -24,8 +24,8 @@ public final class CollisionBox {
     }
 
     public void update(MovingEntity owner) {
-        this.boundingBox.x = (int) Math.round(owner.getPosition().getX());
-        this.boundingBox.y = (int) Math.round(owner.getPosition().getY());
+        this.boundingBox.x += (int) Math.round(owner.getPosition().getX());
+        this.boundingBox.y += (int) Math.round(owner.getPosition().getY());
     }
 
     private Rectangle getBoundingBox() {
