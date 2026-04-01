@@ -53,11 +53,10 @@ public final class MovingEntityManager {
     }
 
     public void render(Graphics2D g2d) {
-        Iterator<MovingEntity> iterator = movingEntities.iterator();
-        while (iterator.hasNext()) {
-            MovingEntity entity = iterator.next();
+        for (int i = 0; i < movingEntities.size(); i++) {
+            MovingEntity entity = movingEntities.get(i);
             g2d.drawImage(
-                    entity.getSpriteImage(),
+                    entity.getSprite(),
                     (int) entity.getPosition().getX(),
                     (int) entity.getPosition().getY(),
                     null
