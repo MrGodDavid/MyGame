@@ -2,6 +2,7 @@ package entity;
 
 import com.mrgoddavid.vector.Vector2d;
 import core.GameLoop;
+import entity.component.CollisionBox;
 
 /**
  * Superclass for all MovingEntity of this game. This is a subclass of {@link GameObject}.
@@ -29,9 +30,14 @@ public abstract class MovingEntity extends GameObject {
     @Override
     public void update(double deltaTime) {
         position = position.add(velocity.scale(deltaTime));
+        collisionBox.update(this);
     }
 
-    protected boolean isMetGoalPosition(Vector2d goalPosition) {
-        return (this.position.getX() - goalPosition.getX()) <= 0.01 && this.position.getY() - goalPosition.getY() <= 0.01;
+    protected boolean isCollidingWith(CollisionBox otherCollisionBox) {
+        return this.collisionBox.collidesWith(otherCollisionBox);
+    }
+
+    public CollisionBox getCollisionBox() {
+        return this.collisionBox;
     }
 }

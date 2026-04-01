@@ -1,6 +1,7 @@
 package entity;
 
 import com.mrgoddavid.vector.Vector2d;
+import entity.component.CollisionBox;
 import entity.component.Size;
 
 import java.awt.*;
@@ -18,11 +19,14 @@ public abstract class GameObject {
     protected Size size;
 
     protected Image sprite;
+    protected CollisionBox collisionBox;
 
     public GameObject() {
         position = new Vector2d();
         velocity = new Vector2d();
         size = new Size();
+        sprite = null;
+        collisionBox = null;
     }
 
     /**
@@ -46,9 +50,5 @@ public abstract class GameObject {
 
     public void setPosition(Vector2d position) {
         this.position = position;
-    }
-
-    public Image getSpriteImage() {
-        return this.sprite;
     }
 }

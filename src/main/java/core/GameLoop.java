@@ -68,7 +68,7 @@ public final class GameLoop implements Runnable {
 
     private void printStat() {
         if (System.currentTimeMillis() > nextStatTime) {
-            System.out.print("[ChoiceCraft_V1_0_6_Alpha.game.ChoiceCraft StatPrinter]: \t");
+            System.out.print("[MyGame V1 StatPrinter]: \t");
             System.out.printf("[FPS: %d, UPS: %d] \t||\t", fps, ups);
             fps = ups = 0;
             nextStatTime = System.currentTimeMillis() + 1000;

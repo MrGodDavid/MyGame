@@ -4,6 +4,7 @@ import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
 import core.GameLoop;
 import entity.MovingEntity;
+import entity.component.CollisionBox;
 import entity.component.Size;
 import game.Game;
 import input.InputManager;
@@ -31,6 +32,7 @@ public final class Player extends MovingEntity {
         position = new Vector2d(100, 100);
         velocity = new Vector2d(0, 0);
         size = new Size(48, 48);
+        collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
         speed = 200d;
 
         sprite = getSprite();

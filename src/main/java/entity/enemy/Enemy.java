@@ -5,6 +5,7 @@ import com.mrgoddavid.vector.Vector2i;
 import core.GameLoop;
 import entity.MovingEntity;
 import entity.MovingEntityManager;
+import entity.component.CollisionBox;
 import entity.component.Size;
 import game.Game;
 import utils.TextUtils;
@@ -23,7 +24,8 @@ public class Enemy extends MovingEntity {
     public Enemy() {
         position = new Vector2d(-1, -1);
         size = new Size(64, 64);
-        speed = 2000;
+        collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
+        speed = 100;
 
         sprite = getSprite();
     }
@@ -45,7 +47,7 @@ public class Enemy extends MovingEntity {
         if (!isMetPlayer()) {
             Vector2d playerPosition = new  Vector2d(MovingEntityManager.getPlayer().getPosition());
             Vector2d direction = playerPosition.subtract(position).normalize();
-            this.velocity = direction.scale(speed * deltaTime);
+            this.velocity = direction.scale(speed);
         }
     }
 
@@ -70,6 +72,6 @@ public class Enemy extends MovingEntity {
     }
 
     public boolean isMetPlayer() {
-        return isMetGoalPosition(MovingEntityManager.getPlayer().getPosition());
+        return this.isCollidingWith(MovingEntityManager.getPlayer().getCollisionBox());
     }
 }
