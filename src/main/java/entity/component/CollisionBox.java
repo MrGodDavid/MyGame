@@ -31,20 +31,4 @@ public final class CollisionBox {
     private Rectangle getBoundingBox() {
         return this.boundingBox;
     }
-
-    public int getX() {
-        return boundingBox.x;
-    }
-
-    public int getY() {
-        return boundingBox.y;
-    }
-
-    public int getWidth() {
-        return boundingBox.width;
-    }
-
-    public int getHeight() {
-        return boundingBox.height;
-    }
 }
