@@ -2,7 +2,6 @@ package entity.player;
 
 import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
-import core.GameLoop;
 import entity.MovingEntity;
 import entity.component.CollisionBox;
 import entity.component.Size;
@@ -34,6 +33,7 @@ public final class Player extends MovingEntity {
         size = new Size(48, 48);
         collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
 
+        // player attributes.
         speed = 200d;
         maxLife = 10;
         currentLife = maxLife;
