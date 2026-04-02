@@ -29,8 +29,8 @@ public final class Game extends JPanel {
 
         final KeyboardListener keyboardListener = new KeyboardListener();
         final MouseInputListener mouseInputListener = new MouseInputListener();
-        this.inputManager = new InputManager(keyboardListener, mouseInputListener);
-        this.movingEntityManager = new MovingEntityManager();
+        this.inputManager = InputManager.getInstance(keyboardListener, mouseInputListener);
+        this.movingEntityManager = MovingEntityManager.getInstance();
 
         super.setPreferredSize(new Dimension(800, 600));
         super.setDoubleBuffered(true);

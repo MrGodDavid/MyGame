@@ -2,7 +2,8 @@ package entity;
 
 import core.GameLoop;
 import entity.component.CollisionBox;
-import entity.player.Player;
+
+import java.awt.*;
 
 /**
  * Superclass for all MovingEntity of this game. This is a subclass of {@link GameObject}.

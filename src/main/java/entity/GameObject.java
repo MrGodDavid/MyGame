@@ -51,4 +51,8 @@ public abstract class GameObject {
     public void setPosition(Vector2d position) {
         this.position = position;
     }
+
+    public Vector2d getVelocity() {
+        return velocity;
+    }
 }

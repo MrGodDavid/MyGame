@@ -26,13 +26,28 @@ import java.util.List;
  */
 public final class MovingEntityManager {
 
+    private static MovingEntityManager movingEntityManager;
+
     private final List<MovingEntity> movingEntities;
     private static Player player;
 
-    public MovingEntityManager() {
+    private MovingEntityManager() {
         movingEntities = new ArrayList<>();
         player = new Player();
         movingEntities.add(player);
+    }
+
+    /**
+     * Returns the single instance of {@code MovingEntityManager}. This method initializes the {@code MovingEntityManager} if the
+     * instance is not being initialized. Otherwise, returns the instance of {@code MovingEntityManager}.
+     *
+     * @return the only instance of {@code MovingEntityManager}
+     */
+    public static MovingEntityManager getInstance() {
+        if (movingEntityManager == null) {
+            movingEntityManager = new MovingEntityManager();
+        }
+        return movingEntityManager;
     }
 
     /**
@@ -41,7 +56,7 @@ public final class MovingEntityManager {
      * @param deltaTime that is used to update {@code MovingEntity} of this game.
      */
     public void update(double deltaTime) {
-        addMovingEntitiesUpTo(1);
+        addMovingEntitiesUpTo(10);
         updateAllMovingEntitiesInGame(deltaTime);
     }
 

@@ -18,12 +18,29 @@ import java.awt.event.KeyEvent;
  */
 public final class InputManager {
 
-    private final KeyboardListener keyboardListener;
+    private static KeyboardListener keyboardListener;
     private static MouseInputListener mouseInputListener;
 
-    public InputManager(KeyboardListener keyboardListener, MouseInputListener mouseInputListener) {
-        this.keyboardListener = keyboardListener;
+    private static InputManager inputManager;
+
+    private InputManager(KeyboardListener keyboardListener, MouseInputListener mouseInputListener) {
+        InputManager.keyboardListener = keyboardListener;
         InputManager.mouseInputListener = mouseInputListener;
+    }
+
+    /**
+     * Returns the single instance of {@code InputManager}. This method initializes the {@code InputManager} if the
+     * instance is not being initialized. Otherwise, returns the instance of {@code InputManager}.
+     *
+     * @param keyboardListener the key listener that is used to construct this class.
+     * @param mouseInputListener the mouse input listener that is used to construct this class.
+     * @return the only instance of {@code InputManager}
+     */
+    public static InputManager getInstance(KeyboardListener keyboardListener, MouseInputListener mouseInputListener) {
+        if (InputManager.inputManager == null) {
+            InputManager.inputManager = new InputManager(keyboardListener, mouseInputListener);
+        }
+        return InputManager.inputManager;
     }
 
     public void update(double deltaTime) {
