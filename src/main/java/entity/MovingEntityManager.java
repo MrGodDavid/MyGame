@@ -5,12 +5,21 @@ import entity.enemy.Enemy;
 import entity.player.Player;
 
 import java.awt.*;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * Manages all {@code MovingEntity} in this game.
+ * Manages all {@code MovingEntity} in this game. This class contains a List of {@code MovingEntity} of this game.
+ * <p>
+ * This class first constructs the List of {@code MovingEntity} of this game. Secondly, this class initializes the
+ * {@code Player} of the game and adds the {@code Player} to the List of {@code MovingEntity}.
+ * <p>
+ * This class contains an update method and a render method. The update method update all the {@code MovingEntity} inside
+ * the List of {@code MovingEntity} of this game via {@link MovingEntity#update(double)}. The render method renders all
+ * the {@code MovingEntity} by utilizing the {@link Graphics2D#drawImage(Image, int, int, ImageObserver)}. (In this case,
+ * the {@link ImageObserver} is null.) The image parameters is the image got from {@link MovingEntity#getSprite()}.
  *
  * @author Mr. GodDavid
  * @since 3/31/2026
@@ -26,8 +35,13 @@ public final class MovingEntityManager {
         movingEntities.add(player);
     }
 
+    /**
+     * Update all {@code MovingEntity} of this game every frame.
+     *
+     * @param deltaTime that is used to update {@code MovingEntity} of this game.
+     */
     public void update(double deltaTime) {
-        addMovingEntitiesUpTo(10);
+        addMovingEntitiesUpTo(1);
 
         Iterator<MovingEntity> iterator = movingEntities.iterator();
         while (iterator.hasNext()) {
@@ -42,7 +56,7 @@ public final class MovingEntityManager {
     }
 
     private void addMovingEntitiesUpTo(int maxNumOfMovingEntities) {
-        if (getNumOf(Enemy.class) <= maxNumOfMovingEntities) {
+        if (getNumOf(Enemy.class) < maxNumOfMovingEntities) {
             for (int i = 0; i < maxNumOfMovingEntities; i++) {
                 Enemy enemy = new Enemy();
                 enemy.setPosition(new Vector2d(Math.random() * 400, Math.random() * 400));
@@ -51,6 +65,11 @@ public final class MovingEntityManager {
         }
     }
 
+    /**
+     * Render all {@code MovingEntity} of this game every frame.
+     *
+     * @param g2d that can be considered as the graphics rendering pipeline that built inside {@link Graphics2D} class.
+     */
     public void render(Graphics2D g2d) {
         for (int i = 0; i < movingEntities.size(); i++) {
             MovingEntity entity = movingEntities.get(i);
@@ -63,6 +82,15 @@ public final class MovingEntityManager {
         }
     }
 
+    /**
+     * Utility method for finding how many {@code MovingEntity} that matches with the param {@code filterClass} inside
+     * the List of {@code MovingEntity} of this game.
+     *
+     * @param filterClass that is the key for finding how many {@code MovingEntity} that matches the given
+     *                    {@code filtering class.}
+     * @param <T>         The type parameter that extends the {@link MovingEntity}.
+     * @return the number of {@code MovingEntity} that matches with the {@code filtering class.}
+     */
     public <T extends MovingEntity> int getNumOf(Class<T> filterClass) {
         return movingEntities.stream()
                 .filter(filterClass::isInstance)

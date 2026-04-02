@@ -12,8 +12,8 @@ import core.Window;
  */
 public final class GameWrapper {
 
-    private Window window;
-    private GameLoop gameLoop;
+    private final Window window;
+    private final GameLoop gameLoop;
 
     public GameWrapper() {
         Game game = new Game();

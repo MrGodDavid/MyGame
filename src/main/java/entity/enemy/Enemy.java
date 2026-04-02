@@ -72,6 +72,7 @@ public class Enemy extends MovingEntity {
     }
 
     public boolean isMetPlayer() {
+        System.out.println("This collision box: " + this.collisionBox + ", and player's collision box: " + MovingEntityManager.getPlayer().getCollisionBox());
         return this.isCollidingWith(MovingEntityManager.getPlayer().getCollisionBox());
     }
 }

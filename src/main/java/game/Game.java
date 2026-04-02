@@ -1,8 +1,6 @@
 package game;
 
-import entity.GameObject;
 import entity.MovingEntityManager;
-import entity.player.Player;
 import input.InputManager;
 import input.KeyboardListener;
 import input.MouseInputListener;
@@ -12,9 +10,6 @@ import javax.swing.plaf.ComponentUI;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * The actual game reference of this project.
