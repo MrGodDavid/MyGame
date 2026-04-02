@@ -5,6 +5,7 @@ import com.mrgoddavid.vector.Vector2d;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Arrays;
 
 /**
  * Listen to user's mouse inputs.
@@ -14,9 +15,30 @@ import java.awt.event.MouseMotionListener;
  */
 public final class MouseInputListener implements MouseListener, MouseMotionListener {
 
+    public enum MouseButton {
+
+        LEFT_BUTTON(MouseEvent.BUTTON1),
+        MIDDLE_BUTTON(MouseEvent.BUTTON2),
+        RIGHT_BUTTON(MouseEvent.BUTTON3),
+        SIDE_BUTTON_CLOSER_TO_USER(4),
+        SIDE_BUTTON_AWAY_FROM_USER(5);
+
+        private final int button;
+
+        MouseButton(int button) {
+            this.button = button;
+        }
+
+        public int getButton() {
+            return button;
+        }
+    }
+
+    private boolean[] mouseButtonsPressed;
     private Vector2d mouseCursorPosition;
 
     public MouseInputListener() {
+        mouseButtonsPressed = new boolean[MouseInputListener.MouseButton.values().length];
         this.mouseCursorPosition = new Vector2d(-1, -1);
     }
 
@@ -37,7 +59,17 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
      */
     @Override
     public void mousePressed(MouseEvent e) {
-
+        /*
+         *  left button -> 1
+         *  middle button -> 2
+         *  right button -> 3
+         *  side button (closer to user's body) -> 4
+         *  side button (away from user's body) -> 5
+         */
+        int mouseButtonIndex = e.getButton() - 1;
+        if (mouseButtonIndex >= 0 && mouseButtonIndex < mouseButtonsPressed.length) {
+            mouseButtonsPressed[mouseButtonIndex] = true;
+        }
     }
 
     /**
@@ -47,7 +79,17 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
      */
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        /*
+         *  left button -> 1
+         *  middle button -> 2
+         *  right button -> 3
+         *  side button (closer to user's body) -> 4
+         *  side button (away from user's body) -> 5
+         */
+        int mouseButtonIndex = e.getButton() - 1;
+        if (mouseButtonIndex >= 0 && mouseButtonIndex < mouseButtonsPressed.length) {
+            mouseButtonsPressed[mouseButtonIndex] = false;
+        }
     }
 
     /**
@@ -104,5 +146,10 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
      */
     public Vector2d getMouseCursorPosition() {
         return mouseCursorPosition;
+    }
+
+    public boolean isButtonDown(MouseButton button) {
+        if (button.getButton() < 0 || button.getButton() >= mouseButtonsPressed.length) return false;
+        return mouseButtonsPressed[button.getButton() - 1];
     }
 }

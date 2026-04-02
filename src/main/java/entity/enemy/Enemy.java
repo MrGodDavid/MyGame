@@ -7,6 +7,7 @@ import entity.MovingEntity;
 import entity.MovingEntityManager;
 import entity.component.CollisionBox;
 import entity.component.Size;
+import entity.player.Player;
 import game.Game;
 import utils.TextUtils;
 
@@ -25,7 +26,11 @@ public class Enemy extends MovingEntity {
         position = new Vector2d(-1, -1);
         size = new Size(64, 64);
         collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
+
         speed = 100;
+        maxLife = 10;
+        currentLife = maxLife;
+        alive = true;
 
         sprite = getSprite();
     }
@@ -69,10 +74,5 @@ public class Enemy extends MovingEntity {
         g2d.dispose();
 
         return sprite;
-    }
-
-    public boolean isMetPlayer() {
-        System.out.println("This collision box: " + this.collisionBox + ", and player's collision box: " + MovingEntityManager.getPlayer().getCollisionBox());
-        return this.isCollidingWith(MovingEntityManager.getPlayer().getCollisionBox());
     }
 }

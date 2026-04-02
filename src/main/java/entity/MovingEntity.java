@@ -1,19 +1,22 @@
 package entity;
 
-import com.mrgoddavid.vector.Vector2d;
 import core.GameLoop;
 import entity.component.CollisionBox;
+import entity.player.Player;
 
 /**
  * Superclass for all MovingEntity of this game. This is a subclass of {@link GameObject}.
  */
 public abstract class MovingEntity extends GameObject {
 
+    protected double speed;
+    protected double currentLife;
+    protected double maxLife;
+    protected boolean alive;
+
     public MovingEntity() {
         super();
     }
-
-    protected double speed;
 
     public abstract void move(double deltaTime);
 
@@ -33,11 +36,28 @@ public abstract class MovingEntity extends GameObject {
         collisionBox.update(this);
     }
 
+    public boolean isMetPlayer() {
+        return this.isCollidingWith(MovingEntityManager.getPlayer().getCollisionBox());
+    }
+
     protected boolean isCollidingWith(CollisionBox otherCollisionBox) {
         return this.collisionBox.collidesWith(otherCollisionBox);
     }
 
     public CollisionBox getCollisionBox() {
         return this.collisionBox;
+    }
+
+    public void damage(int damage) {
+        this.currentLife -= damage;
+    }
+
+    @Override
+    public String toString() {
+        return "position=" + position
+                + ", velocity=" + velocity
+                + ", collisionBox=" + collisionBox
+                + ", currentLife=" + currentLife
+                + ", maxLife=" + maxLife;
     }
 }

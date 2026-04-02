@@ -30,4 +30,9 @@ public final class Size extends Vector2i {
     public int getHeight() {
         return super.getY();
     }
+
+    @Override
+    public String toString() {
+        return "Size: width=" + this.getWidth() + ", height=" + this.getHeight();
+    }
 }

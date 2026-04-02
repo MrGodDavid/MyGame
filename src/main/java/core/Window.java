@@ -25,7 +25,7 @@ public final class Window {
         window.pack();
         window.setResizable(false);
         window.setLocationRelativeTo(null);
-        window.setFocusable(false);
+//        window.setFocusable(false);
     }
 
     public void show() {

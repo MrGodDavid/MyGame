@@ -36,6 +36,10 @@ public final class InputManager {
         } else {
             MovingEntityManager.getPlayer().stop();
         }
+
+        if (InputManager.mouseInputListener.isButtonDown(MouseInputListener.MouseButton.LEFT_BUTTON)) {
+            // tbd
+        }
     }
 
     public static Vector2d getMousePosition() {

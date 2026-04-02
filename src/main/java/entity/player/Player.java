@@ -33,7 +33,11 @@ public final class Player extends MovingEntity {
         velocity = new Vector2d(0, 0);
         size = new Size(48, 48);
         collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
+
         speed = 200d;
+        maxLife = 10;
+        currentLife = maxLife;
+        alive = true;
 
         sprite = getSprite();
     }
@@ -67,5 +71,10 @@ public final class Player extends MovingEntity {
         Vector2d mousePosition = new Vector2d(InputManager.getMousePosition());
         Vector2d direction = mousePosition.subtract(position).normalize();
         this.velocity = direction.scale(speed);
+    }
+
+    @Override
+    public String toString() {
+        return "[PLAYER]: " + super.toString();
     }
 }

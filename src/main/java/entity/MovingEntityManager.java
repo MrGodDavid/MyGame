@@ -42,13 +42,17 @@ public final class MovingEntityManager {
      */
     public void update(double deltaTime) {
         addMovingEntitiesUpTo(1);
+        updateAllMovingEntitiesInGame(deltaTime);
+    }
 
+    private void updateAllMovingEntitiesInGame(double deltaTime) {
         Iterator<MovingEntity> iterator = movingEntities.iterator();
         while (iterator.hasNext()) {
             MovingEntity entity = iterator.next();
             entity.update(deltaTime);
             if (entity instanceof Enemy enemy) {
                 if (enemy.isMetPlayer()) {
+                    player.damage(1);
                     iterator.remove();
                 }
             }
