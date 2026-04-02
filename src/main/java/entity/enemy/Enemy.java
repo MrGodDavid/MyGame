@@ -7,7 +7,6 @@ import entity.MovingEntity;
 import entity.MovingEntityManager;
 import entity.component.CollisionBox;
 import entity.component.Size;
-import entity.player.Player;
 import game.Game;
 import utils.TextUtils;
 
