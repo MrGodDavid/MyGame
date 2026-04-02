@@ -55,4 +55,8 @@ public abstract class GameObject {
     public Vector2d getVelocity() {
         return velocity;
     }
+
+    protected Size getSize() {
+        return size;
+    }
 }

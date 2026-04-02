@@ -5,12 +5,14 @@ import com.mrgoddavid.vector.Vector2i;
 import entity.MovingEntity;
 import entity.component.CollisionBox;
 import entity.component.Size;
+import entity.projectile.Projectile;
 import game.Game;
 import input.InputManager;
 import utils.TextUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Optional;
 
 /**
  * Player class. Player class is a subclass of the {@code MovingEntity}. Player class implements the
@@ -26,9 +28,11 @@ import java.awt.image.BufferedImage;
  */
 public final class Player extends MovingEntity {
 
-    public Player() {
+    private static Player instance;
+
+    private Player() {
         super();
-        position = new Vector2d(100, 100);
+        super.position = new Vector2d(100, 100);
         velocity = new Vector2d(0, 0);
         size = new Size(48, 48);
         collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
@@ -37,9 +41,16 @@ public final class Player extends MovingEntity {
         speed = 200d;
         maxLife = 10;
         currentLife = maxLife;
-        alive = true;
+        projectile = Optional.of(new Projectile());
 
         sprite = getSprite();
+    }
+
+    public static Player getInstance() {
+        if (instance == null) {
+            instance = new Player();
+        }
+        return instance;
     }
 
     /**
@@ -71,6 +82,17 @@ public final class Player extends MovingEntity {
         Vector2d mousePosition = new Vector2d(InputManager.getMousePosition());
         Vector2d direction = mousePosition.subtract(position).normalize();
         this.velocity = direction.scale(speed);
+    }
+
+    /**
+     * Define the condition that the {@code MovingEntity} is alive or dead. The condition is defined in subclass's
+     * implementation of this method.
+     *
+     * @return true if {@code MovingEntity} is still alive.
+     */
+    @Override
+    public boolean isAlive() {
+        return currentLife < 0;
     }
 
     @Override

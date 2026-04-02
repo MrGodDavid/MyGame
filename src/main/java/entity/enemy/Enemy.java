@@ -7,11 +7,13 @@ import entity.MovingEntity;
 import entity.MovingEntityManager;
 import entity.component.CollisionBox;
 import entity.component.Size;
+import entity.projectile.Projectile;
 import game.Game;
 import utils.TextUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Optional;
 
 /**
  * Superclass of all enemies in this game.
@@ -29,7 +31,7 @@ public class Enemy extends MovingEntity {
         speed = 100;
         maxLife = 10;
         currentLife = maxLife;
-        alive = true;
+        projectile = Optional.of(new Projectile());
 
         sprite = getSprite();
     }
@@ -53,6 +55,17 @@ public class Enemy extends MovingEntity {
             Vector2d direction = playerPosition.subtract(position).normalize();
             this.velocity = direction.scale(speed);
         }
+    }
+
+    /**
+     * Define the condition that the {@code MovingEntity} is alive or dead. The condition is defined in subclass's
+     * implementation of this method.
+     *
+     * @return true if {@code MovingEntity} is still alive.
+     */
+    @Override
+    public boolean isAlive() {
+        return currentLife < 0;
     }
 
     /**

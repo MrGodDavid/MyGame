@@ -3,6 +3,7 @@ package entity;
 import com.mrgoddavid.vector.Vector2d;
 import entity.enemy.Enemy;
 import entity.player.Player;
+import entity.projectile.Projectile;
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
@@ -27,13 +28,12 @@ import java.util.List;
 public final class MovingEntityManager {
 
     private static MovingEntityManager movingEntityManager;
-
-    private final List<MovingEntity> movingEntities;
+    private static List<MovingEntity> movingEntities;
     private static Player player;
 
     private MovingEntityManager() {
         movingEntities = new ArrayList<>();
-        player = new Player();
+        player = Player.getInstance();
         movingEntities.add(player);
     }
 
@@ -68,6 +68,10 @@ public final class MovingEntityManager {
             if (entity instanceof Enemy enemy) {
                 if (enemy.isMetPlayer()) {
                     player.damage(1);
+                    iterator.remove();
+                }
+            } else if (entity instanceof Projectile projectile) {
+                if (!projectile.isAlive()) {
                     iterator.remove();
                 }
             }
@@ -115,6 +119,10 @@ public final class MovingEntityManager {
                 .filter(filterClass::isInstance)
                 .toList()
                 .size();
+    }
+
+    public static void addMovingEntity(MovingEntity entity) {
+        movingEntities.add(entity);
     }
 
     public static Player getPlayer() {

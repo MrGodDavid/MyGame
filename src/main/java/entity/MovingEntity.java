@@ -2,24 +2,42 @@ package entity;
 
 import core.GameLoop;
 import entity.component.CollisionBox;
+import entity.projectile.Projectile;
 
 import java.awt.*;
+import java.util.Optional;
 
 /**
  * Superclass for all MovingEntity of this game. This is a subclass of {@link GameObject}.
  */
 public abstract class MovingEntity extends GameObject {
 
+    protected Optional<Projectile> projectile;
+
     protected double speed;
     protected double currentLife;
     protected double maxLife;
-    protected boolean alive;
 
     public MovingEntity() {
         super();
+        projectile = Optional.empty();
     }
 
+    /**
+     * Move the {@code MovingEntity} in game. This is an abstract method for defining rules of movement in subclass
+     * of {@code MovingEntity}.
+     *
+     * @param deltaTime from {@link GameLoop}.
+     */
     public abstract void move(double deltaTime);
+
+    /**
+     * Define the condition that the {@code MovingEntity} is alive or dead. The condition is defined in subclass's
+     * implementation of this method.
+     *
+     * @return true if {@code MovingEntity} is still alive.
+     */
+    public abstract boolean isAlive();
 
     public final void stop() {
         this.velocity = this.velocity.scale(0);
@@ -45,8 +63,16 @@ public abstract class MovingEntity extends GameObject {
         return this.collisionBox.collidesWith(otherCollisionBox);
     }
 
+    public void shoot() {
+        projectile.ifPresent(projectile -> projectile.shoot(this));
+    }
+
     public CollisionBox getCollisionBox() {
         return this.collisionBox;
+    }
+
+    public Optional<Projectile> getProjectile() {
+        return projectile;
     }
 
     public void damage(int damage) {
@@ -60,5 +86,17 @@ public abstract class MovingEntity extends GameObject {
                 + ", collisionBox=" + collisionBox
                 + ", currentLife=" + currentLife
                 + ", maxLife=" + maxLife;
+    }
+
+    protected double getSpeed() {
+        return speed;
+    }
+
+    public double getCurrentLife() {
+        return currentLife;
+    }
+
+    public double getMaxLife() {
+        return maxLife;
     }
 }

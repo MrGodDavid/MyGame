@@ -55,7 +55,7 @@ public final class InputManager {
         }
 
         if (InputManager.mouseInputListener.isButtonDown(MouseInputListener.MouseButton.LEFT_BUTTON)) {
-            // tbd
+            MovingEntityManager.getPlayer().shoot();
         }
     }
 
