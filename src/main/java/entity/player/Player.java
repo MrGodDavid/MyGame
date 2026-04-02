@@ -46,6 +46,12 @@ public final class Player extends MovingEntity {
         sprite = getSprite();
     }
 
+    /**
+     * Returns the single instance of {@code Player}. This method initializes the {@code Player} if the
+     * instance is not being initialized. Otherwise, returns the instance of {@code Player}.
+     *
+     * @return the only instance of {@code Player}
+     */
     public static Player getInstance() {
         if (instance == null) {
             instance = new Player();
