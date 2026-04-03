@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
 import java.util.Optional;
 
 /**
- * Superclass of all enemies in this game.
+ * Superclass of all enemies in this game. This class is also a subclass of {@code MovingEntity}.
  *
  * @author Mr. GodDavid
  * @since 3/31/2026
@@ -48,6 +48,12 @@ public class Enemy extends MovingEntity {
         move(deltaTime);
     }
 
+    /**
+     * Move the {@code MovingEntity} in game. This is an abstract method for defining rules of movement in subclass
+     * of {@code MovingEntity}.
+     *
+     * @param deltaTime from {@link GameLoop}.
+     */
     @Override
     public void move(double deltaTime) {
         if (!isMetPlayer()) {
@@ -65,7 +71,7 @@ public class Enemy extends MovingEntity {
      */
     @Override
     public boolean isAlive() {
-        return currentLife < 0;
+        return currentLife > 0;
     }
 
     /**
@@ -86,5 +92,16 @@ public class Enemy extends MovingEntity {
         g2d.dispose();
 
         return sprite;
+    }
+
+    /**
+     * Define a String representation of this class. {@code Enemy} class contains information of "[ENEMY]" tag and
+     * additional information from {@code MovingEntity} class.
+     *
+     * @return a String representation of this class.
+     */
+    @Override
+    public String toString() {
+        return "[ENEMY]: " + super.toString();
     }
 }

@@ -44,6 +44,8 @@ public abstract class GameObject {
      */
     public abstract void update(double deltaTime);
 
+    // =============================================== [GETTERS & SETTERS] ===============================================
+
     public Vector2d getPosition() {
         return position;
     }

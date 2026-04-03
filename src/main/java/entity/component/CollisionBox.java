@@ -43,6 +43,8 @@ public final class CollisionBox {
         this.boundingBox.y = (int) Math.round(owner.getPosition().getY());
     }
 
+    // =============================================== [GETTERS & SETTERS] ===============================================
+
     private Rectangle getBoundingBox() {
         return this.boundingBox;
     }

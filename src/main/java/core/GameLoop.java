@@ -10,14 +10,12 @@ import game.Game;
  */
 public final class GameLoop implements Runnable {
 
-    private Thread gameLoopThread;
     private final Game game;
 
     private boolean running;
     private long nextStatTime;
     private final double updateRate = 1.0d / 60.0d;
     private int fps, ups;
-    private double deltaTime;
 
     public GameLoop(Game game) {
         this.game = game;
@@ -25,7 +23,7 @@ public final class GameLoop implements Runnable {
     }
 
     public void start() {
-        gameLoopThread = new Thread(this);
+        final Thread gameLoopThread = new Thread(this);
         gameLoopThread.start();
     }
 
@@ -41,7 +39,7 @@ public final class GameLoop implements Runnable {
 
         while (running) {
             currentTime = System.currentTimeMillis();
-            deltaTime = (currentTime - lastUpdate) / 1000.0d;
+            double deltaTime = (currentTime - lastUpdate) / 1000.0d;
             accumulator += deltaTime;
             lastUpdate = currentTime;
 

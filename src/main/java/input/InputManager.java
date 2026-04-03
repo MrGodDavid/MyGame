@@ -59,6 +59,8 @@ public final class InputManager {
         }
     }
 
+    // =============================================== [GETTERS & SETTERS] ===============================================
+
     public static Vector2d getMousePosition() {
         return mouseInputListener.getMouseCursorPosition();
     }

@@ -119,4 +119,15 @@ public class Projectile extends MovingEntity {
     public static Projectile copyOf(Projectile projectile) {
         return new Projectile(projectile);
     }
+
+    /**
+     * Define a String representation of this class. {@code Projectile} class contains information of "[PROJECTILE]" tag and
+     * additional information from {@code MovingEntity} class.
+     *
+     * @return a String representation of this class.
+     */
+    @Override
+    public String toString() {
+        return "[PROJECTILE]: " + super.toString();
+    }
 }

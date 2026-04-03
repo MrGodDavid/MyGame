@@ -2,6 +2,7 @@ package entity.player;
 
 import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
+import core.GameLoop;
 import entity.MovingEntity;
 import entity.component.CollisionBox;
 import entity.component.Size;
@@ -83,6 +84,12 @@ public final class Player extends MovingEntity {
         return sprite;
     }
 
+    /**
+     * Move the {@code MovingEntity} in game. This is an abstract method for defining rules of movement in subclass
+     * of {@code MovingEntity}.
+     *
+     * @param deltaTime from {@link GameLoop}.
+     */
     @Override
     public void move(double deltaTime) {
         Vector2d mousePosition = new Vector2d(InputManager.getMousePosition());
@@ -98,9 +105,15 @@ public final class Player extends MovingEntity {
      */
     @Override
     public boolean isAlive() {
-        return currentLife < 0;
+        return currentLife > 0;
     }
 
+    /**
+     * Define a String representation of this class. {@code Player} class contains information of "[PLAYER]" tag and
+     * additional information from {@code MovingEntity} class.
+     *
+     * @return a String representation of this class.
+     */
     @Override
     public String toString() {
         return "[PLAYER]: " + super.toString();
