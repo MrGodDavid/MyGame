@@ -1,6 +1,7 @@
 package game;
 
 import entity.MovingEntityManager;
+import entity.component.Size;
 import input.InputManager;
 import input.KeyboardListener;
 import input.MouseInputListener;
@@ -19,6 +20,8 @@ import java.io.InputStream;
  */
 public final class Game extends JPanel {
 
+    public static final Size GAME_WINDOW_SIZE = new Size(800, 600);
+
     private final InputManager inputManager;
     private final MovingEntityManager movingEntityManager;
 
@@ -27,12 +30,12 @@ public final class Game extends JPanel {
     public Game() {
         Game.font_m6x11plus = createFont("/font/m6x11plus.ttf");
 
-        final KeyboardListener keyboardListener = new KeyboardListener();
-        final MouseInputListener mouseInputListener = new MouseInputListener();
+        final KeyboardListener keyboardListener = KeyboardListener.getInstance();
+        final MouseInputListener mouseInputListener = MouseInputListener.getInstance();
         this.inputManager = InputManager.getInstance(keyboardListener, mouseInputListener);
         this.movingEntityManager = MovingEntityManager.getInstance();
 
-        super.setPreferredSize(new Dimension(800, 600));
+        super.setPreferredSize(new Dimension(GAME_WINDOW_SIZE.getWidth(), GAME_WINDOW_SIZE.getHeight()));
         super.setDoubleBuffered(true);
         super.setFocusable(true);
 

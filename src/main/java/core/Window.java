@@ -23,7 +23,7 @@ public final class Window {
         window.add(game);
 
         window.pack();
-        window.setResizable(false);
+//        window.setResizable(false);
         window.setLocationRelativeTo(null);
 //        window.setFocusable(false);
     }

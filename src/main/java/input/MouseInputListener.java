@@ -15,6 +15,8 @@ import java.util.Arrays;
  */
 public final class MouseInputListener implements MouseListener, MouseMotionListener {
 
+    private static MouseInputListener instance;
+
     public enum MouseButton {
 
         LEFT_BUTTON(MouseEvent.BUTTON1),
@@ -34,12 +36,19 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
         }
     }
 
-    private boolean[] mouseButtonsPressed;
+    private static boolean[] mouseButtonsPressed;
     private Vector2d mouseCursorPosition;
 
-    public MouseInputListener() {
+    private MouseInputListener() {
         mouseButtonsPressed = new boolean[MouseInputListener.MouseButton.values().length];
         this.mouseCursorPosition = new Vector2d(-1, -1);
+    }
+
+    public static MouseInputListener getInstance() {
+        if (instance == null) {
+            instance = new MouseInputListener();
+        }
+        return instance;
     }
 
     /**
@@ -151,5 +160,9 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
     public boolean isButtonDown(MouseButton button) {
         if (button.getButton() < 0 || button.getButton() >= mouseButtonsPressed.length) return false;
         return mouseButtonsPressed[button.getButton() - 1];
+    }
+
+    public static void endFrame() {
+        Arrays.fill(mouseButtonsPressed, false);
     }
 }

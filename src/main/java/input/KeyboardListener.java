@@ -11,10 +11,19 @@ import java.awt.event.KeyListener;
  */
 public final class KeyboardListener implements KeyListener {
 
+    private static KeyboardListener instance;
+
     private final boolean[] keys;
 
-    public KeyboardListener() {
+    private KeyboardListener() {
         this.keys = new boolean[256];
+    }
+
+    public static KeyboardListener getInstance() {
+        if (instance == null) {
+            instance = new KeyboardListener();
+        }
+        return instance;
     }
 
     /**

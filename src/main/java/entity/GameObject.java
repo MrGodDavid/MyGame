@@ -44,6 +44,11 @@ public abstract class GameObject {
      */
     public abstract void update(double deltaTime);
 
+
+    protected final boolean inCamera() {
+        return false;
+    }
+
     // =============================================== [GETTERS & SETTERS] ===============================================
 
     public Vector2d getPosition() {

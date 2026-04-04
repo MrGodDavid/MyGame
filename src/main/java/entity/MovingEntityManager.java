@@ -67,7 +67,7 @@ public final class MovingEntityManager {
             entity.update(deltaTime);
             if (entity instanceof Enemy enemy) {
                 if (enemy.isMetPlayer()) {
-                    player.damage(1);
+//                    player.damage(1);
                     iterator.remove();
                 }
             } else if (entity instanceof Projectile projectile) {

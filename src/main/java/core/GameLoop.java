@@ -1,6 +1,8 @@
 package core;
 
 import game.Game;
+import input.InputManager;
+import input.MouseInputListener;
 
 /**
  * Game loop of this game.
@@ -47,6 +49,7 @@ public final class GameLoop implements Runnable {
                 while (accumulator >= updateRate) {
                     update(updateRate);
                     accumulator -= updateRate;
+                    InputManager.endFrame();
                 }
                 render();
             }

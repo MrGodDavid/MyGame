@@ -2,6 +2,7 @@ package entity.projectile;
 
 import com.mrgoddavid.vector.Vector2d;
 import core.GameLoop;
+import entity.GameCharacter;
 import entity.MovingEntity;
 import entity.MovingEntityManager;
 import entity.component.CollisionBox;
@@ -26,11 +27,11 @@ public class Projectile extends MovingEntity {
     public Projectile() {
         super();
 
-        size = new Size(2, 2);
+        size = new Size(16, 16);
         velocity = new Vector2d(0, 0);
         collisionBox = new CollisionBox(new Rectangle(0, 0, size.getWidth(), size.getHeight()));
 
-        speed = 50d;
+        speed = 500d;
         maxLife = 100;
         currentLife = maxLife;
         sprite = getSprite();
@@ -50,14 +51,14 @@ public class Projectile extends MovingEntity {
         sprite = getSprite();
     }
 
-    public void shoot(MovingEntity shooter) {
-        addProjectileToMovingEntityManager(shooter.getProjectile());
+    public void firedBy(GameCharacter shooter) {
         position = new Vector2d(shooter.getPosition());
         if (shooter instanceof Player player) {
             velocity = new Vector2d(InputManager.getMousePosition()).subtract(player.getPosition()).normalize().scale(speed);
         } else if (shooter instanceof Enemy enemy) {
             velocity = new Vector2d(Player.getInstance().getPosition()).subtract(enemy.getPosition()).normalize().scale(speed);
         }
+        addProjectileToMovingEntityManager(shooter.getProjectile());
     }
 
     private void addProjectileToMovingEntityManager(Optional<Projectile> projectile) {
@@ -111,7 +112,7 @@ public class Projectile extends MovingEntity {
         Graphics2D g2d = sprite.createGraphics();
 
         g2d.setColor(Color.RED);
-        g2d.drawRect(0, 0, size.getWidth(), size.getHeight());
+        g2d.fillRect(0, 0, size.getWidth(), size.getHeight());
         g2d.dispose();
         return sprite;
     }

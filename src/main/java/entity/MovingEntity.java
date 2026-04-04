@@ -2,17 +2,11 @@ package entity;
 
 import core.GameLoop;
 import entity.component.CollisionBox;
-import entity.projectile.Projectile;
-
-import java.awt.*;
-import java.util.Optional;
 
 /**
  * Superclass for all MovingEntity of this game. This is a subclass of {@link GameObject}.
  */
 public abstract class MovingEntity extends GameObject {
-
-    protected Optional<Projectile> projectile;
 
     protected double speed;
     protected double currentLife;
@@ -20,7 +14,6 @@ public abstract class MovingEntity extends GameObject {
 
     public MovingEntity() {
         super();
-        projectile = Optional.empty();
     }
 
     /**
@@ -63,16 +56,8 @@ public abstract class MovingEntity extends GameObject {
         return this.collisionBox.collidesWith(otherCollisionBox);
     }
 
-    public void shoot() {
-        projectile.ifPresent(projectile -> projectile.shoot(this));
-    }
-
     public CollisionBox getCollisionBox() {
         return this.collisionBox;
-    }
-
-    public Optional<Projectile> getProjectile() {
-        return projectile;
     }
 
     public void damage(int damage) {

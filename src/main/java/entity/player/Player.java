@@ -3,6 +3,7 @@ package entity.player;
 import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
 import core.GameLoop;
+import entity.GameCharacter;
 import entity.MovingEntity;
 import entity.component.CollisionBox;
 import entity.component.Size;
@@ -10,6 +11,7 @@ import entity.projectile.Projectile;
 import game.Game;
 import input.InputManager;
 import utils.TextUtils;
+import utils.Timer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -27,7 +29,7 @@ import java.util.Optional;
  * @author Mr. GodDavid
  * @since 3/30/2026
  */
-public final class Player extends MovingEntity {
+public final class Player extends GameCharacter {
 
     private static Player instance;
 
@@ -43,6 +45,7 @@ public final class Player extends MovingEntity {
         maxLife = 10;
         currentLife = maxLife;
         projectile = Optional.of(new Projectile());
+        projectileShootingCoolDownTimer = Optional.of(new Timer(60));
 
         sprite = getSprite();
     }

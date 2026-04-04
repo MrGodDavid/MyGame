@@ -3,7 +3,7 @@ package entity.enemy;
 import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
 import core.GameLoop;
-import entity.MovingEntity;
+import entity.GameCharacter;
 import entity.MovingEntityManager;
 import entity.component.CollisionBox;
 import entity.component.Size;
@@ -21,7 +21,7 @@ import java.util.Optional;
  * @author Mr. GodDavid
  * @since 3/31/2026
  */
-public class Enemy extends MovingEntity {
+public class Enemy extends GameCharacter {
 
     public Enemy() {
         position = new Vector2d(-1, -1);
