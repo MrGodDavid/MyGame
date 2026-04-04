@@ -8,7 +8,7 @@ import entity.MovingEntityManager;
 import entity.component.CollisionBox;
 import entity.component.Size;
 import entity.projectile.Projectile;
-import game.Game;
+import core.Game;
 import utils.TextUtils;
 
 import java.awt.*;

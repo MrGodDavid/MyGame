@@ -31,6 +31,14 @@ public final class Size extends Vector2i {
         return super.getY();
     }
 
+    public void setWidth(int width) {
+        super.x = width;
+    }
+
+    public void setHeight(int height) {
+        super.y = height;
+    }
+
     @Override
     public String toString() {
         return "Size: width=" + this.getWidth() + ", height=" + this.getHeight();

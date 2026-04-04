@@ -65,6 +65,9 @@ public final class MovingEntityManager {
         while (iterator.hasNext()) {
             MovingEntity entity = iterator.next();
             entity.update(deltaTime);
+//            if (!entity.inCamera()) {
+//                continue; // I don't know this is a good idea or not. Probably not in the update function...
+//            }
             if (entity instanceof Enemy enemy) {
                 if (enemy.isMetPlayer()) {
 //                    player.damage(1);
@@ -96,12 +99,14 @@ public final class MovingEntityManager {
     public void render(Graphics2D g2d) {
         for (int i = 0; i < movingEntities.size(); i++) {
             MovingEntity entity = movingEntities.get(i);
-            g2d.drawImage(
-                    entity.getSprite(),
-                    (int) entity.getPosition().getX(),
-                    (int) entity.getPosition().getY(),
-                    null
-            );
+            if (entity.inCamera()) {
+                g2d.drawImage(
+                        entity.getSprite(),
+                        (int) entity.getPosition().getX(),
+                        (int) entity.getPosition().getY(),
+                        null
+                );
+            }
         }
     }
 

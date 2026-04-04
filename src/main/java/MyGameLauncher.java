@@ -1,4 +1,4 @@
-import game.GameWrapper;
+import core.GameWrapper;
 
 /**
  * Launcher class of this game.

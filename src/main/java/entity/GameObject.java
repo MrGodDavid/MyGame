@@ -1,8 +1,10 @@
 package entity;
 
 import com.mrgoddavid.vector.Vector2d;
+import core.GameWindow;
 import entity.component.CollisionBox;
 import entity.component.Size;
+import core.GameLoop;
 
 import java.awt.*;
 
@@ -40,13 +42,16 @@ public abstract class GameObject {
      * Update the subclass of {@code GameObject} 60 times per frame.
      *
      * @param deltaTime that is not null.
-     * @see core.GameLoop
+     * @see GameLoop
      */
     public abstract void update(double deltaTime);
 
-
     protected final boolean inCamera() {
-        return false;
+        return (position.getX() >= 0
+                && (position.getX() <= GameWindow.getWindowSize().getWidth()))
+                && (position.getY() >= 0
+                && (position.getY() <= GameWindow.getWindowSize().getHeight())
+        );
     }
 
     // =============================================== [GETTERS & SETTERS] ===============================================

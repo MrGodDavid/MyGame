@@ -1,4 +1,4 @@
-package game;
+package core;
 
 import entity.MovingEntityManager;
 import entity.component.Size;

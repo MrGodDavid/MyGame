@@ -1,9 +1,7 @@
 package input;
 
 import com.mrgoddavid.vector.Vector2d;
-import com.mrgoddavid.vector.Vector2i;
 import entity.MovingEntityManager;
-import game.Game;
 
 import java.awt.event.KeyEvent;
 

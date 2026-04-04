@@ -1,8 +1,6 @@
 package core;
 
-import game.Game;
 import input.InputManager;
-import input.MouseInputListener;
 
 /**
  * Game loop of this game.

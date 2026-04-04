@@ -1,7 +1,4 @@
-package game;
-
-import core.GameLoop;
-import core.Window;
+package core;
 
 /**
  * Wrapper class of this game. Create a window and run a Thread of this game.
@@ -12,12 +9,12 @@ import core.Window;
  */
 public final class GameWrapper {
 
-    private final Window window;
+    private final GameWindow gameWindow;
     private final GameLoop gameLoop;
 
     public GameWrapper() {
         Game game = new Game();
-        window = new Window(game);
+        gameWindow = GameWindow.getInstance(game);
         gameLoop = new GameLoop(game);
     }
 
@@ -25,7 +22,7 @@ public final class GameWrapper {
      * Launch the game.
      */
     public void launch() {
-        window.show();
+        gameWindow.show();
         gameLoop.start();
     }
 }
