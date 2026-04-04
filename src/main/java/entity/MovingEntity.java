@@ -81,6 +81,10 @@ public abstract class MovingEntity extends GameObject {
         return currentLife;
     }
 
+    public void setCurrentLife(double currentLife) {
+        this.currentLife = currentLife;
+    }
+
     public double getMaxLife() {
         return maxLife;
     }

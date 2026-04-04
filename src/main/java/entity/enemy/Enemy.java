@@ -28,7 +28,7 @@ public class Enemy extends GameCharacter {
         size = new Size(64, 64);
         collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
 
-        speed = 100;
+        speed = 20;
         maxLife = 10;
         currentLife = maxLife;
         projectile = Optional.of(new Projectile());

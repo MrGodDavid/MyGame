@@ -24,6 +24,8 @@ import java.util.Optional;
  */
 public class Projectile extends MovingEntity {
 
+    private double damage;
+
     public Projectile() {
         super();
 
@@ -34,6 +36,8 @@ public class Projectile extends MovingEntity {
         speed = 500d;
         maxLife = 100;
         currentLife = maxLife;
+        damage = 1.0d;
+
         sprite = getSprite();
     }
 
@@ -47,6 +51,7 @@ public class Projectile extends MovingEntity {
         speed = projectile.getSpeed();
         maxLife = projectile.getMaxLife();
         currentLife = projectile.getCurrentLife();
+        damage = projectile.getDamage();
 
         sprite = getSprite();
     }
@@ -64,7 +69,7 @@ public class Projectile extends MovingEntity {
     private void addProjectileToMovingEntityManager(Optional<Projectile> projectile) {
         if (projectile.isPresent()) {
             Projectile copiedProjectile = Projectile.copyOf(projectile.get());
-            MovingEntityManager.addMovingEntity(copiedProjectile);
+            MovingEntityManager.addProjectile(copiedProjectile);
         }
     }
 
@@ -107,7 +112,7 @@ public class Projectile extends MovingEntity {
      * @return the sprite of the subclass of {@code GameObject}.
      */
     @Override
-    protected Image getSprite() {
+    public Image getSprite() {
         BufferedImage sprite = new BufferedImage(size.getWidth(), size.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = sprite.createGraphics();
 
@@ -115,6 +120,10 @@ public class Projectile extends MovingEntity {
         g2d.fillRect(0, 0, size.getWidth(), size.getHeight());
         g2d.dispose();
         return sprite;
+    }
+
+    public double getDamage(){
+        return this.damage;
     }
 
     public static Projectile copyOf(Projectile projectile) {

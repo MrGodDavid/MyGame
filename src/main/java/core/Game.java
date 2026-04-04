@@ -21,13 +21,14 @@ import java.io.InputStream;
 public final class Game extends JPanel {
 
     public static final Size GAME_WINDOW_SIZE = new Size(800, 600);
+    private static Game instance;
 
     private final InputManager inputManager;
     private final MovingEntityManager movingEntityManager;
 
     private static Font font_m6x11plus;
 
-    public Game() {
+    private Game() {
         Game.font_m6x11plus = createFont("/font/m6x11plus.ttf");
 
         final KeyboardListener keyboardListener = KeyboardListener.getInstance();
@@ -42,6 +43,13 @@ public final class Game extends JPanel {
         super.addKeyListener(keyboardListener);
         super.addMouseListener(mouseInputListener);
         super.addMouseMotionListener(mouseInputListener);
+    }
+
+    public static Game getInstance() {
+        if (instance == null) {
+            instance = new Game();
+        }
+        return instance;
     }
 
     public void update(double deltaTime) {

@@ -13,9 +13,9 @@ public final class GameWrapper {
     private final GameLoop gameLoop;
 
     public GameWrapper() {
-        Game game = new Game();
+        Game game = Game.getInstance();
         gameWindow = GameWindow.getInstance(game);
-        gameLoop = new GameLoop(game);
+        gameLoop = GameLoop.getInstance(game);
     }
 
     /**

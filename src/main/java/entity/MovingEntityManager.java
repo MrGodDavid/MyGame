@@ -1,6 +1,7 @@
 package entity;
 
 import com.mrgoddavid.vector.Vector2d;
+import core.spatial_hash_grid.SpatialHashGrid;
 import entity.enemy.Enemy;
 import entity.player.Player;
 import entity.projectile.Projectile;
@@ -27,14 +28,20 @@ import java.util.List;
  */
 public final class MovingEntityManager {
 
-    private static MovingEntityManager movingEntityManager;
-    private static List<MovingEntity> movingEntities;
+    private static MovingEntityManager instance;
+    private static List<GameCharacter> gameCharacters;
+    private static List<Projectile> projectiles;
     private static Player player;
 
+    private final SpatialHashGrid spatialHashGrid;
+
     private MovingEntityManager() {
-        movingEntities = new ArrayList<>();
+        gameCharacters = new ArrayList<>();
+        projectiles = new ArrayList<>();
+        spatialHashGrid = new SpatialHashGrid(64);
+
         player = Player.getInstance();
-        movingEntities.add(player);
+        gameCharacters.add(player);
     }
 
     /**
@@ -44,49 +51,92 @@ public final class MovingEntityManager {
      * @return the only instance of {@code MovingEntityManager}
      */
     public static MovingEntityManager getInstance() {
-        if (movingEntityManager == null) {
-            movingEntityManager = new MovingEntityManager();
+        if (instance == null) {
+            instance = new MovingEntityManager();
         }
-        return movingEntityManager;
+        return instance;
     }
 
     /**
-     * Update all {@code MovingEntity} of this game every frame.
+     * Update all {@code GameCharacter} of this game every frame.
      *
-     * @param deltaTime that is used to update {@code MovingEntity} of this game.
+     * @param deltaTime that is used to update {@code GameCharacter} of this game.
      */
     public void update(double deltaTime) {
+
         addMovingEntitiesUpTo(10);
-        updateAllMovingEntitiesInGame(deltaTime);
+
+        updateAllGameCharactersInGame(deltaTime);
+        updateAllProjectilesInaGame(deltaTime);
+
+        spatialHashGrid.clear();
+
+        insertAllMovingEntitiesToSpatialHashGrid();
+        handleProjectileCollisions();
+        handlePlayerToEnemyCollisions();
+
+        cleanupSpatialHashGrid();
     }
 
-    private void updateAllMovingEntitiesInGame(double deltaTime) {
-        Iterator<MovingEntity> iterator = movingEntities.iterator();
-        while (iterator.hasNext()) {
-            MovingEntity entity = iterator.next();
-            entity.update(deltaTime);
-//            if (!entity.inCamera()) {
-//                continue; // I don't know this is a good idea or not. Probably not in the update function...
-//            }
-            if (entity instanceof Enemy enemy) {
-                if (enemy.isMetPlayer()) {
-//                    player.damage(1);
-                    iterator.remove();
-                }
-            } else if (entity instanceof Projectile projectile) {
-                if (!projectile.isAlive()) {
-                    iterator.remove();
+    private void cleanupSpatialHashGrid() {
+        gameCharacters.removeIf(character -> character instanceof Enemy && !character.isAlive());
+        projectiles.removeIf(projectile -> !projectile.isAlive());
+    }
+
+    private void handlePlayerToEnemyCollisions() {
+        List<MovingEntity> gameCharactersAroundPlayer = spatialHashGrid.getNearby(player);
+        for (MovingEntity movingEntity : gameCharactersAroundPlayer) {
+            if (movingEntity instanceof Enemy enemy) {
+                if (enemy.isCollidingWith(player.getCollisionBox())) {
+                    enemy.setCurrentLife(0);
                 }
             }
         }
     }
 
+    private void handleProjectileCollisions() {
+        for (Projectile projectile : projectiles) {
+            List<MovingEntity> nearby = spatialHashGrid.getNearby(projectile);
+            for (MovingEntity movingEntity : nearby) {
+                if (movingEntity instanceof Enemy enemy) {
+                    if (enemy.isCollidingWith(projectile.getCollisionBox())) {
+                        enemy.setCurrentLife(0);
+                        projectile.setCurrentLife(0);
+                    }
+                }
+            }
+        }
+    }
+
+    private void insertAllMovingEntitiesToSpatialHashGrid() {
+        for (GameCharacter gameCharacter : gameCharacters) {
+            spatialHashGrid.insert(gameCharacter);
+        }
+        for (Projectile projectile : projectiles) {
+            spatialHashGrid.insert(projectile);
+        }
+    }
+
+    private void updateAllGameCharactersInGame(double deltaTime) {
+        for (GameCharacter entity : gameCharacters) {
+            entity.update(deltaTime);
+        }
+    }
+
+    private void updateAllProjectilesInaGame(double deltaTime) {
+        for (Projectile projectile : projectiles) {
+            projectile.update(deltaTime);
+        }
+    }
+
     private void addMovingEntitiesUpTo(int maxNumOfMovingEntities) {
-        if (getNumOf(Enemy.class) < maxNumOfMovingEntities) {
-            for (int i = 0; i < maxNumOfMovingEntities; i++) {
+        int currentNumOfEntities = getNumOf(Enemy.class);
+        int addTo = maxNumOfMovingEntities - currentNumOfEntities;
+        if (currentNumOfEntities < maxNumOfMovingEntities) {
+            for (int i = 0; i < addTo; i++) {
                 Enemy enemy = new Enemy();
                 enemy.setPosition(new Vector2d(Math.random() * 400, Math.random() * 400));
-                movingEntities.add(enemy);
+                gameCharacters.add(enemy);
             }
         }
     }
@@ -97,13 +147,25 @@ public final class MovingEntityManager {
      * @param g2d that can be considered as the graphics rendering pipeline that built inside {@link Graphics2D} class.
      */
     public void render(Graphics2D g2d) {
-        for (int i = 0; i < movingEntities.size(); i++) {
-            MovingEntity entity = movingEntities.get(i);
-            if (entity.inCamera()) {
+        for (int i = 0; i < gameCharacters.size(); i++) {
+            GameCharacter character = gameCharacters.get(i);
+            if (character.inCamera()) {
                 g2d.drawImage(
-                        entity.getSprite(),
-                        (int) entity.getPosition().getX(),
-                        (int) entity.getPosition().getY(),
+                        character.getSprite(),
+                        (int) character.getPosition().getX(),
+                        (int) character.getPosition().getY(),
+                        null
+                );
+            }
+        }
+
+        for (int i = 0; i < projectiles.size(); i++) {
+            Projectile projectile = projectiles.get(i);
+            if (projectile.inCamera() && projectile.isAlive()) {
+                g2d.drawImage(
+                        projectile.getSprite(),
+                        (int) projectile.getPosition().getX(),
+                        (int) projectile.getPosition().getY(),
                         null
                 );
             }
@@ -119,15 +181,19 @@ public final class MovingEntityManager {
      * @param <T>         The type parameter that extends the {@link MovingEntity}.
      * @return the number of {@code MovingEntity} that matches with the {@code filtering class.}
      */
-    public <T extends MovingEntity> int getNumOf(Class<T> filterClass) {
-        return movingEntities.stream()
+    public <T extends GameCharacter> int getNumOf(Class<T> filterClass) {
+        return gameCharacters.stream()
                 .filter(filterClass::isInstance)
                 .toList()
                 .size();
     }
 
-    public static void addMovingEntity(MovingEntity entity) {
-        movingEntities.add(entity);
+    public static void addMovingEntity(GameCharacter entity) {
+        gameCharacters.add(entity);
+    }
+
+    public static void addProjectile(Projectile projectile) {
+        projectiles.add(projectile);
     }
 
     public static Player getPlayer() {

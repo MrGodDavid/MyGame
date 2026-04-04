@@ -10,6 +10,7 @@ import input.InputManager;
  */
 public final class GameLoop implements Runnable {
 
+    private static GameLoop instance;
     private final Game game;
 
     private boolean running;
@@ -17,7 +18,7 @@ public final class GameLoop implements Runnable {
     private final double updateRate = 1.0d / 60.0d;
     private int fps, ups;
 
-    public GameLoop(Game game) {
+    private GameLoop(Game game) {
         this.game = game;
         running = false;
     }
@@ -27,31 +28,43 @@ public final class GameLoop implements Runnable {
         gameLoopThread.start();
     }
 
+    public static GameLoop getInstance(Game game) {
+        if (instance == null) {
+            instance = new GameLoop(game);
+        }
+        return instance;
+    }
+
     /**
      * Runs this operation.
      */
     @Override
     public void run() {
         running = true;
-        double accumulator = 0.0;
-        long currentTime, lastUpdate = System.currentTimeMillis();
-        nextStatTime = System.currentTimeMillis() + 1000;
+        final double TARGET_FPS = 60.0;
+        final double FRAME_TIME = 1_000_000_000.0 / TARGET_FPS;
+
+        long lastTime = System.nanoTime();
 
         while (running) {
-            currentTime = System.currentTimeMillis();
-            double deltaTime = (currentTime - lastUpdate) / 1000.0d;
-            accumulator += deltaTime;
-            lastUpdate = currentTime;
+            long currentTime = System.nanoTime();
+            long updateTime = currentTime - lastTime;
 
-            if (accumulator >= updateRate) {
-                while (accumulator >= updateRate) {
-                    update(updateRate);
-                    accumulator -= updateRate;
-                    InputManager.endFrame();
-                }
+            if (updateTime >= FRAME_TIME) {
+                double deltaTime = updateTime / 1_000_000_000.0;
+                update(deltaTime);
                 render();
+                InputManager.endFrame();
+
+                lastTime = currentTime;
+                printStat();
+            } else {
+                try {
+                    Thread.sleep(1); // ChatGPT suggests me to do this... Wth is this???
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            printStat();
         }
     }
 
@@ -72,8 +85,8 @@ public final class GameLoop implements Runnable {
             fps = ups = 0;
             nextStatTime = System.currentTimeMillis() + 1000;
 
-            Runtime runtime = Runtime.getRuntime();
             System.gc();
+            Runtime runtime = Runtime.getRuntime();
             long totalMemory = runtime.totalMemory();
             long freeMemory = runtime.freeMemory();
             long usedMemory = totalMemory - freeMemory;

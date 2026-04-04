@@ -15,7 +15,7 @@ import java.awt.*;
 public final class TextUtils {
 
     private TextUtils() {
-        throw new RuntimeException("You can't instantiate this class: " + getClass().getName());
+        throw new RuntimeException("You can't instantiate class [TextUtils]");
     }
 
     public static int getTextWidth(Graphics2D g2d, String text) {
