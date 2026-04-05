@@ -7,9 +7,11 @@ import entity.GameCharacter;
 import entity.MovingEntityManager;
 import entity.component.CollisionBox;
 import entity.component.Size;
+import entity.player.Player;
 import entity.projectile.Projectile;
 import core.Game;
 import utils.TextUtils;
+import utils.Timer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -32,6 +34,7 @@ public class Enemy extends GameCharacter {
         maxLife = 10;
         currentLife = maxLife;
         projectile = Optional.of(new Projectile());
+        projectileShootingCoolDownTimer = Optional.of(new Timer(120));
 
         sprite = getSprite();
     }

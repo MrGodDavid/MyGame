@@ -34,11 +34,13 @@ public final class MovingEntityManager {
     private static Player player;
 
     private final SpatialHashGrid spatialHashGrid;
+    private final List<MovingEntity> queryBuffer;
 
     private MovingEntityManager() {
         gameCharacters = new ArrayList<>();
         projectiles = new ArrayList<>();
-        spatialHashGrid = new SpatialHashGrid(64);
+        spatialHashGrid = new SpatialHashGrid(128);
+        queryBuffer = new ArrayList<>();
 
         player = Player.getInstance();
         gameCharacters.add(player);
@@ -84,21 +86,25 @@ public final class MovingEntityManager {
     }
 
     private void handlePlayerToEnemyCollisions() {
-        List<MovingEntity> gameCharactersAroundPlayer = spatialHashGrid.getNearby(player);
-        for (MovingEntity movingEntity : gameCharactersAroundPlayer) {
+        spatialHashGrid.getNearby(player, queryBuffer);
+        for (MovingEntity movingEntity : queryBuffer) {
             if (movingEntity instanceof Enemy enemy) {
                 if (enemy.isCollidingWith(player.getCollisionBox())) {
                     enemy.setCurrentLife(0);
                 }
+                enemy.shoot();
             }
         }
     }
 
     private void handleProjectileCollisions() {
         for (Projectile projectile : projectiles) {
-            List<MovingEntity> nearby = spatialHashGrid.getNearby(projectile);
-            for (MovingEntity movingEntity : nearby) {
-                if (movingEntity instanceof Enemy enemy) {
+            spatialHashGrid.getNearby(projectile, queryBuffer);
+            for (MovingEntity movingEntity : queryBuffer) {
+                if (projectile.getShooter() != null
+                        && !(projectile.getShooter() instanceof Enemy)
+                        && movingEntity instanceof Enemy enemy
+                ) {
                     if (enemy.isCollidingWith(projectile.getCollisionBox())) {
                         enemy.setCurrentLife(0);
                         projectile.setCurrentLife(0);
@@ -198,5 +204,15 @@ public final class MovingEntityManager {
 
     public static Player getPlayer() {
         return player;
+    }
+
+    public static <T extends GameCharacter> List<GameCharacter> getAll(Class<T> filterClass) {
+        return gameCharacters.stream()
+                .filter(filterClass::isInstance)
+                .toList();
+    }
+
+    public static List<GameCharacter> getGameCharacters() {
+        return gameCharacters;
     }
 }

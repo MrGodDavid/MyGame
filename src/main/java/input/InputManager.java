@@ -2,6 +2,7 @@ package input;
 
 import com.mrgoddavid.vector.Vector2d;
 import entity.MovingEntityManager;
+import entity.enemy.Enemy;
 
 import java.awt.event.KeyEvent;
 

@@ -41,30 +41,22 @@ public final class GameLoop implements Runnable {
     @Override
     public void run() {
         running = true;
-        final double TARGET_FPS = 60.0;
-        final double FRAME_TIME = 1_000_000_000.0 / TARGET_FPS;
-
-        long lastTime = System.nanoTime();
+        double accumulator = 0.0;
+        long currentTime, lastUpdate = System.currentTimeMillis();
 
         while (running) {
-            long currentTime = System.nanoTime();
-            long updateTime = currentTime - lastTime;
+            currentTime = System.currentTimeMillis();
+            double lastRenderTimeInSeconds = (currentTime - lastUpdate) / 1000d;
+            accumulator += lastRenderTimeInSeconds;
+            lastUpdate = currentTime;
 
-            if (updateTime >= FRAME_TIME) {
-                double deltaTime = updateTime / 1_000_000_000.0;
-                update(deltaTime);
+            while (accumulator >= updateRate) {
+                update(updateRate);
+                accumulator -= updateRate;
                 render();
                 InputManager.endFrame();
-
-                lastTime = currentTime;
-                printStat();
-            } else {
-                try {
-                    Thread.sleep(1); // ChatGPT suggests me to do this... Wth is this???
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
+            printStat();
         }
     }
 
@@ -85,7 +77,7 @@ public final class GameLoop implements Runnable {
             fps = ups = 0;
             nextStatTime = System.currentTimeMillis() + 1000;
 
-            System.gc();
+//            System.gc();
             Runtime runtime = Runtime.getRuntime();
             long totalMemory = runtime.totalMemory();
             long freeMemory = runtime.freeMemory();

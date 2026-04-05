@@ -25,6 +25,7 @@ import java.util.Optional;
 public class Projectile extends MovingEntity {
 
     private double damage;
+    private GameCharacter shooter;
 
     public Projectile() {
         super();
@@ -37,6 +38,8 @@ public class Projectile extends MovingEntity {
         maxLife = 100;
         currentLife = maxLife;
         damage = 1.0d;
+
+        shooter = null;
 
         sprite = getSprite();
     }
@@ -53,16 +56,20 @@ public class Projectile extends MovingEntity {
         currentLife = projectile.getCurrentLife();
         damage = projectile.getDamage();
 
+        shooter = projectile.getShooter();
         sprite = getSprite();
     }
 
     public void firedBy(GameCharacter shooter) {
-        position = new Vector2d(shooter.getPosition());
+        this.shooter = shooter;
         if (shooter instanceof Player player) {
             velocity = new Vector2d(InputManager.getMousePosition()).subtract(player.getPosition()).normalize().scale(speed);
         } else if (shooter instanceof Enemy enemy) {
             velocity = new Vector2d(Player.getInstance().getPosition()).subtract(enemy.getPosition()).normalize().scale(speed);
         }
+        this.position = new Vector2d(shooter.getPosition()
+                .add(new Vector2d(shooter.getSize().getX() / 2d, shooter.getSize().getY() / 2d)))
+                .add(velocity.scale(0.15));
         addProjectileToMovingEntityManager(shooter.getProjectile());
     }
 
@@ -122,8 +129,12 @@ public class Projectile extends MovingEntity {
         return sprite;
     }
 
-    public double getDamage(){
+    public double getDamage() {
         return this.damage;
+    }
+
+    public GameCharacter getShooter() {
+        return shooter;
     }
 
     public static Projectile copyOf(Projectile projectile) {

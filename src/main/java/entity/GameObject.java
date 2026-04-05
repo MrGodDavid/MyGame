@@ -68,7 +68,7 @@ public abstract class GameObject {
         return velocity;
     }
 
-    protected Size getSize() {
+    public Size getSize() {
         return size;
     }
 }
