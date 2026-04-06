@@ -11,6 +11,7 @@ import javax.swing.plaf.ComponentUI;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Random;
 
 /**
  * The actual game reference of this project.
@@ -25,6 +26,7 @@ public final class Game extends JPanel {
 
     private final InputManager inputManager;
     private final MovingEntityManager movingEntityManager;
+    private static Random randomGenerator;
 
     private static Font font_m6x11plus;
 
@@ -35,6 +37,7 @@ public final class Game extends JPanel {
         final MouseInputListener mouseInputListener = MouseInputListener.getInstance();
         this.inputManager = InputManager.getInstance(keyboardListener, mouseInputListener);
         this.movingEntityManager = MovingEntityManager.getInstance();
+        Game.randomGenerator = new Random(GameLoop.generateRandomSeed());
 
         super.setPreferredSize(new Dimension(GAME_WINDOW_SIZE.getWidth(), GAME_WINDOW_SIZE.getHeight()));
         super.setDoubleBuffered(true);
@@ -112,5 +115,9 @@ public final class Game extends JPanel {
 
     public static Font getGameFont() {
         return Game.font_m6x11plus;
+    }
+
+    public static Random getRandomGenerator() {
+        return randomGenerator;
     }
 }

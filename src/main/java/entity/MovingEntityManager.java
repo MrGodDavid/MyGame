@@ -5,11 +5,11 @@ import core.spatial_hash_grid.SpatialHashGrid;
 import entity.enemy.Enemy;
 import entity.player.Player;
 import entity.projectile.Projectile;
+import utils.Math;
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -141,7 +141,7 @@ public final class MovingEntityManager {
         if (currentNumOfEntities < maxNumOfMovingEntities) {
             for (int i = 0; i < addTo; i++) {
                 Enemy enemy = new Enemy();
-                enemy.setPosition(new Vector2d(Math.random() * 400, Math.random() * 400));
+                enemy.setPosition(Math.getRandomPosition());
                 gameCharacters.add(enemy);
             }
         }

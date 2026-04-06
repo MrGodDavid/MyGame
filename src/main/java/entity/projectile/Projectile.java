@@ -63,9 +63,15 @@ public class Projectile extends MovingEntity {
     public void firedBy(GameCharacter shooter) {
         this.shooter = shooter;
         if (shooter instanceof Player player) {
-            velocity = new Vector2d(InputManager.getMousePosition()).subtract(player.getPosition()).normalize().scale(speed);
+            velocity = new Vector2d(InputManager.getMousePosition())
+                    .subtract(player.getPosition())
+                    .normalize()
+                    .scale(speed);
         } else if (shooter instanceof Enemy enemy) {
-            velocity = new Vector2d(Player.getInstance().getPosition()).subtract(enemy.getPosition()).normalize().scale(speed);
+            velocity = new Vector2d(Player.getInstance().getPosition())
+                    .subtract(enemy.getPosition())
+                    .normalize()
+                    .scale(speed);
         }
         this.position = new Vector2d(shooter.getPosition()
                 .add(new Vector2d(shooter.getSize().getX() / 2d, shooter.getSize().getY() / 2d)))

@@ -88,4 +88,8 @@ public final class GameLoop implements Runnable {
                     totalMemory / (1024 * 1024));
         }
     }
+
+    public static long generateRandomSeed() {
+        return System.nanoTime() - 371;
+    }
 }

@@ -7,7 +7,6 @@ import entity.GameCharacter;
 import entity.MovingEntityManager;
 import entity.component.CollisionBox;
 import entity.component.Size;
-import entity.player.Player;
 import entity.projectile.Projectile;
 import core.Game;
 import utils.TextUtils;
@@ -26,7 +25,7 @@ import java.util.Optional;
 public class Enemy extends GameCharacter {
 
     public Enemy() {
-        position = new Vector2d(-1, -1);
+        position = new Vector2d(-1d, -1d);
         size = new Size(64, 64);
         collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
 
@@ -60,7 +59,7 @@ public class Enemy extends GameCharacter {
     @Override
     public void move(double deltaTime) {
         if (!isMetPlayer()) {
-            Vector2d playerPosition = new  Vector2d(MovingEntityManager.getPlayer().getPosition());
+            Vector2d playerPosition = MovingEntityManager.getPlayer().getPosition();
             Vector2d direction = playerPosition.subtract(position).normalize();
             this.velocity = direction.scale(speed);
         }
