@@ -5,6 +5,7 @@ import com.mrgoddavid.vector.Vector2i;
 import core.GameLoop;
 import entity.GameCharacter;
 import entity.MovingEntityManager;
+import entity.ai.AIManager;
 import entity.component.CollisionBox;
 import entity.component.Size;
 import entity.projectile.Projectile;
@@ -24,7 +25,11 @@ import java.util.Optional;
  */
 public class Enemy extends GameCharacter {
 
+    private AIManager aiManager;
+
     public Enemy() {
+        aiManager = new AIManager("wander");
+
         position = new Vector2d(-1d, -1d);
         size = new Size(64, 64);
         collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
@@ -47,7 +52,8 @@ public class Enemy extends GameCharacter {
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
-        move(deltaTime);
+        aiManager.update(this);
+//        move(deltaTime);
     }
 
     /**

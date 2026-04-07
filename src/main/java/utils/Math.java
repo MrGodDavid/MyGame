@@ -38,4 +38,10 @@ public final class Math {
         randomY += Game.getRandomGenerator().nextBoolean() ? -OFFSET : GameWindow.getWindowSize().getHeight();
         return new Vector2d(randomX, randomY);
     }
+
+    public static Vector2d getRandomPositionOnScreen() {
+        double randomX = Game.getRandomGenerator().nextDouble() * GameWindow.getWindowSize().getWidth();
+        double randomY = Game.getRandomGenerator().nextDouble() * GameWindow.getWindowSize().getHeight();
+        return new Vector2d(randomX, randomY);
+    }
 }

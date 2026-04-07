@@ -52,7 +52,7 @@ public abstract class MovingEntity extends GameObject {
         return this.isCollidingWith(MovingEntityManager.getPlayer().getCollisionBox());
     }
 
-    protected boolean isCollidingWith(CollisionBox otherCollisionBox) {
+    public boolean isCollidingWith(CollisionBox otherCollisionBox) {
         return this.collisionBox.collidesWith(otherCollisionBox);
     }
 
@@ -73,7 +73,7 @@ public abstract class MovingEntity extends GameObject {
                 + ", maxLife=" + maxLife;
     }
 
-    protected double getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 

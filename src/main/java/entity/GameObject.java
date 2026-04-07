@@ -68,6 +68,10 @@ public abstract class GameObject {
         return velocity;
     }
 
+    public void setVelocity(Vector2d velocity) {
+        this.velocity = velocity;
+    }
+
     public Size getSize() {
         return size;
     }

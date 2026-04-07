@@ -66,7 +66,7 @@ public final class MovingEntityManager {
      */
     public void update(double deltaTime) {
 
-        addMovingEntitiesUpTo(10);
+        addMovingEntitiesUpTo(1);
 
         updateAllGameCharactersInGame(deltaTime);
         updateAllProjectilesInaGame(deltaTime);
@@ -141,7 +141,7 @@ public final class MovingEntityManager {
         if (currentNumOfEntities < maxNumOfMovingEntities) {
             for (int i = 0; i < addTo; i++) {
                 Enemy enemy = new Enemy();
-                enemy.setPosition(Math.getRandomPosition());
+                enemy.setPosition(new Vector2d(300, 300));
                 gameCharacters.add(enemy);
             }
         }
