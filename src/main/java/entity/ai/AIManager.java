@@ -32,4 +32,10 @@ public class AIManager {
             default ->  new Wander();
         };
     }
+
+    @Override
+    public String toString() {
+        if (currentState == null) return "Current state is null. Please check [transitionTo()] method of AIManager class.";
+        return currentState.toString();
+    }
 }

@@ -9,6 +9,10 @@ import utils.Math;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Mr. GodDavid
+ * @since 4/6/2026
+ */
 public class Wander extends AIState {
 
     private final List<Vector2d> positions;
@@ -49,6 +53,11 @@ public class Wander extends AIState {
 
     private boolean arrived(GameCharacter character, Vector2d position) {
         return character.getPosition().distance(position) < 1;
+    }
+
+    @Override
+    public String toString() {
+        return "Current state is Wander.";
     }
 
 }

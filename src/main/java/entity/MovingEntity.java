@@ -17,14 +17,6 @@ public abstract class MovingEntity extends GameObject {
     }
 
     /**
-     * Move the {@code MovingEntity} in game. This is an abstract method for defining rules of movement in subclass
-     * of {@code MovingEntity}.
-     *
-     * @param deltaTime from {@link GameLoop}.
-     */
-    public abstract void move(double deltaTime);
-
-    /**
      * Define the condition that the {@code MovingEntity} is alive or dead. The condition is defined in subclass's
      * implementation of this method.
      *

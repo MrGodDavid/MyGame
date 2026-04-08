@@ -34,7 +34,7 @@ public class Enemy extends GameCharacter {
         size = new Size(64, 64);
         collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
 
-        speed = 20;
+        speed = 100;
         maxLife = 10;
         currentLife = maxLife;
         projectile = Optional.of(new Projectile());
@@ -53,22 +53,6 @@ public class Enemy extends GameCharacter {
     public void update(double deltaTime) {
         super.update(deltaTime);
         aiManager.update(this);
-//        move(deltaTime);
-    }
-
-    /**
-     * Move the {@code MovingEntity} in game. This is an abstract method for defining rules of movement in subclass
-     * of {@code MovingEntity}.
-     *
-     * @param deltaTime from {@link GameLoop}.
-     */
-    @Override
-    public void move(double deltaTime) {
-        if (!isMetPlayer()) {
-            Vector2d playerPosition = MovingEntityManager.getPlayer().getPosition();
-            Vector2d direction = playerPosition.subtract(position).normalize();
-            this.velocity = direction.scale(speed);
-        }
     }
 
     /**

@@ -42,13 +42,13 @@ public final class InputManager {
         return InputManager.inputManager;
     }
 
-    public void update(double deltaTime) {
+    public void update() {
         if (keyboardListener.isKeyDown(KeyEvent.VK_ESCAPE)) {
             System.exit(0);
         }
 
         if (keyboardListener.isKeyDown(KeyEvent.VK_W)) {
-            MovingEntityManager.getPlayer().move(deltaTime);
+            MovingEntityManager.getPlayer().move();
         } else {
             MovingEntityManager.getPlayer().stop();
         }

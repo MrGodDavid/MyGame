@@ -19,7 +19,7 @@ import java.util.Optional;
 
 /**
  * Player class. Player class is a subclass of the {@code MovingEntity}. Player class implements the
- * {@link entity.GameObject#getSprite()}, {@link entity.GameObject#update(double)}, and {@link MovingEntity#move(double)}
+ * {@link entity.GameObject#getSprite()} and {@link entity.GameObject#update(double)}
  * methods. The player can move, shoot projectiles, and endure damages from enemies.
  * <p>
  * If player dies, the game is over. When player shoots projectiles and kills enemy, the player gains scores and earns
@@ -91,10 +91,8 @@ public final class Player extends GameCharacter {
      * Move the {@code MovingEntity} in game. This is an abstract method for defining rules of movement in subclass
      * of {@code MovingEntity}.
      *
-     * @param deltaTime from {@link GameLoop}.
      */
-    @Override
-    public void move(double deltaTime) {
+    public void move() {
         Vector2d mousePosition = new Vector2d(InputManager.getMousePosition());
         Vector2d direction = mousePosition.subtract(position).normalize();
         this.velocity = direction.scale(speed);

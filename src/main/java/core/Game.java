@@ -56,7 +56,7 @@ public final class Game extends JPanel {
     }
 
     public void update(double deltaTime) {
-        inputManager.update(deltaTime);
+        inputManager.update();
         movingEntityManager.update(deltaTime);
     }
 

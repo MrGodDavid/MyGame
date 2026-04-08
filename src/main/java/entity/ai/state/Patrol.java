@@ -6,7 +6,11 @@ import entity.MovingEntityManager;
 import entity.ai.AITransition;
 import entity.player.Player;
 
-public class Patrol extends AIState {
+/**
+ * @author Mr. GodDavid
+ * @since 4/6/2026
+ */
+public final class Patrol extends AIState {
 
     public Patrol() {
         super();
@@ -32,5 +36,10 @@ public class Patrol extends AIState {
 
     private boolean isMetPlayer(GameCharacter character) {
         return character.isCollidingWith(MovingEntityManager.getPlayer().getCollisionBox());
+    }
+
+    @Override
+    public String toString() {
+        return "Current state is Patrol.";
     }
 }
