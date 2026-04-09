@@ -2,10 +2,8 @@ package utils;
 
 import com.mrgoddavid.vector.Vector2d;
 import core.Game;
-import core.GameLoop;
 import core.GameWindow;
 
-import java.util.Random;
 
 /**
  * Custom math class.
