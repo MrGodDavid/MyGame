@@ -12,10 +12,10 @@ import entity.GameCharacter;
  */
 public final class AITransition {
 
-    private final String nextState;
+    private final AIManager.AIStatePointer nextState;
     private final AICondition condition;
 
-    public AITransition(String nextState, AICondition condition) {
+    public AITransition(AIManager.AIStatePointer nextState, AICondition condition) {
         this.nextState = nextState;
         this.condition = condition;
     }
@@ -24,7 +24,7 @@ public final class AITransition {
         return condition.isMet(character);
     }
 
-    public String getNextState() {
+    public AIManager.AIStatePointer getNextState() {
         return nextState;
     }
 }

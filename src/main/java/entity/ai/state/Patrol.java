@@ -3,6 +3,7 @@ package entity.ai.state;
 import com.mrgoddavid.vector.Vector2d;
 import entity.GameCharacter;
 import entity.MovingEntityManager;
+import entity.ai.AIManager;
 import entity.ai.AITransition;
 import entity.player.Player;
 
@@ -18,7 +19,7 @@ public final class Patrol extends AIState {
 
     @Override
     protected AITransition initializeTransition() {
-        return new AITransition("wander", this::conditionOfTransition);
+        return new AITransition(AIManager.AIStatePointer.WANDER, this::conditionOfTransition);
     }
 
     private boolean conditionOfTransition(GameCharacter character) {

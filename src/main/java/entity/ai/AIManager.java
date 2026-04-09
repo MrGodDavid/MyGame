@@ -63,7 +63,7 @@ public final class AIManager {
 
     AIState currentState;
 
-    public AIManager(String initialState) {
+    public AIManager(AIStatePointer initialState) {
         transitionTo(initialState);
     }
 
@@ -75,12 +75,17 @@ public final class AIManager {
         }
     }
 
-    private void transitionTo(String state) {
-        currentState = switch (state) {
-            case "wander" -> new Wander();
-            case "patrol" -> new Patrol();
+    private void transitionTo(AIStatePointer nextState) {
+        currentState = switch (nextState) {
+            case WANDER -> new Wander();
+            case PATROL -> new Patrol();
             default -> new Wander();
         };
+    }
+
+    public enum AIStatePointer {
+        WANDER,
+        PATROL
     }
 
     @Override

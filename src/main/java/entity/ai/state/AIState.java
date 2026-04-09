@@ -1,6 +1,7 @@
 package entity.ai.state;
 
 import entity.GameCharacter;
+import entity.ai.AIManager;
 import entity.ai.AITransition;
 
 /**
@@ -62,7 +63,7 @@ public abstract class AIState {
      *
      * @return a {@code String} pointer that points to the next state.
      */
-    public String getNextState() {
+    public AIManager.AIStatePointer getNextState() {
         return transition.getNextState();
     }
 }

@@ -2,6 +2,7 @@ package entity.ai.state;
 
 import com.mrgoddavid.vector.Vector2d;
 import entity.GameCharacter;
+import entity.ai.AIManager;
 import entity.ai.AITransition;
 import entity.player.Player;
 import utils.Math;
@@ -24,7 +25,7 @@ public final class Wander extends AIState {
 
     @Override
     protected AITransition initializeTransition() {
-        return new AITransition("patrol", this::conditionOfTransitioning);
+        return new AITransition(AIManager.AIStatePointer.PATROL, this::conditionOfTransitioning);
     }
 
     private boolean conditionOfTransitioning(GameCharacter character) {

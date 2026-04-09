@@ -28,7 +28,7 @@ public class Enemy extends GameCharacter {
     private AIManager aiManager;
 
     public Enemy() {
-        aiManager = new AIManager("wander");
+        aiManager = new AIManager(AIManager.AIStatePointer.WANDER);
 
         position = new Vector2d(-1d, -1d);
         size = new Size(64, 64);
