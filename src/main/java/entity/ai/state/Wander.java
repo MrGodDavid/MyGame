@@ -13,7 +13,7 @@ import java.util.List;
  * @author Mr. GodDavid
  * @since 4/6/2026
  */
-public class Wander extends AIState {
+public final class Wander extends AIState {
 
     private final List<Vector2d> positions;
 

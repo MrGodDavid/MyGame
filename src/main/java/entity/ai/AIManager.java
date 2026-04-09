@@ -59,7 +59,7 @@ import entity.ai.state.Wander;
  * @author Mr. GodDavid
  * @since 4/6/2026
  */
-public class AIManager {
+public final class AIManager {
 
     AIState currentState;
 
