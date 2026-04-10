@@ -106,7 +106,7 @@ public final class MovingEntityManager {
                         && movingEntity instanceof Enemy enemy
                 ) {
                     if (enemy.isCollidingWith(projectile.getCollisionBox())) {
-                        enemy.setCurrentLife(0);
+                        enemy.damage(1);
                         projectile.setCurrentLife(0);
                     }
                 }
@@ -162,6 +162,7 @@ public final class MovingEntityManager {
                         (int) character.getPosition().getY(),
                         null
                 );
+                character.render(g2d);
             }
         }
 

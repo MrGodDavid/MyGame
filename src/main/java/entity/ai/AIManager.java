@@ -55,6 +55,11 @@ import entity.ai.state.Wander;
  *      } while (traversePtr != head);
  * }
  * </code></pre>
+ * <p>
+ * ===== [Additional Notes] =====
+ * <p>
+ * The AALL creates a new node whenever the AITransition pointer met its conditions and points to the next AIState
+ * (node). Unfortunately, I could not find a better way to save memory. Right now, let's keep it this way. :)
  *
  * @author Mr. GodDavid
  * @since 4/6/2026

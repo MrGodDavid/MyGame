@@ -1,6 +1,7 @@
 package utils;
 
 import com.mrgoddavid.vector.Vector2d;
+import com.mrgoddavid.vector.Vector2i;
 import core.Game;
 import core.GameWindow;
 
@@ -15,6 +16,10 @@ public final class Math {
 
     private Math() {
         throw new RuntimeException("You can't instantiate util.Math class.");
+    }
+
+    public static Vector2i toVector2i(Vector2d vector2d) {
+        return new Vector2i((int) vector2d.getX(), (int) vector2d.getY());
     }
 
     /**

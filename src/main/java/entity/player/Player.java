@@ -2,13 +2,12 @@ package entity.player;
 
 import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
-import core.GameLoop;
 import entity.GameCharacter;
-import entity.MovingEntity;
 import entity.component.CollisionBox;
 import entity.component.Size;
 import entity.projectile.Projectile;
 import core.Game;
+import entity.component.HealthBar;
 import input.InputManager;
 import utils.TextUtils;
 import utils.Timer;
@@ -46,6 +45,7 @@ public final class Player extends GameCharacter {
         currentLife = maxLife;
         projectile = Optional.of(new Projectile());
         projectileShootingCoolDownTimer = Optional.of(new Timer(60));
+        healthBar = new HealthBar(maxLife);
 
         sprite = getSprite();
     }

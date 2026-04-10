@@ -23,11 +23,29 @@ public final class Timer {
     private final int maxTime;
     private int currentTime;
 
+    /**
+     * Construct this class by initialize the maxTime by the parameter of this constructor.
+     *
+     * @param maxTime maximum time of this timer.
+     */
     public Timer(int maxTime) {
         this.maxTime = maxTime;
         this.currentTime = this.maxTime;
     }
 
+    /**
+     * Update the timer by decrementing its currentTime integer field. If the currentTime is less than or equal
+     * to 0, wrap the currentTime to 0.
+     *
+     * <pre><code>
+     * public void update() {
+     *     currentTime--;
+     *     if (currentTime <= 0) {
+     *         currentTime = 0;
+     *     }
+     * }
+     * </code></pre>
+     */
     public void update() {
         currentTime--;
         if (currentTime <= 0) {
@@ -35,14 +53,28 @@ public final class Timer {
         }
     }
 
+    /**
+     * Check if the timer is finished timing. The condition is checking if the currentTime field is equal to 0.
+     *
+     * @return true if {@code currentTime} equals to 0.
+     */
     public boolean isFinished() {
-        return currentTime <= 0;
+        return currentTime == 0;
     }
 
+    /**
+     * Reset the {@code currentTime} field value back to its maximum time.
+     */
     public void reset() {
         currentTime = maxTime;
     }
 
+    /**
+     * Print the string representation of this class. The string representation consists of the current time
+     * and the maximum time of this timer.
+     *
+     * @return the string representation of this class.
+     */
     @Override
     public String toString() {
         return "[TIMER]: currentTime=" + currentTime + ", maxTime=" + maxTime;

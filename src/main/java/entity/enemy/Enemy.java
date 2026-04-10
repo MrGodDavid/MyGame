@@ -4,12 +4,12 @@ import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
 import core.GameLoop;
 import entity.GameCharacter;
-import entity.MovingEntityManager;
 import entity.ai.AIManager;
 import entity.component.CollisionBox;
 import entity.component.Size;
 import entity.projectile.Projectile;
 import core.Game;
+import entity.component.HealthBar;
 import utils.TextUtils;
 import utils.Timer;
 
@@ -25,7 +25,7 @@ import java.util.Optional;
  */
 public class Enemy extends GameCharacter {
 
-    private AIManager aiManager;
+    private final AIManager aiManager;
 
     public Enemy() {
         aiManager = new AIManager(AIManager.AIStatePointer.WANDER);
@@ -39,6 +39,8 @@ public class Enemy extends GameCharacter {
         currentLife = maxLife;
         projectile = Optional.of(new Projectile());
         projectileShootingCoolDownTimer = Optional.of(new Timer(120));
+        healthBar = new HealthBar(maxLife);
+        healthBar.setDrawHealthBar(true);
 
         sprite = getSprite();
     }
@@ -53,6 +55,8 @@ public class Enemy extends GameCharacter {
     public void update(double deltaTime) {
         super.update(deltaTime);
         aiManager.update(this);
+        Optional<HealthBar> optionalHealthBar = Optional.ofNullable(healthBar);
+        optionalHealthBar.ifPresent(healthBar -> healthBar.update(this.currentLife));
     }
 
     /**
