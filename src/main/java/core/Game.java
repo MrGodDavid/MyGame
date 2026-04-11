@@ -1,11 +1,13 @@
 package core;
 
+import com.mrgoddavid.vector.Vector2i;
 import entity.MovingEntityManager;
 import entity.component.Size;
 import input.InputManager;
 import input.KeyboardListener;
 import input.MouseInputListener;
 import quest.QuestManager;
+import utils.UIUtils;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -105,6 +107,7 @@ public final class Game extends JPanel {
         g2d.fillRect(0, 0, getWidth(), getHeight());
 
         movingEntityManager.render(g2d);
+        g2d.dispose();
     }
 
     private Font createFont(final String filePath) {
