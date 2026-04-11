@@ -66,7 +66,7 @@ import entity.ai.state.Wander;
  */
 public final class AIManager {
 
-    AIState currentState;
+    private AIState currentState;
 
     public AIManager(AIStatePointer initialState) {
         transitionTo(initialState);

@@ -67,4 +67,12 @@ public final class InputManager {
     public static Vector2d getMousePosition() {
         return mouseInputListener.getMouseCursorPosition();
     }
+
+    public static KeyboardListener getKeyboardListener() {
+        return keyboardListener;
+    }
+
+    public static MouseInputListener getMouseInputListener() {
+        return mouseInputListener;
+    }
 }

@@ -26,7 +26,7 @@ import entity.ai.AITransition;
  */
 public abstract class AIState {
 
-    private AITransition transition;
+    private final AITransition transition;
 
     public AIState() {
         transition = initializeTransition();

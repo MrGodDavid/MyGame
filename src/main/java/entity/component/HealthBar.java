@@ -6,7 +6,16 @@ import entity.GameCharacter;
 import java.awt.*;
 
 /**
- * The health bar component for game character.
+ * The health bar component for game character. This class creates a health bar beneath the game character.
+ * The health bar is a rectangle in which its color ranges from red (rgb: 255, 0, 0) to green (rgb: 0, 255, 0) based
+ * on the game character's percentage of its current health to its maximum health. The length of the rectangle
+ * health bar is based on the percentage of its current health of its maximum health.
+ * <p>
+ * The health bar class contains an update method that updates the color of the rectangle and the width of the
+ * rectangle.
+ * <p>
+ * The render method of this class renders the rectangle through {@link Graphics2D} rendering pipeline that passed
+ * by the rendering pipeline from {@link entity.MovingEntityManager}.
  *
  * @author Mr. GodDavid
  * @since 4/10/2026
@@ -40,11 +49,13 @@ public final class HealthBar {
     public void render(Graphics2D g2d, Vector2i position, Size size) {
         if (!drawHealthBar) return;
         Vector2i healthBarPosition = position.add(new Vector2i(0, size.getHeight() + 10));
-        g2d.setColor(new Color(red, green, 0));
-        g2d.fillRect(healthBarPosition.getX(), healthBarPosition.getY(), healthBar.width, healthBar.height);
 
-        g2d.setColor(Color.BLACK);
-        g2d.fillRect(healthBarPosition.getX(), healthBarPosition.getY(), (int) (healthBar.width * (1d - percentage)), healthBar.height);
+        // BACKGROUND
+        g2d.setColor(new Color(37, 37, 37));
+        g2d.fillRect(healthBarPosition.getX() - 1, healthBarPosition.getY() - 1, healthBar.width + 1, healthBar.height + 1);
+
+        g2d.setColor(new Color(red, green, 0));
+        g2d.fillRect(healthBarPosition.getX(), healthBarPosition.getY(), (int) (healthBar.width * (percentage)), healthBar.height);
     }
 
     @Override

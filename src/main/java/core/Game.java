@@ -5,6 +5,7 @@ import entity.component.Size;
 import input.InputManager;
 import input.KeyboardListener;
 import input.MouseInputListener;
+import quest.QuestManager;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -26,6 +27,7 @@ public final class Game extends JPanel {
 
     private final InputManager inputManager;
     private final MovingEntityManager movingEntityManager;
+    private final QuestManager questManager;
     private static Random randomGenerator;
 
     private static Font font_m6x11plus;
@@ -37,6 +39,7 @@ public final class Game extends JPanel {
         final MouseInputListener mouseInputListener = MouseInputListener.getInstance();
         this.inputManager = InputManager.getInstance(keyboardListener, mouseInputListener);
         this.movingEntityManager = MovingEntityManager.getInstance();
+        this.questManager = new QuestManager(QuestManager.ObjectivePointer.MOVE_TUTORIAL);
         Game.randomGenerator = new Random(GameLoop.generateRandomSeed());
 
         super.setPreferredSize(new Dimension(GAME_WINDOW_SIZE.getWidth(), GAME_WINDOW_SIZE.getHeight()));
@@ -58,6 +61,7 @@ public final class Game extends JPanel {
     public void update(double deltaTime) {
         inputManager.update();
         movingEntityManager.update(deltaTime);
+        questManager.update();
     }
 
     public void render() {
