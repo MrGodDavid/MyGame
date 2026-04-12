@@ -7,6 +7,7 @@ import entity.ai.state.Wander;
 
 /**
  * ===== [LinkedList] =====
+ * <p>
  * Here is a simple code for traversing a LinkedList.
  * <pre><code>
  * private LinkedList list;
@@ -22,9 +23,8 @@ import entity.ai.state.Wander;
  * }
  * </code></pre>
  * AIManager class traverses the AIState-AITransition_linkedList (AALL) linear data structure that created in this game.
- * The point is we don't define the AALL in different game character in game. The pointer from node (AIState) to other
- * node (AIState) is pre-defined in class. The AITransition provide the pointer, and AIManager select the node (AIState)
- * that matches with the pointer.
+ * The pointer from node (AIState) to other node (AIState) is pre-defined in class. The AITransition provide the pointer,
+ * and AIManager select the node (AIState) that matches with the pointer.
  * <p>
  * Take a look at AALL data structure. Here is a visualization:
  * <pre><code>
