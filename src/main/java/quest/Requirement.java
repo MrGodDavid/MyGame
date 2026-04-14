@@ -7,6 +7,7 @@ package quest;
  * @author Mr. GodDavid
  * @since 4/10/2026
  */
+@FunctionalInterface
 public interface Requirement {
 
     /**

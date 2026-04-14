@@ -1,5 +1,6 @@
 package entity.component;
 
+import entity.GameObject;
 import entity.MovingEntity;
 
 import java.awt.*;
@@ -38,7 +39,7 @@ public final class CollisionBox {
      *
      * @param owner that is the moving entity in the game.
      */
-    public void update(MovingEntity owner) {
+    public <T extends GameObject>void update(T owner) {
         this.boundingBox.x = (int) Math.round(owner.getPosition().getX());
         this.boundingBox.y = (int) Math.round(owner.getPosition().getY());
     }

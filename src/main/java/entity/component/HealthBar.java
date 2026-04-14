@@ -1,6 +1,7 @@
 package entity.component;
 
 import com.mrgoddavid.vector.Vector2i;
+import entity.EntityManager;
 import entity.GameCharacter;
 
 import java.awt.*;
@@ -15,7 +16,7 @@ import java.awt.*;
  * rectangle.
  * <p>
  * The render method of this class renders the rectangle through {@link Graphics2D} rendering pipeline that passed
- * by the rendering pipeline from {@link entity.MovingEntityManager}.
+ * by the rendering pipeline from {@link EntityManager}.
  *
  * @author Mr. GodDavid
  * @since 4/10/2026

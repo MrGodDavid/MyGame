@@ -1,13 +1,11 @@
 package core;
 
-import com.mrgoddavid.vector.Vector2i;
-import entity.MovingEntityManager;
+import entity.EntityManager;
 import entity.component.Size;
 import input.InputManager;
 import input.KeyboardListener;
 import input.MouseInputListener;
 import quest.QuestManager;
-import utils.UIUtils;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -28,7 +26,7 @@ public final class Game extends JPanel {
     private static Game instance;
 
     private final InputManager inputManager;
-    private final MovingEntityManager movingEntityManager;
+    private final EntityManager entityManager;
     private final QuestManager questManager;
     private static Random randomGenerator;
 
@@ -40,7 +38,7 @@ public final class Game extends JPanel {
         final KeyboardListener keyboardListener = KeyboardListener.getInstance();
         final MouseInputListener mouseInputListener = MouseInputListener.getInstance();
         this.inputManager = InputManager.getInstance(keyboardListener, mouseInputListener);
-        this.movingEntityManager = MovingEntityManager.getInstance();
+        this.entityManager = EntityManager.getInstance();
         this.questManager = new QuestManager(QuestManager.ObjectivePointer.MOVE_TUTORIAL);
         Game.randomGenerator = new Random(GameLoop.generateRandomSeed());
 
@@ -62,7 +60,7 @@ public final class Game extends JPanel {
 
     public void update(double deltaTime) {
         inputManager.update();
-        movingEntityManager.update(deltaTime);
+        entityManager.update(deltaTime);
         questManager.update();
     }
 
@@ -106,7 +104,7 @@ public final class Game extends JPanel {
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0, 0, getWidth(), getHeight());
 
-        movingEntityManager.render(g2d);
+        entityManager.render(g2d);
         g2d.dispose();
     }
 

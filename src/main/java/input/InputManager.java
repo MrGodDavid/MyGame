@@ -1,8 +1,7 @@
 package input;
 
 import com.mrgoddavid.vector.Vector2d;
-import entity.MovingEntityManager;
-import entity.enemy.Enemy;
+import entity.EntityManager;
 
 import java.awt.event.KeyEvent;
 
@@ -48,13 +47,17 @@ public final class InputManager {
         }
 
         if (keyboardListener.isKeyDown(KeyEvent.VK_W)) {
-            MovingEntityManager.getPlayer().move();
+            EntityManager.getPlayer().move();
         } else {
-            MovingEntityManager.getPlayer().stop();
+            EntityManager.getPlayer().stop();
+        }
+
+        if (keyboardListener.isKeyDown(KeyEvent.VK_R)) {
+            EntityManager.getPlayer().printInventory();
         }
 
         if (InputManager.mouseInputListener.isButtonDown(MouseInputListener.MouseButton.LEFT_BUTTON)) {
-            MovingEntityManager.getPlayer().shoot();
+            EntityManager.getPlayer().shoot();
         }
     }
 

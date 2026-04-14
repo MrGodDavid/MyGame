@@ -5,6 +5,7 @@ import com.mrgoddavid.vector.Vector2i;
 import entity.GameCharacter;
 import entity.component.CollisionBox;
 import entity.component.Size;
+import entity.item.AbstractItem;
 import entity.projectile.Projectile;
 import core.Game;
 import entity.component.HealthBar;
@@ -14,7 +15,8 @@ import utils.Timer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Optional;
+import java.util.*;
+import java.util.List;
 
 /**
  * Player class. Player class is a subclass of the {@code MovingEntity}. Player class implements the
@@ -31,10 +33,12 @@ import java.util.Optional;
 public final class Player extends GameCharacter {
 
     private static Player instance;
+    private final Set<AbstractItem> inventory;
 
     private Player() {
         super();
-        super.position = new Vector2d(100, 100);
+        this.inventory = new HashSet<>();
+        position = new Vector2d(100, 100);
         velocity = new Vector2d(0, 0);
         size = new Size(48, 48);
         collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
@@ -109,6 +113,10 @@ public final class Player extends GameCharacter {
         return currentLife > 0;
     }
 
+    public void pickUp(AbstractItem item) {
+        inventory.add(item);
+    }
+
     /**
      * Define a String representation of this class. {@code Player} class contains information of "[PLAYER]" tag and
      * additional information from {@code MovingEntity} class.
@@ -118,5 +126,9 @@ public final class Player extends GameCharacter {
     @Override
     public String toString() {
         return "[PLAYER]: " + super.toString();
+    }
+
+    public void printInventory() {
+        System.out.println(inventory.toString());
     }
 }

@@ -1,5 +1,7 @@
 package core.spatial_hash_grid;
 
+import entity.GameCharacter;
+import entity.GameObject;
 import entity.MovingEntity;
 
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.Map;
 
 /**
  * ===== Old conventional approach =====
+ * <p>
  * The core logic of Spatial Hash Grid method is in this class. The mean idea is dividing the game map down into
  * grid made of cell. Each cell contains n {@code MovingEntity} (where 0 <= n <= max_number_of_game_character).
  * <p>
@@ -27,10 +30,10 @@ import java.util.Map;
  * @author Mr. GodDavid
  * @since 4/4/2026
  */
-public final class SpatialHashGrid {
+public final class SpatialHashGrid<T extends GameObject> {
 
     private final int cellSize;
-    private final Map<Long, List<MovingEntity>> grid;
+    private final Map<Long, List<T>> grid;
 
     public SpatialHashGrid(int cellSize) {
         this.cellSize = cellSize;
@@ -66,8 +69,8 @@ public final class SpatialHashGrid {
      *
      * @param character that is not null.
      */
-    @SuppressWarnings("unused")
-    public void insert(MovingEntity character) {
+    @SuppressWarnings({"unused"})
+    public void insert(T character) {
         int cx = toCell(character.getPosition().getX());
         int cy = toCell(character.getPosition().getY());
 
@@ -76,7 +79,7 @@ public final class SpatialHashGrid {
         grid.computeIfAbsent(key, k -> new ArrayList<>()).add(character);
     }
 
-    public void getNearby(MovingEntity character, List<MovingEntity> nearby) {
+    public void getNearby(MovingEntity character, List<T> nearby) {
         nearby.clear();
 
         int cx = (int) (character.getPosition().getX() / cellSize);
@@ -86,7 +89,7 @@ public final class SpatialHashGrid {
         for (int x = cx - 1; x <= cx + 1; x++) {
             for (int y = cy - 1; y <= cy + 1; y++) {
                 long key = hash(x, y);
-                List<MovingEntity> list = grid.get(key);
+                List<T> list = grid.get(key);
                 if (list != null) {
                     nearby.addAll(list);
                 }

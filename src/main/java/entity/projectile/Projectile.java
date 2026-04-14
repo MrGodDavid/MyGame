@@ -4,7 +4,7 @@ import com.mrgoddavid.vector.Vector2d;
 import core.GameLoop;
 import entity.GameCharacter;
 import entity.MovingEntity;
-import entity.MovingEntityManager;
+import entity.EntityManager;
 import entity.component.CollisionBox;
 import entity.component.Size;
 import entity.enemy.Enemy;
@@ -82,7 +82,7 @@ public class Projectile extends MovingEntity {
     private void addProjectileToMovingEntityManager(Optional<Projectile> projectile) {
         if (projectile.isPresent()) {
             Projectile copiedProjectile = Projectile.copyOf(projectile.get());
-            MovingEntityManager.addProjectile(copiedProjectile);
+            EntityManager.addProjectile(copiedProjectile);
         }
     }
 

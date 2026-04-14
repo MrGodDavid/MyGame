@@ -40,10 +40,6 @@ public abstract class MovingEntity extends GameObject {
         collisionBox.update(this);
     }
 
-    public boolean isMetPlayer() {
-        return this.isCollidingWith(MovingEntityManager.getPlayer().getCollisionBox());
-    }
-
     public boolean isCollidingWith(CollisionBox otherCollisionBox) {
         return this.collisionBox.collidesWith(otherCollisionBox);
     }

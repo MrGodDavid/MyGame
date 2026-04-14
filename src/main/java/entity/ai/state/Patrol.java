@@ -2,7 +2,7 @@ package entity.ai.state;
 
 import com.mrgoddavid.vector.Vector2d;
 import entity.GameCharacter;
-import entity.MovingEntityManager;
+import entity.EntityManager;
 import entity.ai.AIManager;
 import entity.ai.AITransition;
 import entity.player.Player;
@@ -29,14 +29,14 @@ public final class Patrol extends AIState {
     @Override
     public void update(GameCharacter character) {
         if (!isMetPlayer(character)) {
-            Vector2d playerPosition = MovingEntityManager.getPlayer().getPosition();
+            Vector2d playerPosition = EntityManager.getPlayer().getPosition();
             Vector2d direction = playerPosition.subtract(character.getPosition()).normalize();
             character.setVelocity(direction.scale(character.getSpeed()));
         }
     }
 
     private boolean isMetPlayer(GameCharacter character) {
-        return character.isCollidingWith(MovingEntityManager.getPlayer().getCollisionBox());
+        return character.isCollidingWith(EntityManager.getPlayer().getCollisionBox());
     }
 
     @Override

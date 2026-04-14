@@ -3,6 +3,8 @@ package entity;
 import com.mrgoddavid.vector.Vector2d;
 import core.spatial_hash_grid.SpatialHashGrid;
 import entity.enemy.Enemy;
+import entity.item.AbstractItem;
+import entity.item.fuel.Fuel;
 import entity.player.Player;
 import entity.projectile.Projectile;
 import utils.Math;
@@ -26,24 +28,35 @@ import java.util.List;
  * @author Mr. GodDavid
  * @since 3/31/2026
  */
-public final class MovingEntityManager {
+public final class EntityManager {
 
-    private static MovingEntityManager instance;
+    private static EntityManager instance;
+    private static Player player;
     private static List<GameCharacter> gameCharacters;
     private static List<Projectile> projectiles;
-    private static Player player;
+    private static List<AbstractItem> items;
 
-    private final SpatialHashGrid spatialHashGrid;
-    private final List<MovingEntity> queryBuffer;
+    private final SpatialHashGrid<MovingEntity> movingEntitySpatialHashGrid;
+    private final SpatialHashGrid<AbstractItem> abstractItemSpatialHashGrid;
+    private final List<MovingEntity> movingEntityQuarryBuffer;
+    private final List<AbstractItem> abstractItemQuarryBuffer;
 
-    private MovingEntityManager() {
+    private boolean added;
+
+    private EntityManager() {
         gameCharacters = new ArrayList<>();
         projectiles = new ArrayList<>();
-        spatialHashGrid = new SpatialHashGrid(128);
-        queryBuffer = new ArrayList<>();
+        items = new ArrayList<>();
+
+        movingEntitySpatialHashGrid = new SpatialHashGrid<>(128);
+        abstractItemSpatialHashGrid = new SpatialHashGrid<>(128);
+        movingEntityQuarryBuffer = new ArrayList<>();
+        abstractItemQuarryBuffer = new ArrayList<>();
 
         player = Player.getInstance();
         gameCharacters.add(player);
+
+        added = false;
     }
 
     /**
@@ -52,9 +65,9 @@ public final class MovingEntityManager {
      *
      * @return the only instance of {@code MovingEntityManager}
      */
-    public static MovingEntityManager getInstance() {
+    public static EntityManager getInstance() {
         if (instance == null) {
-            instance = new MovingEntityManager();
+            instance = new EntityManager();
         }
         return instance;
     }
@@ -67,15 +80,21 @@ public final class MovingEntityManager {
     public void update(double deltaTime) {
 
         addMovingEntitiesUpTo(1);
+        addItemsUpTo(10);
 
         updateAllGameCharactersInGame(deltaTime);
         updateAllProjectilesInaGame(deltaTime);
+        updateAllItemsInGame(deltaTime);
 
-        spatialHashGrid.clear();
+        movingEntitySpatialHashGrid.clear();
+        abstractItemSpatialHashGrid.clear();
 
         insertAllMovingEntitiesToSpatialHashGrid();
+        insertAllItemsToSpatialHashGrid();
+
         handleProjectileCollisions();
         handlePlayerToEnemyCollisions();
+        handlePlayerToItemCollisions();
 
         cleanupSpatialHashGrid();
     }
@@ -83,11 +102,22 @@ public final class MovingEntityManager {
     private void cleanupSpatialHashGrid() {
         gameCharacters.removeIf(character -> character instanceof Enemy && !character.isAlive());
         projectiles.removeIf(projectile -> !projectile.isAlive());
+        items.removeIf(item -> !item.isDraw());
+    }
+
+    private void handlePlayerToItemCollisions() {
+        abstractItemSpatialHashGrid.getNearby(player, abstractItemQuarryBuffer);
+        for (AbstractItem item : abstractItemQuarryBuffer) {
+            if (item.isCollidingWith(player.getCollisionBox())) {
+                item.notDrawing();
+                player.pickUp(item);
+            }
+        }
     }
 
     private void handlePlayerToEnemyCollisions() {
-        spatialHashGrid.getNearby(player, queryBuffer);
-        for (MovingEntity movingEntity : queryBuffer) {
+        movingEntitySpatialHashGrid.getNearby(player, movingEntityQuarryBuffer);
+        for (MovingEntity movingEntity : movingEntityQuarryBuffer) {
             if (movingEntity instanceof Enemy enemy) {
                 if (enemy.isCollidingWith(player.getCollisionBox())) {
                     enemy.setCurrentLife(0);
@@ -99,8 +129,8 @@ public final class MovingEntityManager {
 
     private void handleProjectileCollisions() {
         for (Projectile projectile : projectiles) {
-            spatialHashGrid.getNearby(projectile, queryBuffer);
-            for (MovingEntity movingEntity : queryBuffer) {
+            movingEntitySpatialHashGrid.getNearby(projectile, movingEntityQuarryBuffer);
+            for (MovingEntity movingEntity : movingEntityQuarryBuffer) {
                 if (projectile.getShooter() != null
                         && !(projectile.getShooter() instanceof Enemy)
                         && movingEntity instanceof Enemy enemy
@@ -114,12 +144,24 @@ public final class MovingEntityManager {
         }
     }
 
+    private void insertAllItemsToSpatialHashGrid() {
+        for (AbstractItem item : items) {
+            abstractItemSpatialHashGrid.insert(item);
+        }
+    }
+
     private void insertAllMovingEntitiesToSpatialHashGrid() {
         for (GameCharacter gameCharacter : gameCharacters) {
-            spatialHashGrid.insert(gameCharacter);
+            movingEntitySpatialHashGrid.insert(gameCharacter);
         }
         for (Projectile projectile : projectiles) {
-            spatialHashGrid.insert(projectile);
+            movingEntitySpatialHashGrid.insert(projectile);
+        }
+    }
+
+    private void updateAllItemsInGame(double deltaTime) {
+        for (AbstractItem item : items) {
+            item.update(deltaTime);
         }
     }
 
@@ -135,8 +177,18 @@ public final class MovingEntityManager {
         }
     }
 
+    private void addItemsUpTo(int maxNum) {
+        int currentNum = getNumOfItem(AbstractItem.class);
+        int addTo = maxNum - currentNum;
+        if (currentNum <= maxNum) {
+            for (int i = 0; i < addTo; i++) {
+                items.add(new Fuel(Math.getRandomPositionOnScreen()));
+            }
+        }
+    }
+
     private void addMovingEntitiesUpTo(int maxNumOfMovingEntities) {
-        int currentNumOfEntities = getNumOf(Enemy.class);
+        int currentNumOfEntities = getNumOfCharacter(Enemy.class);
         int addTo = maxNumOfMovingEntities - currentNumOfEntities;
         if (currentNumOfEntities < maxNumOfMovingEntities) {
             for (int i = 0; i < addTo; i++) {
@@ -153,8 +205,39 @@ public final class MovingEntityManager {
      * @param g2d that can be considered as the graphics rendering pipeline that built inside {@link Graphics2D} class.
      */
     public void render(Graphics2D g2d) {
-        for (int i = 0; i < gameCharacters.size(); i++) {
-            GameCharacter character = gameCharacters.get(i);
+        renderAllGameCharacters(g2d);
+        renderAllProjectiles(g2d);
+        renderAllItemsOnScreen(g2d);
+    }
+
+    private void renderAllItemsOnScreen(Graphics2D g2d) {
+        for (AbstractItem item : items) {
+            if (item.isDraw() && item.inCamera()) {
+                g2d.drawImage(
+                        item.getSprite(),
+                        (int) item.getPosition().getX(),
+                        (int) item.getPosition().getY(),
+                        null
+                );
+            }
+        }
+    }
+
+    private void renderAllProjectiles(Graphics2D g2d) {
+        for (Projectile projectile : projectiles) {
+            if (projectile.inCamera() && projectile.isAlive()) {
+                g2d.drawImage(
+                        projectile.getSprite(),
+                        (int) projectile.getPosition().getX(),
+                        (int) projectile.getPosition().getY(),
+                        null
+                );
+            }
+        }
+    }
+
+    private void renderAllGameCharacters(Graphics2D g2d) {
+        for (GameCharacter character : gameCharacters) {
             if (character.inCamera()) {
                 g2d.drawImage(
                         character.getSprite(),
@@ -163,18 +246,6 @@ public final class MovingEntityManager {
                         null
                 );
                 character.render(g2d);
-            }
-        }
-
-        for (int i = 0; i < projectiles.size(); i++) {
-            Projectile projectile = projectiles.get(i);
-            if (projectile.inCamera() && projectile.isAlive()) {
-                g2d.drawImage(
-                        projectile.getSprite(),
-                        (int) projectile.getPosition().getX(),
-                        (int) projectile.getPosition().getY(),
-                        null
-                );
             }
         }
     }
@@ -188,15 +259,18 @@ public final class MovingEntityManager {
      * @param <T>         The type parameter that extends the {@link MovingEntity}.
      * @return the number of {@code MovingEntity} that matches with the {@code filtering class.}
      */
-    public <T extends GameCharacter> int getNumOf(Class<T> filterClass) {
+    public <T extends GameCharacter> int getNumOfCharacter(Class<T> filterClass) {
         return gameCharacters.stream()
                 .filter(filterClass::isInstance)
                 .toList()
                 .size();
     }
 
-    public static void addMovingEntity(GameCharacter entity) {
-        gameCharacters.add(entity);
+    public <T extends AbstractItem> int getNumOfItem(Class<T> filterClass) {
+        return items.stream()
+                .filter(filterClass::isInstance)
+                .toList()
+                .size();
     }
 
     public static void addProjectile(Projectile projectile) {
@@ -211,9 +285,5 @@ public final class MovingEntityManager {
         return gameCharacters.stream()
                 .filter(filterClass::isInstance)
                 .toList();
-    }
-
-    public static List<GameCharacter> getGameCharacters() {
-        return gameCharacters;
     }
 }
