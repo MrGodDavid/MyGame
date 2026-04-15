@@ -67,6 +67,7 @@ public class Projectile extends MovingEntity {
                     .subtract(player.getPosition())
                     .normalize()
                     .scale(speed);
+            player.decreaseEnergy();
         } else if (shooter instanceof Enemy enemy) {
             velocity = new Vector2d(Player.getInstance().getPosition())
                     .subtract(enemy.getPosition())

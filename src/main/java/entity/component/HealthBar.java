@@ -55,8 +55,10 @@ public final class HealthBar {
         g2d.setColor(new Color(37, 37, 37));
         g2d.fillRect(healthBarPosition.getX() - 1, healthBarPosition.getY() - 1, healthBar.width + 1, healthBar.height + 1);
 
+        // HEALTH BAR
+        int xOffset = (healthBar.width - (int) (healthBar.width * (percentage))) / 2;
         g2d.setColor(new Color(red, green, 0));
-        g2d.fillRect(healthBarPosition.getX(), healthBarPosition.getY(), (int) (healthBar.width * (percentage)), healthBar.height);
+        g2d.fillRect(healthBarPosition.getX() + xOffset, healthBarPosition.getY(), (int) (healthBar.width * (percentage)), healthBar.height);
     }
 
     @Override

@@ -3,9 +3,11 @@ package entity.player;
 import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
 import entity.GameCharacter;
+import entity.GameObject;
 import entity.component.CollisionBox;
 import entity.component.Size;
 import entity.item.AbstractItem;
+import entity.item.fuel.Fuel;
 import entity.projectile.Projectile;
 import core.Game;
 import entity.component.HealthBar;
@@ -15,12 +17,13 @@ import utils.Timer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.List;
 
 /**
  * Player class. Player class is a subclass of the {@code MovingEntity}. Player class implements the
- * {@link entity.GameObject#getSprite()} and {@link entity.GameObject#update(double)}
+ * {@link GameObject#getSprite()} and {@link GameObject#update(double)}
  * methods. The player can move, shoot projectiles, and endure damages from enemies.
  * <p>
  * If player dies, the game is over. When player shoots projectiles and kills enemy, the player gains scores and earns
@@ -32,12 +35,14 @@ import java.util.List;
  */
 public final class Player extends GameCharacter {
 
-    private static Player instance;
-    private final Set<AbstractItem> inventory;
+    private static Player playerInstance;
+    private final PlayerStat playerStat;
+    private final List<AbstractItem> inventory; // inventory cache?
 
     private Player() {
         super();
-        this.inventory = new HashSet<>();
+        this.inventory = new ArrayList<>();
+        this.playerStat = new PlayerStat();
         position = new Vector2d(100, 100);
         velocity = new Vector2d(0, 0);
         size = new Size(48, 48);
@@ -54,6 +59,33 @@ public final class Player extends GameCharacter {
         sprite = getSprite();
     }
 
+    private static class PlayerStat {
+
+        private int energy;
+
+        private PlayerStat() {
+            this.energy = 10;
+
+        }
+
+        private void increaseEnergy() {
+            this.energy++;
+        }
+
+        private void decreaseEnergy() {
+            this.energy--;
+        }
+
+        public int getEnergy() {
+            return energy;
+        }
+
+        @Override
+        public String toString() {
+            return "[ENERGY: " + energy + "]";
+        }
+    }
+
     /**
      * Returns the single instance of {@code Player}. This method initializes the {@code Player} if the
      * instance is not being initialized. Otherwise, returns the instance of {@code Player}.
@@ -61,10 +93,10 @@ public final class Player extends GameCharacter {
      * @return the only instance of {@code Player}
      */
     public static Player getInstance() {
-        if (instance == null) {
-            instance = new Player();
+        if (playerInstance == null) {
+            playerInstance = new Player();
         }
-        return instance;
+        return playerInstance;
     }
 
     /**
@@ -113,8 +145,35 @@ public final class Player extends GameCharacter {
         return currentLife > 0;
     }
 
+    /**
+     * Picks up a game item when player's collision box collides with game item's collision box.
+     *
+     * @param item that has been picked up by player.
+     */
     public void pickUp(AbstractItem item) {
+        if (item == null) return;
         inventory.add(item);
+        if (item instanceof Fuel) {
+            this.increaseEnergy();
+        }
+    }
+
+    /**
+     * Increment the energy of player.
+     */
+    public void increaseEnergy() {
+        this.playerStat.increaseEnergy();
+    }
+
+    /**
+     * Decrement the energy of player.
+     */
+    public void decreaseEnergy() {
+        this.playerStat.decreaseEnergy();
+    }
+
+    public boolean canShoot() {
+        return playerStat.getEnergy() > 0;
     }
 
     /**
@@ -126,6 +185,10 @@ public final class Player extends GameCharacter {
     @Override
     public String toString() {
         return "[PLAYER]: " + super.toString();
+    }
+
+    public void printPlayerStat() {
+        System.out.println(playerStat.toString());
     }
 
     public void printInventory() {

@@ -41,8 +41,6 @@ public final class EntityManager {
     private final List<MovingEntity> movingEntityQuarryBuffer;
     private final List<AbstractItem> abstractItemQuarryBuffer;
 
-    private boolean added;
-
     private EntityManager() {
         gameCharacters = new ArrayList<>();
         projectiles = new ArrayList<>();
@@ -55,8 +53,6 @@ public final class EntityManager {
 
         player = Player.getInstance();
         gameCharacters.add(player);
-
-        added = false;
     }
 
     /**

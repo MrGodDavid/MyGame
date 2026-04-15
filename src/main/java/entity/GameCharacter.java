@@ -1,5 +1,6 @@
 package entity;
 
+import com.mrgoddavid.vector.Vector2i;
 import core.GameLoop;
 import entity.projectile.Projectile;
 import entity.component.HealthBar;
