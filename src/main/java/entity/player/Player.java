@@ -17,7 +17,6 @@ import utils.Timer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.List;
 
@@ -34,30 +33,6 @@ import java.util.List;
  * @since 3/30/2026
  */
 public final class Player extends GameCharacter {
-
-    private static Player playerInstance;
-    private final PlayerStat playerStat;
-    private final List<AbstractItem> inventory; // inventory cache?
-
-    private Player() {
-        super();
-        this.inventory = new ArrayList<>();
-        this.playerStat = new PlayerStat();
-        position = new Vector2d(100, 100);
-        velocity = new Vector2d(0, 0);
-        size = new Size(48, 48);
-        collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
-
-        // player attributes.
-        speed = 200d;
-        maxLife = 10;
-        currentLife = maxLife;
-        projectile = Optional.of(new Projectile());
-        projectileShootingCoolDownTimer = Optional.of(new Timer(60));
-        healthBar = new HealthBar(maxLife);
-
-        sprite = getSprite();
-    }
 
     private static class PlayerStat {
 
@@ -84,6 +59,30 @@ public final class Player extends GameCharacter {
         public String toString() {
             return "[ENERGY: " + energy + "]";
         }
+    }
+
+    private static Player playerInstance;
+    private final PlayerStat playerStat;
+    private final List<AbstractItem> inventory; // inventory cache?
+
+    private Player() {
+        super();
+        this.inventory = new ArrayList<>();
+        this.playerStat = new PlayerStat();
+        position = new Vector2d(100, 100);
+        velocity = new Vector2d(0, 0);
+        size = new Size(48, 48);
+        collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
+
+        // player attributes.
+        speed = 200d;
+        maxLife = 10;
+        currentLife = maxLife;
+        projectile = Optional.of(new Projectile());
+        projectileShootingCoolDownTimer = Optional.of(new Timer(60));
+        healthBar = new HealthBar(maxLife);
+
+        sprite = getSprite();
     }
 
     /**

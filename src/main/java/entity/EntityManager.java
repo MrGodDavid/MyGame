@@ -173,6 +173,7 @@ public final class EntityManager {
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void addItemsUpTo(int maxNum) {
         int currentNum = getNumOfItem(AbstractItem.class);
         int addTo = maxNum - currentNum;
@@ -183,6 +184,7 @@ public final class EntityManager {
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void addMovingEntitiesUpTo(int maxNumOfMovingEntities) {
         int currentNumOfEntities = getNumOfCharacter(Enemy.class);
         int addTo = maxNumOfMovingEntities - currentNumOfEntities;

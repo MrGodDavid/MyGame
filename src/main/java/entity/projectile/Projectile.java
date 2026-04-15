@@ -24,7 +24,7 @@ import java.util.Optional;
  */
 public class Projectile extends MovingEntity {
 
-    private double damage;
+    private final double damage;
     private GameCharacter shooter;
 
     public Projectile() {
@@ -80,6 +80,7 @@ public class Projectile extends MovingEntity {
         addProjectileToMovingEntityManager(shooter.getProjectile());
     }
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private void addProjectileToMovingEntityManager(Optional<Projectile> projectile) {
         if (projectile.isPresent()) {
             Projectile copiedProjectile = Projectile.copyOf(projectile.get());

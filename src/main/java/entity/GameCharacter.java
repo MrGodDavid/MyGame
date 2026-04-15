@@ -1,6 +1,5 @@
 package entity;
 
-import com.mrgoddavid.vector.Vector2i;
 import core.GameLoop;
 import entity.projectile.Projectile;
 import entity.component.HealthBar;
@@ -21,7 +20,9 @@ public abstract class GameCharacter extends MovingEntity {
 
     public static final int SPRITE_SIZE = 64;
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     protected Optional<Projectile> projectile;
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     protected Optional<Timer> projectileShootingCoolDownTimer;
     protected HealthBar healthBar;
 
