@@ -40,7 +40,6 @@ public final class Player extends GameCharacter {
 
         private PlayerStat() {
             this.energy = 10;
-
         }
 
         private void increaseEnergy() {

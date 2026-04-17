@@ -55,8 +55,9 @@ public class Enemy extends GameCharacter {
     public void update(double deltaTime) {
         super.update(deltaTime);
         aiManager.update(this);
-        Optional<HealthBar> optionalHealthBar = Optional.ofNullable(healthBar);
-        optionalHealthBar.ifPresent(healthBar -> healthBar.update(this.currentLife));
+        if (healthBar != null) {
+            healthBar.update(currentLife);
+        }
     }
 
     /**

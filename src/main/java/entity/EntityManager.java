@@ -127,6 +127,7 @@ public final class EntityManager {
         for (Projectile projectile : projectiles) {
             movingEntitySpatialHashGrid.getNearby(projectile, movingEntityQuarryBuffer);
             for (MovingEntity movingEntity : movingEntityQuarryBuffer) {
+                // enemy
                 if (projectile.getShooter() != null
                         && !(projectile.getShooter() instanceof Enemy)
                         && movingEntity instanceof Enemy enemy
@@ -135,6 +136,14 @@ public final class EntityManager {
                         enemy.damage(1);
                         projectile.setCurrentLife(0);
                     }
+                }
+                // player
+                else if (projectile.getShooter() != null
+                        && !(projectile.getShooter() instanceof Player)
+                        && movingEntity instanceof Player gamePlayer
+                ) {
+                    gamePlayer.damage(1);
+                    projectile.setCurrentLife(0);
                 }
             }
         }

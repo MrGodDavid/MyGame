@@ -22,6 +22,7 @@ import java.util.Optional;
  * @author Mr. GodDavid
  * @since 4/2/2026
  */
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class Projectile extends MovingEntity {
 
     private final double damage;
@@ -32,7 +33,7 @@ public class Projectile extends MovingEntity {
 
         size = new Size(16, 16);
         velocity = new Vector2d(0, 0);
-        collisionBox = new CollisionBox(new Rectangle(0, 0, size.getWidth(), size.getHeight()));
+        collisionBox = new CollisionBox(new Rectangle(8, 8, size.getWidth() / 2, size.getHeight() / 2));
 
         speed = 500d;
         maxLife = 100;
@@ -80,7 +81,6 @@ public class Projectile extends MovingEntity {
         addProjectileToMovingEntityManager(shooter.getProjectile());
     }
 
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private void addProjectileToMovingEntityManager(Optional<Projectile> projectile) {
         if (projectile.isPresent()) {
             Projectile copiedProjectile = Projectile.copyOf(projectile.get());

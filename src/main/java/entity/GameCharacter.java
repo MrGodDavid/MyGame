@@ -16,13 +16,12 @@ import java.util.Optional;
  * @author Mr. GodDavid
  * @since 4/2/2026
  */
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public abstract class GameCharacter extends MovingEntity {
 
     public static final int SPRITE_SIZE = 64;
 
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     protected Optional<Projectile> projectile;
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     protected Optional<Timer> projectileShootingCoolDownTimer;
     protected HealthBar healthBar;
 
