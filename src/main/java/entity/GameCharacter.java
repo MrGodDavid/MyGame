@@ -41,6 +41,9 @@ public abstract class GameCharacter extends MovingEntity {
     public void update(double deltaTime) {
         super.update(deltaTime);
         projectileShootingCoolDownTimer.ifPresent(Timer::update);
+        if (healthBar != null) {
+            healthBar.update(currentLife);
+        }
     }
 
     public void render(Graphics2D g2d) {

@@ -17,6 +17,11 @@ import java.awt.*;
  * <p>
  * The render method of this class renders the rectangle through {@link Graphics2D} rendering pipeline that passed
  * by the rendering pipeline from {@link EntityManager}.
+ * <p>
+ * By default, the drawing boolean flag is false, which means the health bar would not be drawn in this game, even
+ * though the health bar in game character is not null. In order to draw the health bar of game character, user
+ * must use {@link HealthBar#setDrawHealthBar(boolean)} method and input {@code true} to let the game draw the health
+ * bar of game character.
  *
  * @author Mr. GodDavid
  * @since 4/10/2026
@@ -42,7 +47,7 @@ public final class HealthBar {
     }
 
     public void update(double currentLife) {
-        percentage = (currentLife / maxHealth);
+        percentage = ((((currentLife - 0.0001) > 0) ? currentLife : 0) / maxHealth);
         red = (int) (255 * (1 - percentage));
         green = (int) (255 * percentage);
     }
@@ -66,6 +71,18 @@ public final class HealthBar {
         return "Health bar: percentage=" + percentage + ", red=" + red + ", green=" + green;
     }
 
+    /**
+     * Enable the game to draw health bar of game character. Simply set the {@code drawHealthBar} parameter to true.
+     * <p>
+     * Code of void setDrawHealthBar(boolean drawHealthBar):
+     * <pre><code>
+     * public void setDrawHealthBar(boolean drawHealthBar) {
+     *     this.drawHealthBar = drawHealthBar;
+     * }
+     * </code></pre>
+     *
+     * @param drawHealthBar boolean flag that determines whether the game should draw health bar of game character.
+     */
     public void setDrawHealthBar(boolean drawHealthBar) {
         this.drawHealthBar = drawHealthBar;
     }

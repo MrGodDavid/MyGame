@@ -80,6 +80,7 @@ public final class Player extends GameCharacter {
         projectile = Optional.of(new Projectile());
         projectileShootingCoolDownTimer = Optional.of(new Timer(60));
         healthBar = new HealthBar(maxLife);
+        healthBar.setDrawHealthBar(true);
 
         sprite = getSprite();
     }

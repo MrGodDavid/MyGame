@@ -1,11 +1,14 @@
 package entity.item.fuel;
 
 import com.mrgoddavid.vector.Vector2d;
+import com.mrgoddavid.vector.Vector2i;
+import core.Game;
 import core.GameLoop;
 import entity.GameCharacter;
 import entity.component.CollisionBox;
 import entity.component.Size;
 import entity.item.AbstractItem;
+import utils.TextUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -42,8 +45,16 @@ public final class Fuel extends AbstractItem {
         BufferedImage sprite = new BufferedImage(size.getWidth(), size.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = sprite.createGraphics();
 
-        g2d.setColor(Color.GREEN);
-        g2d.fillRect(0, 0, size.getWidth(), size.getHeight());
+        String text = "Fuel";
+        Vector2i centeredPosition = TextUtils.getCenteredFontPosition(g2d, text, size);
+
+        g2d.setFont(Game.getGameFont().deriveFont(Font.PLAIN, 24F));
+        g2d.setColor(new Color(255, 255, 255, 255));
+        g2d.drawString(
+                text,
+                centeredPosition.getX(),
+                centeredPosition.getY()
+        );
         g2d.dispose();
 
         return sprite;

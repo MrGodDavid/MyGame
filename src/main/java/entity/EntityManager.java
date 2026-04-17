@@ -142,8 +142,8 @@ public final class EntityManager {
                         && !(projectile.getShooter() instanceof Player)
                         && movingEntity instanceof Player gamePlayer
                 ) {
-                    gamePlayer.damage(1);
-                    projectile.setCurrentLife(0);
+                    gamePlayer.damage(0.1); // balance the continuous damage taken.
+                    projectile.damage(2);
                 }
             }
         }
