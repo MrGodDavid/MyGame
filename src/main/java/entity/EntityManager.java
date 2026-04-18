@@ -207,57 +207,6 @@ public final class EntityManager {
     }
 
     /**
-     * Render all {@code MovingEntity} of this game every frame.
-     *
-     * @param g2d that can be considered as the graphics rendering pipeline that built inside {@link Graphics2D} class.
-     */
-    public void render(Graphics2D g2d) {
-        renderAllGameCharacters(g2d);
-        renderAllProjectiles(g2d);
-        renderAllItemsOnScreen(g2d);
-    }
-
-    private void renderAllItemsOnScreen(Graphics2D g2d) {
-        for (AbstractItem item : items) {
-            if (item.isDraw() && item.inCamera()) {
-                g2d.drawImage(
-                        item.getSprite(),
-                        (int) item.getPosition().getX(),
-                        (int) item.getPosition().getY(),
-                        null
-                );
-            }
-        }
-    }
-
-    private void renderAllProjectiles(Graphics2D g2d) {
-        for (Projectile projectile : projectiles) {
-            if (projectile.inCamera() && projectile.isAlive()) {
-                g2d.drawImage(
-                        projectile.getSprite(),
-                        (int) projectile.getPosition().getX(),
-                        (int) projectile.getPosition().getY(),
-                        null
-                );
-            }
-        }
-    }
-
-    private void renderAllGameCharacters(Graphics2D g2d) {
-        for (GameCharacter character : gameCharacters) {
-            if (character.inCamera()) {
-                g2d.drawImage(
-                        character.getSprite(),
-                        (int) character.getPosition().getX(),
-                        (int) character.getPosition().getY(),
-                        null
-                );
-                character.render(g2d);
-            }
-        }
-    }
-
-    /**
      * Utility method for finding how many {@code MovingEntity} that matches with the param {@code filterClass} inside
      * the List of {@code MovingEntity} of this game.
      *
@@ -292,5 +241,17 @@ public final class EntityManager {
         return gameCharacters.stream()
                 .filter(filterClass::isInstance)
                 .toList();
+    }
+
+    public static List<Projectile> getProjectiles() {
+        return projectiles;
+    }
+
+    public static List<AbstractItem> getItems() {
+        return items;
+    }
+
+    public static List<GameCharacter> getGameCharacters() {
+        return gameCharacters;
     }
 }

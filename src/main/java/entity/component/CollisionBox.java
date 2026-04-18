@@ -46,7 +46,7 @@ public final class CollisionBox {
 
     // =============================================== [GETTERS & SETTERS] ===============================================
 
-    private Rectangle getBoundingBox() {
+    public Rectangle getBoundingBox() {
         return this.boundingBox;
     }
 

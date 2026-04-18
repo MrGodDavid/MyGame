@@ -36,7 +36,7 @@ public abstract class GameObject {
      *
      * @return the sprite of the subclass of {@code GameObject}.
      */
-    protected abstract Image getSprite();
+    public abstract Image getSprite();
 
     /**
      * Update the subclass of {@code GameObject} 60 times per frame.
@@ -46,12 +46,16 @@ public abstract class GameObject {
      */
     public abstract void update(double deltaTime);
 
-    protected final boolean inCamera() {
+    public final boolean inCamera() {
         return (position.getX() >= 0
                 && (position.getX() <= GameWindow.getWindowSize().getWidth()))
                 && (position.getY() >= 0
                 && (position.getY() <= GameWindow.getWindowSize().getHeight())
         );
+    }
+
+    public final boolean hasCollisionBox() {
+        return collisionBox != null;
     }
 
     // =============================================== [GETTERS & SETTERS] ===============================================
@@ -74,5 +78,9 @@ public abstract class GameObject {
 
     public Size getSize() {
         return size;
+    }
+
+    public CollisionBox getCollisionBox() {
+        return collisionBox;
     }
 }

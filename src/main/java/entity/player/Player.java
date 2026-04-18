@@ -104,7 +104,7 @@ public final class Player extends GameCharacter {
      * @return the sprite of the subclass of {@code GameObject}.
      */
     @Override
-    protected Image getSprite() {
+    public Image getSprite() {
         BufferedImage sprite = new BufferedImage(size.getWidth(), size.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = sprite.createGraphics();
         String text = "ME";

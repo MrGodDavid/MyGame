@@ -22,23 +22,47 @@ import java.util.Random;
  */
 public final class Game extends JPanel {
 
-    public static final Size GAME_WINDOW_SIZE = new Size(800, 600);
-    private static Game instance;
+    private static class GameSettings {
 
+        private boolean updateGame;
+
+        private GameSettings() {
+            this.updateGame = true;
+        }
+
+        private boolean shouldUpdateGame() {
+            return updateGame;
+        }
+
+        private void pause() {
+            updateGame = false;
+        }
+
+        private void resume() {
+            updateGame = true;
+        }
+    }
+
+    public static final Size GAME_WINDOW_SIZE = new Size(800, 600);
+    private static Random randomGenerator;
+    private static Game instance;
+    private static Font font_m6x11plus;
+
+    private static GameSettings gameSettings;
     private final InputManager inputManager;
     private final EntityManager entityManager;
+    private final Renderer renderer;
     private final QuestManager questManager;
-    private static Random randomGenerator;
 
-    private static Font font_m6x11plus;
 
     private Game() {
         Game.font_m6x11plus = createFont("/font/m6x11plus.ttf");
-
+        Game.gameSettings = new GameSettings();
         final KeyboardListener keyboardListener = KeyboardListener.getInstance();
         final MouseInputListener mouseInputListener = MouseInputListener.getInstance();
         this.inputManager = InputManager.getInstance(keyboardListener, mouseInputListener);
         this.entityManager = EntityManager.getInstance();
+        this.renderer = Renderer.getInstance();
         this.questManager = new QuestManager(QuestManager.ObjectivePointer.MOVE_TUTORIAL);
         Game.randomGenerator = new Random(GameLoop.generateRandomSeed());
 
@@ -60,8 +84,10 @@ public final class Game extends JPanel {
 
     public void update(double deltaTime) {
         inputManager.update();
-        entityManager.update(deltaTime);
-        questManager.update();
+        if (gameSettings.shouldUpdateGame()) {
+            entityManager.update(deltaTime);
+            questManager.update();
+        }
     }
 
     public void render() {
@@ -104,7 +130,7 @@ public final class Game extends JPanel {
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0, 0, getWidth(), getHeight());
 
-        entityManager.render(g2d);
+        renderer.render(g2d);
         g2d.dispose();
     }
 
@@ -116,6 +142,14 @@ public final class Game extends JPanel {
         } catch (IOException | FontFormatException e) {
             throw new RuntimeException("ERROR: Could not find font through file path [" + filePath + "]");
         }
+    }
+
+    public static void pause() {
+        gameSettings.pause();
+    }
+
+    public static void resume() {
+        gameSettings.resume();
     }
 
     public static Font getGameFont() {

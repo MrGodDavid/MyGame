@@ -44,10 +44,6 @@ public abstract class MovingEntity extends GameObject {
         return this.collisionBox.collidesWith(otherCollisionBox);
     }
 
-    public CollisionBox getCollisionBox() {
-        return this.collisionBox;
-    }
-
     public void damage(double damage) {
         this.currentLife -= damage;
     }

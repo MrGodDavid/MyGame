@@ -1,6 +1,8 @@
 package input;
 
 import com.mrgoddavid.vector.Vector2d;
+import core.Game;
+import core.Renderer;
 import entity.EntityManager;
 
 import java.awt.event.KeyEvent;
@@ -42,24 +44,38 @@ public final class InputManager {
     }
 
     public void update() {
+        // EXIT GAME
         if (keyboardListener.isKeyDown(KeyEvent.VK_ESCAPE)) {
             System.exit(0);
         }
-
+        // MOVE PLAYER
         if (keyboardListener.isKeyDown(KeyEvent.VK_W)) {
             EntityManager.getPlayer().move();
         } else {
             EntityManager.getPlayer().stop();
         }
-
-        if (keyboardListener.isKeyDown(KeyEvent.VK_R)) {
-            EntityManager.getPlayer().printInventory();
-        }
-
+        // CHANGE PLAYER'S MOVING DIRECTION
         if (InputManager.mouseInputListener.isButtonDown(MouseInputListener.MouseButton.LEFT_BUTTON)) {
             if (EntityManager.getPlayer().canShoot()) {
                 EntityManager.getPlayer().shoot();
             }
+        }
+        // PAUSE GAME
+        if (keyboardListener.isKeyDown(KeyEvent.VK_Z)) {
+            Game.pause();
+        }
+        // RESUME GAME
+        if (keyboardListener.isKeyDown(KeyEvent.VK_X)) {
+            Game.resume();
+        }
+        // DEBUG
+        // RENDER COLLISION BOX OF GAME CHARACTER
+        if (keyboardListener.isKeyDown(KeyEvent.VK_F1)) {
+            Renderer.setRenderCollisionBoxEnabled(true);
+        }
+        // DISABLE RENDERING COLLISION BOX OF GAME CHARACTER
+        else if (keyboardListener.isKeyDown(KeyEvent.VK_F2)) {
+            Renderer.setRenderCollisionBoxEnabled(false);
         }
     }
 
