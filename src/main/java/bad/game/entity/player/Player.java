@@ -1,0 +1,196 @@
+package bad.game.entity.player;
+
+import com.mrgoddavid.vector.Vector2d;
+import com.mrgoddavid.vector.Vector2i;
+import bad.game.entity.GameCharacter;
+import bad.game.entity.GameObject;
+import bad.game.entity.component.CollisionBox;
+import bad.game.entity.component.Size;
+import bad.game.entity.item.AbstractItem;
+import bad.game.entity.item.fuel.Fuel;
+import bad.game.entity.projectile.Projectile;
+import bad.game.core.Game;
+import bad.game.entity.component.HealthBar;
+import bad.game.input.InputManager;
+import bad.game.utils.TextUtils;
+import bad.game.utils.Timer;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.*;
+import java.util.List;
+
+/**
+ * Player class. Player class is a subclass of the {@code MovingEntity}. Player class implements the
+ * {@link GameObject#getSprite()} and {@link GameObject#update(double)}
+ * methods. The player can move, shoot projectiles, and endure damages from enemies.
+ * <p>
+ * If player dies, the game is over. When player shoots projectiles and kills enemy, the player gains scores and earns
+ * money and experience points. The player can use money to buy skills and equipments to increase its life points, damage
+ * strength, and additional awards.
+ *
+ * @author Mr. GodDavid
+ * @since 3/30/2026
+ */
+public final class Player extends GameCharacter {
+
+    private static class PlayerStat {
+
+        private int energy;
+
+        private PlayerStat() {
+            this.energy = 10;
+        }
+
+        private void increaseEnergy() {
+            this.energy++;
+        }
+
+        private void decreaseEnergy() {
+            this.energy--;
+        }
+
+        public int getEnergy() {
+            return energy;
+        }
+
+        @Override
+        public String toString() {
+            return "[ENERGY: " + energy + "]";
+        }
+    }
+
+    private static Player playerInstance;
+    private final PlayerStat playerStat;
+    private final List<AbstractItem> inventory; // inventory cache?
+
+    private Player() {
+        super();
+        this.inventory = new ArrayList<>();
+        this.playerStat = new PlayerStat();
+        position = new Vector2d(100, 100);
+        velocity = new Vector2d(0, 0);
+        size = new Size(48, 48);
+        collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
+
+        // player attributes.
+        speed = 200d;
+        maxLife = 10;
+        currentLife = maxLife;
+        projectile = Optional.of(new Projectile());
+        projectileShootingCoolDownTimer = Optional.of(new Timer(60));
+        healthBar = new HealthBar(maxLife);
+        healthBar.setDrawHealthBar(true);
+
+        sprite = getSprite();
+    }
+
+    /**
+     * Returns the single instance of {@code Player}. This method initializes the {@code Player} if the
+     * instance is not being initialized. Otherwise, returns the instance of {@code Player}.
+     *
+     * @return the only instance of {@code Player}
+     */
+    public static Player getInstance() {
+        if (playerInstance == null) {
+            playerInstance = new Player();
+        }
+        return playerInstance;
+    }
+
+    /**
+     * Return the sprite of the subclass of {@code GameObject}.
+     *
+     * @return the sprite of the subclass of {@code GameObject}.
+     */
+    @Override
+    public Image getSprite() {
+        BufferedImage sprite = new BufferedImage(size.getWidth(), size.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = sprite.createGraphics();
+        String text = "ME";
+        Vector2i centeredPosition = TextUtils.getCenteredFontPosition(g2d, text, size);
+
+        g2d.setFont(Game.getGameFont().deriveFont(Font.PLAIN, 24F));
+        g2d.setColor(new Color(255, 255, 255, 255));
+        g2d.drawString(
+                text,
+                centeredPosition.getX(),
+                centeredPosition.getY()
+        );
+        g2d.dispose();
+
+        return sprite;
+    }
+
+    /**
+     * Move the {@code MovingEntity} in game. This is an abstract method for defining rules of movement in subclass
+     * of {@code MovingEntity}.
+     *
+     */
+    public void move() {
+        Vector2d mousePosition = new Vector2d(InputManager.getMousePosition());
+        Vector2d direction = mousePosition.subtract(position).normalize();
+        this.velocity = direction.scale(speed);
+    }
+
+    /**
+     * Define the condition that the {@code MovingEntity} is alive or dead. The condition is defined in subclass's
+     * implementation of this method.
+     *
+     * @return true if {@code MovingEntity} is still alive.
+     */
+    @Override
+    public boolean isAlive() {
+        return currentLife > 0;
+    }
+
+    /**
+     * Picks up a game item when player's collision box collides with game item's collision box.
+     *
+     * @param item that has been picked up by player.
+     */
+    public void pickUp(AbstractItem item) {
+        if (item == null) return;
+        inventory.add(item);
+        if (item instanceof Fuel) {
+            this.increaseEnergy();
+        }
+    }
+
+    /**
+     * Increment the energy of player.
+     */
+    public void increaseEnergy() {
+        this.playerStat.increaseEnergy();
+    }
+
+    /**
+     * Decrement the energy of player.
+     */
+    public void decreaseEnergy() {
+        this.playerStat.decreaseEnergy();
+    }
+
+    public boolean canShoot() {
+        return playerStat.getEnergy() > 0;
+    }
+
+    /**
+     * Define a String representation of this class. {@code Player} class contains information of "[PLAYER]" tag and
+     * additional information from {@code MovingEntity} class.
+     *
+     * @return a String representation of this class.
+     */
+    @Override
+    public String toString() {
+        return "[PLAYER]: " + super.toString();
+    }
+
+    public void printPlayerStat() {
+        System.out.println(playerStat.toString());
+    }
+
+    public void printInventory() {
+        System.out.println(inventory.toString());
+    }
+}
