@@ -1,5 +1,6 @@
 package core;
 
+import bad.annotation.SingletonClass;
 import input.InputManager;
 
 /**
@@ -8,6 +9,7 @@ import input.InputManager;
  * @author Mr. GodDavid
  * @since 3/30/2026
  */
+@SingletonClass
 public final class GameLoop implements Runnable {
 
     private static GameLoop instance;

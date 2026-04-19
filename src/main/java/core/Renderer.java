@@ -1,5 +1,6 @@
 package core;
 
+import bad.annotation.SingletonClass;
 import entity.EntityManager;
 import entity.GameCharacter;
 import entity.item.AbstractItem;
@@ -11,8 +12,10 @@ import java.awt.*;
  * @author Mr. GodDavod
  * @since 4/18/2026
  */
+@SingletonClass
 public final class Renderer {
 
+    @SingletonClass
     private static class RenderingSettings {
 
         private static RenderingSettings instance;

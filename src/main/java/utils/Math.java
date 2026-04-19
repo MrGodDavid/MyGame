@@ -1,5 +1,6 @@
 package utils;
 
+import bad.annotation.UninstantiableClass;
 import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
 import core.Game;
@@ -12,6 +13,7 @@ import core.GameWindow;
  * @author Mr. GodDavid
  * @since 4/6/2026
  */
+@UninstantiableClass
 public final class Math {
 
     private Math() {

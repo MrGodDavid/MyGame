@@ -1,3 +1,4 @@
+import bad.annotation.UninstantiableClass;
 import core.GameWrapper;
 
 /**
@@ -15,10 +16,15 @@ import core.GameWrapper;
  * @author Mr. GodDavid
  * @since 3/30/2026
  */
+@UninstantiableClass
 public final class MyGameLauncher {
 
+    private MyGameLauncher() {
+        throw new IllegalStateException("This is a root game launcher class and cannot be instantiated");
+    }
+
     public static void main(String[] args) {
-        GameWrapper gameWrapper = new GameWrapper();
+        GameWrapper gameWrapper = GameWrapper.getInstance();
         gameWrapper.launch();
     }
 }

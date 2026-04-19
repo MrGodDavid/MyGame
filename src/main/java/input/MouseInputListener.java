@@ -1,5 +1,6 @@
 package input;
 
+import bad.annotation.SingletonClass;
 import com.mrgoddavid.vector.Vector2d;
 
 import java.awt.event.MouseEvent;
@@ -13,6 +14,7 @@ import java.util.Arrays;
  * @author Mr. GodDavid
  * @since 3/31/2026
  */
+@SingletonClass
 public final class MouseInputListener implements MouseListener, MouseMotionListener {
 
     private static MouseInputListener instance;

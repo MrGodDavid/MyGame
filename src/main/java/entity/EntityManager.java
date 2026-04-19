@@ -1,5 +1,6 @@
 package entity;
 
+import bad.annotation.SingletonClass;
 import com.mrgoddavid.vector.Vector2d;
 import core.spatial_hash_grid.SpatialHashGrid;
 import entity.enemy.Enemy;
@@ -28,6 +29,7 @@ import java.util.List;
  * @author Mr. GodDavid
  * @since 3/31/2026
  */
+@SingletonClass
 public final class EntityManager {
 
     private static EntityManager instance;

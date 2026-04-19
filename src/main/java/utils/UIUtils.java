@@ -1,5 +1,6 @@
 package utils;
 
+import bad.annotation.UninstantiableClass;
 import com.mrgoddavid.vector.Vector2i;
 import entity.component.Size;
 
@@ -11,6 +12,7 @@ import java.awt.*;
  * @author Mr. GodDavid
  * @since 4/11/2026
  */
+@UninstantiableClass
 public final class UIUtils {
 
     private static final int CORNER_ANGLE = 20;

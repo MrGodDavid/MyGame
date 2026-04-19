@@ -1,5 +1,6 @@
 package core;
 
+import bad.annotation.SingletonClass;
 import entity.component.Size;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ import java.awt.event.ComponentEvent;
  * @author Mr. GodDavid
  * @since 3/30/2026
  */
+@SingletonClass
 public final class GameWindow {
 
     private static GameWindow instance;

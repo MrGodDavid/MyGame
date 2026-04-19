@@ -1,5 +1,6 @@
 package utils;
 
+import bad.annotation.UninstantiableClass;
 import com.mrgoddavid.vector.Vector2i;
 import entity.component.Size;
 
@@ -12,6 +13,7 @@ import java.awt.*;
  * @author Mr. GodDavid
  * @since 3/31/2026
  */
+@UninstantiableClass
 public final class TextUtils {
 
     private TextUtils() {

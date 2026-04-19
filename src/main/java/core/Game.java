@@ -1,5 +1,6 @@
 package core;
 
+import bad.annotation.SingletonClass;
 import entity.EntityManager;
 import entity.component.Size;
 import input.InputManager;
@@ -20,6 +21,7 @@ import java.util.Random;
  * @author Mr. GodDavid
  * @since 3/30/2026
  */
+@SingletonClass
 public final class Game extends JPanel {
 
     private static class GameSettings {
@@ -60,6 +62,8 @@ public final class Game extends JPanel {
     private final Renderer renderer;
     private final QuestManager questManager;
 
+    private static int gameStateMethodCall;
+
     public enum GameState {
         PLAYING_STATE,
         EDITOR_STATE;
@@ -70,6 +74,7 @@ public final class Game extends JPanel {
         Game.gameSettings = new GameSettings();
         Game.gameState = GameState.PLAYING_STATE;
         Game.randomGenerator = new Random(GameLoop.generateRandomSeed());
+        Game.gameStateMethodCall = 0;
 
         final KeyboardListener keyboardListener = KeyboardListener.getInstance();
         final MouseInputListener mouseInputListener = MouseInputListener.getInstance();
@@ -163,7 +168,7 @@ public final class Game extends JPanel {
         try {
             return Font.createFont(Font.TRUETYPE_FONT, iS);
         } catch (IOException | FontFormatException e) {
-            throw new RuntimeException("ERROR: Could not find font through file path [" + filePath + "]");
+            throw new RuntimeException("[ERROR]:  Could not find font through file path [" + filePath + "]");
         }
     }
 
@@ -175,6 +180,15 @@ public final class Game extends JPanel {
         gameSettings.toggleUpdateGame();
     }
 
+    public static void switchGameState() {
+        switch(gameStateMethodCall % GameState.values().length) {
+            case 0 -> gameState = GameState.PLAYING_STATE;
+            case 1 -> gameState = GameState.EDITOR_STATE;
+            default -> System.out.println("[WARNING]:  Invalid state [" + gameState + "]");
+        }
+        gameStateMethodCall++;
+    }
+
     // =============================================== [GETTERS & SETTERS] ===============================================
 
     public static Font getGameFont() {
@@ -183,5 +197,9 @@ public final class Game extends JPanel {
 
     public static Random getRandomGenerator() {
         return randomGenerator;
+    }
+
+    public static GameState getGameState() {
+        return gameState;
     }
 }
