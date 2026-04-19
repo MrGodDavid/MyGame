@@ -34,12 +34,17 @@ public final class Game extends JPanel {
             return updateGame;
         }
 
-        private void pause() {
-            updateGame = false;
-        }
-
-        private void resume() {
-            updateGame = true;
+        /**
+         * Toggle the boolean flag {@code toggleUpdateGame}.
+         * Method code:
+         * <pre><code>
+         * private void toggleUpdateGame() {
+         *     updateGame = !updateGame;
+         * }
+         * </code></pre>
+         */
+        private void toggleUpdateGame() {
+            updateGame = !updateGame;
         }
     }
 
@@ -47,24 +52,31 @@ public final class Game extends JPanel {
     private static Random randomGenerator;
     private static Game instance;
     private static Font font_m6x11plus;
-
     private static GameSettings gameSettings;
+    private static GameState gameState;
+
     private final InputManager inputManager;
     private final EntityManager entityManager;
     private final Renderer renderer;
     private final QuestManager questManager;
 
+    public enum GameState {
+        PLAYING_STATE,
+        EDITOR_STATE;
+    }
 
     private Game() {
         Game.font_m6x11plus = createFont("/font/m6x11plus.ttf");
         Game.gameSettings = new GameSettings();
+        Game.gameState = GameState.PLAYING_STATE;
+        Game.randomGenerator = new Random(GameLoop.generateRandomSeed());
+
         final KeyboardListener keyboardListener = KeyboardListener.getInstance();
         final MouseInputListener mouseInputListener = MouseInputListener.getInstance();
         this.inputManager = InputManager.getInstance(keyboardListener, mouseInputListener);
         this.entityManager = EntityManager.getInstance();
         this.renderer = Renderer.getInstance();
         this.questManager = new QuestManager(QuestManager.ObjectivePointer.MOVE_TUTORIAL);
-        Game.randomGenerator = new Random(GameLoop.generateRandomSeed());
 
         super.setPreferredSize(new Dimension(GAME_WINDOW_SIZE.getWidth(), GAME_WINDOW_SIZE.getHeight()));
         super.setDoubleBuffered(true);
@@ -84,9 +96,20 @@ public final class Game extends JPanel {
 
     public void update(double deltaTime) {
         inputManager.update();
-        if (gameSettings.shouldUpdateGame()) {
-            entityManager.update(deltaTime);
-            questManager.update();
+        switch (Game.gameState) {
+            case PLAYING_STATE -> {
+                if (gameSettings.shouldUpdateGame()) {
+                    entityManager.update(deltaTime);
+                    questManager.update();
+                }
+            }
+            case EDITOR_STATE -> {
+                System.out.println("Editor state");
+            }
+            default -> {
+                System.out.println("[WARNING]:  Invalid state [" + Game.gameState + "]");
+                return;
+            }
         }
     }
 
@@ -144,13 +167,15 @@ public final class Game extends JPanel {
         }
     }
 
-    public static void pause() {
-        gameSettings.pause();
+    /**
+     * Toggle the game from pause to resume or from resume to pause.
+     * Note: This is the wrapper method of {@link GameSettings#toggleUpdateGame()}
+     */
+    public static void toggleGamePauseResume() {
+        gameSettings.toggleUpdateGame();
     }
 
-    public static void resume() {
-        gameSettings.resume();
-    }
+    // =============================================== [GETTERS & SETTERS] ===============================================
 
     public static Font getGameFont() {
         return Game.font_m6x11plus;

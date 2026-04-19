@@ -16,10 +16,11 @@ public final class Renderer {
     private static class RenderingSettings {
 
         private static RenderingSettings instance;
-        private boolean renderCollisionBoxEnabled;
+
+        private boolean renderCollisionBox;
 
         private RenderingSettings() {
-            this.renderCollisionBoxEnabled = false;
+            this.renderCollisionBox = false;
         }
 
         public static RenderingSettings getInstance() {
@@ -29,12 +30,12 @@ public final class Renderer {
             return instance;
         }
 
-        public void setRenderCollisionBoxEnabled(boolean renderCollisionBoxEnabled) {
-            this.renderCollisionBoxEnabled = renderCollisionBoxEnabled;
+        public void toggleRenderCollisionBox() {
+            this.renderCollisionBox = !this.renderCollisionBox;
         }
 
-        public boolean isRenderCollisionBoxEnabled() {
-            return renderCollisionBoxEnabled;
+        public boolean isRenderCollisionBox() {
+            return renderCollisionBox;
         }
     }
 
@@ -62,7 +63,7 @@ public final class Renderer {
         renderAllProjectiles(g2d);
         renderAllItemsOnScreen(g2d);
 
-        if (settings.isRenderCollisionBoxEnabled()) {
+        if (settings.isRenderCollisionBox()) {
             renderAllGameObjectsCollisionBound(g2d);
         }
     }
@@ -143,7 +144,7 @@ public final class Renderer {
         }
     }
 
-    public static void setRenderCollisionBoxEnabled(boolean enabled) {
-        settings.setRenderCollisionBoxEnabled(enabled);
+    public static void toggleRenderCollisionBox() {
+        settings.toggleRenderCollisionBox();
     }
 }

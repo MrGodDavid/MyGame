@@ -32,7 +32,7 @@ public final class InputManager {
      * Returns the single instance of {@code InputManager}. This method initializes the {@code InputManager} if the
      * instance is not being initialized. Otherwise, returns the instance of {@code InputManager}.
      *
-     * @param keyboardListener the key listener that is used to construct this class.
+     * @param keyboardListener   the key listener that is used to construct this class.
      * @param mouseInputListener the mouse input listener that is used to construct this class.
      * @return the only instance of {@code InputManager}
      */
@@ -43,6 +43,25 @@ public final class InputManager {
         return InputManager.inputManager;
     }
 
+    /**
+     * Update the game based on input from {@code KeyboardListener} and {@code MouseInputListener}.
+     * <p>
+     * Here is a chart of keymap of this game:
+     * <p>
+     * =========================================
+     * <ul>
+     *  <li>{@code ESCAPE KEY} -> Exit the game.</li>
+     *  <li>{@code W KEY} -> Move the player.</li>
+     *  <li>{@code LEFT MOUSE BUTTON} -> Change the direction of player.</li>
+     *  <li>{@code X KEY} -> Press once pause the game, and press again to resume the game.</li>
+     *  <li>{@code LEFT ARROW KEY} -> Press once to switch to <strong><u>editor state</u></strong>, and press again
+     *      to switch to  <strong><u>playing state</u></strong>. </li>
+     *  <li>{@code F2 KEY} -> Press once to <strong><u>enable</u></strong> rendering game character's
+     *  {@code collision box}, and press again to <strong><u>disable</u></strong> rendering game character's
+     *  {@code collision box}.</li>
+     * </ul>
+     * =========================================
+     */
     public void update() {
         // EXIT GAME
         if (keyboardListener.isKeyDown(KeyEvent.VK_ESCAPE)) {
@@ -60,22 +79,18 @@ public final class InputManager {
                 EntityManager.getPlayer().shoot();
             }
         }
-        // PAUSE GAME
-        if (keyboardListener.isKeyDown(KeyEvent.VK_Z)) {
-            Game.pause();
-        }
-        // RESUME GAME
+        // PAUSE/RESUME GAME
         if (keyboardListener.isKeyDown(KeyEvent.VK_X)) {
-            Game.resume();
+            Game.toggleGamePauseResume();
+        }
+        // SWITCHING GAME STATES
+        if (keyboardListener.isKeyDown(KeyEvent.VK_LEFT)) {
+            System.out.println("Switching state");
         }
         // DEBUG
-        // RENDER COLLISION BOX OF GAME CHARACTER
-        if (keyboardListener.isKeyDown(KeyEvent.VK_F1)) {
-            Renderer.setRenderCollisionBoxEnabled(true);
-        }
-        // DISABLE RENDERING COLLISION BOX OF GAME CHARACTER
-        else if (keyboardListener.isKeyDown(KeyEvent.VK_F2)) {
-            Renderer.setRenderCollisionBoxEnabled(false);
+        // RENDER GAME CHARACTER'S COLLISION BOX
+        if (keyboardListener.isKeyDown(KeyEvent.VK_F2)) {
+            Renderer.toggleRenderCollisionBox();
         }
     }
 

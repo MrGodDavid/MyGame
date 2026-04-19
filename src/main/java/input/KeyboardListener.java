@@ -14,9 +14,11 @@ public final class KeyboardListener implements KeyListener {
     private static KeyboardListener instance;
 
     private final boolean[] keys;
+    private boolean isPressed;
 
     private KeyboardListener() {
         this.keys = new boolean[256];
+        this.isPressed = false;
     }
 
     public static KeyboardListener getInstance() {
@@ -61,9 +63,14 @@ public final class KeyboardListener implements KeyListener {
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
         keys[keyCode] = false;
+        isPressed = false;
     }
 
     public boolean isKeyDown(int keyCode) {
-        return keys[keyCode];
+        if (keys[keyCode] && !isPressed) {
+            isPressed = true;
+            return true;
+        }
+        return false;
     }
 }
