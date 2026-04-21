@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  * @author Mr. GodDavid
  * @since 4/19/2026
  */
-public class UIComponent {
+public abstract class UIComponent {
 
     protected Vector2i position;
     protected Size size;
@@ -30,49 +30,30 @@ public class UIComponent {
 
         background = Color.RED;
         foreground = Color.WHITE;
-        image = getSprite();
     }
 
-    protected Image getSprite() {
-        BufferedImage backgroundImage = new BufferedImage(
-                size.getWidth() + margin.getHorizontal() + padding.getHorizontal(),
-                size.getHeight() + margin.getVertical() + padding.getVertical(),
-                BufferedImage.TYPE_INT_ARGB
-        );
-        BufferedImage foregroundImage = new BufferedImage(
-                size.getWidth(),
-                size.getHeight(),
-                BufferedImage.TYPE_INT_ARGB
-        );
-        Graphics2D g2d_background = backgroundImage.createGraphics();
-        Graphics2D g2d_foreground = foregroundImage.createGraphics();
+    protected abstract Image getSprite();
 
-        g2d_foreground.setColor(foreground);
-        g2d_foreground.fillRect(0, 0, size.getWidth(), size.getHeight());
-        g2d_foreground.dispose();
-
-        g2d_background.setColor(background);
-        g2d_background.fillRect(
-                0, 0,
+    protected final Size calculateBackgroundImageSize() {
+        return new Size(
                 size.getWidth() + margin.getHorizontal() + padding.getHorizontal(),
                 size.getHeight() + margin.getVertical() + padding.getVertical()
         );
-        g2d_background.drawImage(
-                foregroundImage,
-                margin.getLeft() + padding.getLeft(),
-                margin.getTop() + padding.getTop(),
-                null
-        );
-        g2d_background.dispose();
-
-        return backgroundImage;
     }
 
-    public Image getImage() {
-        return image;
+    protected final int calculateForegroundX() {
+        return margin.getLeft() + padding.getLeft();
     }
 
-    public Vector2i getPosition() {
+    protected final int calculateForegroundY() {
+        return margin.getTop() + padding.getTop();
+    }
+
+    public final Image getImage() {
+        return (image == null) ? new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB) : image;
+    }
+
+    public final Vector2i getPosition() {
         return position;
     }
 }

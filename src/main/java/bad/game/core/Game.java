@@ -4,11 +4,13 @@ import bad.game.annotation.SingletonClass;
 import bad.game.entity.EntityManager;
 import bad.game.entity.component.Size;
 import bad.game.graphics.UIManager;
+import bad.game.graphics.UIPanel;
 import bad.game.graphics.components.UIComponent;
 import bad.game.input.InputManager;
 import bad.game.input.KeyboardListener;
 import bad.game.input.MouseInputListener;
 import bad.game.quest.QuestManager;
+import com.mrgoddavid.vector.Vector2i;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -95,8 +97,6 @@ public final class Game extends JPanel {
         super.addKeyListener(keyboardListener);
         super.addMouseListener(mouseInputListener);
         super.addMouseMotionListener(mouseInputListener);
-
-        uiManager.add(new UIComponent());
     }
 
     public static Game getInstance() {
@@ -119,9 +119,7 @@ public final class Game extends JPanel {
             case EDITOR_STATE -> {
                 System.out.println("Editor state");
             }
-            default -> {
-                System.out.println("[WARNING]:  Invalid state [" + Game.gameState + "]");
-            }
+            default -> System.out.println("[WARNING]:  Invalid state [" + Game.gameState + "]");
         }
     }
 
@@ -190,7 +188,7 @@ public final class Game extends JPanel {
     }
 
     public static void switchGameState() {
-        switch(gameStateMethodCall % GameState.values().length) {
+        switch (gameStateMethodCall % GameState.values().length) {
             case 0 -> gameState = GameState.PLAYING_STATE;
             case 1 -> gameState = GameState.EDITOR_STATE;
             default -> System.out.println("[WARNING]:  Invalid state [" + gameState + "]");

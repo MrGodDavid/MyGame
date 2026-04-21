@@ -1,7 +1,9 @@
 package bad.game.graphics;
 
 import bad.game.annotation.SingletonClass;
+import bad.game.entity.component.Size;
 import bad.game.graphics.components.UIComponent;
+import com.mrgoddavid.vector.Vector2i;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -11,11 +13,11 @@ import java.util.List;
 public final class UIManager {
 
     private static UIManager instance;
-
     private final List<UIComponent> uiComponents;
 
     private UIManager() {
         uiComponents = new ArrayList<>();
+        this.initialize();
     }
 
     public static UIManager getInstance() {
@@ -25,8 +27,11 @@ public final class UIManager {
         return instance;
     }
 
-    public void add(UIComponent uiComponent) {
-        uiComponents.add(uiComponent);
+    private void initialize() {
+        uiComponents.add(new UIPanel(
+                new Vector2i(100, 100),
+                new Size(100, 100)
+        ));
     }
 
     public void update() {
