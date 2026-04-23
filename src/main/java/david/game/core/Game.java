@@ -27,14 +27,14 @@ public final class Game extends JPanel {
 
     private static class GameSettings {
 
-        private boolean updateGame;
+        private boolean pause;
 
         private GameSettings() {
-            this.updateGame = true;
+            this.pause = true;
         }
 
-        private boolean shouldUpdateGame() {
-            return updateGame;
+        private boolean isGamePause() {
+            return pause;
         }
 
         /**
@@ -47,7 +47,7 @@ public final class Game extends JPanel {
          * </code></pre>
          */
         private void toggleUpdateGame() {
-            updateGame = !updateGame;
+            pause = !pause;
         }
     }
 
@@ -65,11 +65,22 @@ public final class Game extends JPanel {
     private final UIManager uiManager;
 
     private static int gameStateMethodCall;
+    private static int gamePauseMethodCall;
 
     @SuppressWarnings("UnnecessarySemicolon")
     public enum GameState {
+        /**
+         * The state when player is playing the game.
+         */
         PLAYING_STATE,
-        EDITOR_STATE;
+        /**
+         * The state when developer is debugging the game.
+         */
+        EDITOR_STATE,
+        /**
+         * The state when the game is paused by player.
+         */
+        PAUSE_STATE;
     }
 
     private Game() {
@@ -78,6 +89,7 @@ public final class Game extends JPanel {
         Game.gameState = GameState.PLAYING_STATE;
         Game.randomGenerator = new Random(GameLoop.generateRandomSeed());
         Game.gameStateMethodCall = 0;
+        Game.gamePauseMethodCall = 0;
 
         final KeyboardListener keyboardListener = KeyboardListener.getInstance();
         final MouseInputListener mouseInputListener = MouseInputListener.getInstance();
@@ -105,16 +117,19 @@ public final class Game extends JPanel {
 
     public void update(double deltaTime) {
         inputManager.update();
+        uiManager.update();
         switch (Game.gameState) {
             case PLAYING_STATE -> {
-                if (gameSettings.shouldUpdateGame()) {
+                if (gameSettings.isGamePause()) {
                     entityManager.update(deltaTime);
                     questManager.update();
                 }
-                uiManager.update();
             }
             case EDITOR_STATE -> {
                 System.out.println("Editor state");
+            }
+            case  PAUSE_STATE -> {
+                System.out.println("Pause state");
             }
             default -> System.out.println("[WARNING]:  Invalid state [" + Game.gameState + "]");
         }
@@ -182,6 +197,8 @@ public final class Game extends JPanel {
      */
     public static void toggleGamePauseResume() {
         gameSettings.toggleUpdateGame();
+        gameState = (gamePauseMethodCall % 2 == 0) ? GameState.PAUSE_STATE : GameState.PLAYING_STATE;
+        gamePauseMethodCall++;
     }
 
     public static void switchGameState() {

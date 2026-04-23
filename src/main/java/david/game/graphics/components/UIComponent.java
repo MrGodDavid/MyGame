@@ -56,4 +56,12 @@ public abstract class UIComponent {
     public final Vector2i getPosition() {
         return position;
     }
+
+    public void setPosition(Vector2i position) {
+        this.position = position;
+    }
+
+    public final Size getSize() {
+        return size;
+    }
 }

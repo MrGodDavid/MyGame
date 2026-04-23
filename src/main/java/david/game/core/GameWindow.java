@@ -4,8 +4,6 @@ import bad.code.format.annotation.SingletonClass;
 import david.game.entity.component.Size;
 
 import javax.swing.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 /**
  * Create a window for this game.
@@ -20,22 +18,19 @@ public final class GameWindow {
     private static Size windowSize;
 
     private final JFrame window;
+    private final GameWindowResizeListener resizeListener;
 
     private GameWindow(Game game) {
         window = new JFrame();
         window.setTitle("My Game");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        resizeListener = GameWindowResizeListener.getInstance();
+
         window.add(game);
         window.pack();
         windowSize = new Size(window.getWidth(), window.getHeight());
-        window.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                windowSize.setWidth(window.getWidth());
-                windowSize.setHeight(window.getHeight());
-            }
-        });
+        window.addComponentListener(resizeListener);
 //        window.setResizable(false);
         window.setLocationRelativeTo(null);
     }
@@ -45,6 +40,11 @@ public final class GameWindow {
             instance = new GameWindow(game);
         }
         return instance;
+    }
+
+    public static void updateWindowSize(int width, int height) {
+        windowSize.setWidth(width);
+        windowSize.setHeight(height);
     }
 
     public void show() {

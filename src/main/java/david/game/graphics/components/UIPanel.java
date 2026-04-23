@@ -1,8 +1,8 @@
-package david.game.graphics;
+package david.game.graphics.components;
 
 import david.game.entity.component.Size;
-import david.game.graphics.components.UIComponent;
 import com.mrgoddavid.vector.Vector2i;
+import david.game.graphics.auxiliary.SmartUIComponent;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,17 +11,26 @@ import java.awt.image.BufferedImage;
  * @author Mr. GodDavid
  * @since 4/20/2026
  */
-public final class UIPanel extends UIComponent {
+public final class UIPanel extends UIComponent implements SmartUIComponent {
 
     private static final int CORNER_ANGLE = 20;
     private static final float STROKE_THICKNESS = 2.0f;
     private static final Color BACKGROUND_COLOR = new Color(54, 54, 54);
     private static final Color STROKE_COLOR = new Color(225, 224, 224);
 
+    private final double xPercentage;
+    private final double yPercentage;
+
     public UIPanel(Vector2i position, Size size) {
+        this(position, size, -1d, -1d);
+    }
+
+    public UIPanel(Vector2i position, Size size, double xPercentage, double yPercentage) {
         super();
         this.position = position;
         this.size = size;
+        this.xPercentage = xPercentage;
+        this.yPercentage = yPercentage;
 
         image = getSprite();
     }
@@ -67,5 +76,26 @@ public final class UIPanel extends UIComponent {
         g2d.setColor(STROKE_COLOR);
         g2d.setStroke(new BasicStroke(STROKE_THICKNESS));
         g2d.drawRoundRect(0, 0, size.getWidth(), size.getHeight(), CORNER_ANGLE, CORNER_ANGLE);
+    }
+
+    @Override
+    public double getSmartXPercentage() {
+        return xPercentage;
+    }
+
+    @Override
+    public double getSmartYPercentage() {
+        return yPercentage;
+    }
+
+    /**
+     * Make sure that the SmartUIComponent is truly intentionally referencing the class that implements this
+     * interface.
+     *
+     * @return the reference of the class that implements this interface.
+     */
+    @Override
+    public UIComponent asUIComponent() {
+        return this;
     }
 }

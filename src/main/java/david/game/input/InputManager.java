@@ -89,7 +89,7 @@ public final class InputManager {
             }
         }
         // PAUSE/RESUME GAME
-        if (keyboardListener.isKeyTyped(KeyEvent.VK_X)) {
+        if (keyboardListener.isKeyTyped(KeyEvent.VK_P)) {
             Game.toggleGamePauseResume();
         }
         // SWITCHING GAME STATES
