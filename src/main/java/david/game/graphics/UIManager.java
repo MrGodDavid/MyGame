@@ -47,15 +47,17 @@ public final class UIManager {
     }
 
     private UIPanel drawPausePanel() {
-        final Size SIZE = new Size(200, 200);
+        final Size SIZE = new Size(256, 256);
         final Vector2i POSITION = new Vector2i(
                 (Game.GAME_WINDOW_SIZE.getWidth() - SIZE.getWidth()) / 2,
                 (Game.GAME_WINDOW_SIZE.getHeight() - SIZE.getHeight()) / 2
         );
-        UIPanel pausePanel = new UIPanel(POSITION, SIZE);
+        UIPanel pausePanel = new UIPanel(POSITION, SIZE, 0.5, 0.5);
         pausePanel.addChild(
-                new UIText("Hello World!", new Vector2i(0, 0), new Size(128, 64)),
-                new UIText("Hello World!", new Vector2i(0, 0), new Size(128, 64))
+                // The parameters are hard-coded. :)
+                new UIText("PAUSE", new Vector2i(0, 0), new Size(60, 64)),
+                new UIText("PRESS [P] to resume", new Vector2i(0, 0), new Size(192, 64)),
+                new UIText("PRESS [ESC] to exit", new Vector2i(0, 0), new Size(192, 64))
         );
         return pausePanel;
     }

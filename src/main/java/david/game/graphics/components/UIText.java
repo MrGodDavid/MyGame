@@ -33,7 +33,7 @@ public final class UIText extends UISmartComponent {
 
         g2d.setFont(Game.getGameFont().deriveFont(Font.BOLD, 24F));
         g2d.setColor(Color.WHITE);
-        g2d.drawString(text, centeredPosition.getX(),  centeredPosition.getY());
+        g2d.drawString(text, 0,  centeredPosition.getY());
         g2d.dispose();
 
         return image;

@@ -106,6 +106,7 @@ public final class UIPanel extends UISmartComponent {
         int currentX = 0;
         int currentY = verticalOffset;
         for (UIComponent child : this.children) {
+            currentX = (super.calculateBackgroundImageSize().getWidth() - child.getSize().getWidth()) / 2;
             g2d.drawImage(
                     child.getImage(),
                     currentX,
