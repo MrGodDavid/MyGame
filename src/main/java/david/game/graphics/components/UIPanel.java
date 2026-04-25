@@ -2,35 +2,37 @@ package david.game.graphics.components;
 
 import david.game.entity.component.Size;
 import com.mrgoddavid.vector.Vector2i;
-import david.game.graphics.auxiliary.SmartUIComponent;
+import david.game.graphics.auxiliary.SmartUI;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Mr. GodDavid
  * @since 4/20/2026
  */
-public final class UIPanel extends UIComponent implements SmartUIComponent {
+public final class UIPanel extends UISmartComponent {
 
     private static final int CORNER_ANGLE = 20;
     private static final float STROKE_THICKNESS = 2.0f;
     private static final Color BACKGROUND_COLOR = new Color(54, 54, 54);
     private static final Color STROKE_COLOR = new Color(225, 224, 224);
 
-    private final double xPercentage;
-    private final double yPercentage;
+    private final List<UIComponent> children;
+    private boolean updateCalledOnce;
 
     public UIPanel(Vector2i position, Size size) {
         this(position, size, -1d, -1d);
     }
 
     public UIPanel(Vector2i position, Size size, double xPercentage, double yPercentage) {
-        super();
+        super(position, size, xPercentage, yPercentage);
+        this.children = new ArrayList<>();
+        this.updateCalledOnce = false;
         this.position = position;
         this.size = size;
-        this.xPercentage = xPercentage;
-        this.yPercentage = yPercentage;
 
         image = getSprite();
     }
@@ -78,14 +80,48 @@ public final class UIPanel extends UIComponent implements SmartUIComponent {
         g2d.drawRoundRect(0, 0, size.getWidth(), size.getHeight(), CORNER_ANGLE, CORNER_ANGLE);
     }
 
-    @Override
-    public double getSmartXPercentage() {
-        return xPercentage;
+    /**
+     * Adds all children components in this UI panel.
+     *
+     * @param child components that this container has.
+     * @apiNote Use this method {@code ONCE}. Add all children to panel through this method.
+     */
+    public void addChild(UIComponent... child) {
+        if (updateCalledOnce) {
+            System.out.println("[WARNING] in method {UIPanel.addChild()} because using " +
+                    "method addChild method more than once.");
+            System.out.println("[Bad method usage] in method {UIPanel.addChild()}. addChild does nothing because" +
+                    "using this method more than once. See api note.");
+            return;
+        }
+        updateCalledOnce = true;
+        this.children.addAll(List.of(child));
+        updateImage();
     }
 
-    @Override
-    public double getSmartYPercentage() {
-        return yPercentage;
+    private void updateImage() {
+        Graphics2D g2d = ((BufferedImage) image).createGraphics();
+        int totalChildrenHeight = calculateTotalChildrenHeight();
+        int verticalOffset = (super.calculateBackgroundImageSize().getHeight() - totalChildrenHeight) / 2;
+        int currentX = 0;
+        int currentY = verticalOffset;
+        for (UIComponent child : this.children) {
+            g2d.drawImage(
+                    child.getImage(),
+                    currentX,
+                    currentY,
+                    null
+            );
+            currentY += child.getImage().getHeight(null);
+        }
+    }
+
+    private int calculateTotalChildrenHeight() {
+        int totalHeight = 0;
+        for (UIComponent child : this.children) {
+            totalHeight += child.calculateBackgroundImageSize().getHeight();
+        }
+        return totalHeight;
     }
 
     /**

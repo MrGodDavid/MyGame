@@ -9,7 +9,13 @@ import david.game.graphics.components.UIComponent;
  * @author Mr. GodDavid
  * @since 4/22/2026
  */
-public interface SmartUIComponent {
+public interface SmartUI {
+
+    /**
+     * Disables UI Component automatically adjusting its position in {@code x-percentage} and {@code y-percentage}
+     * relative to the total screen size.
+     */
+    int DISABLE_SMART_COMPONENT = -1;
 
     double getSmartXPercentage();
 

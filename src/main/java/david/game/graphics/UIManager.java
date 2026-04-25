@@ -2,17 +2,21 @@ package david.game.graphics;
 
 import bad.code.format.annotation.SingletonClass;
 import david.game.core.Game;
-import david.game.core.GameWindow;
 import david.game.entity.component.Size;
-import david.game.graphics.auxiliary.SmartUIComponent;
+import david.game.graphics.auxiliary.SmartUI;
 import david.game.graphics.components.UIComponent;
 import com.mrgoddavid.vector.Vector2i;
 import david.game.graphics.components.UIPanel;
+import david.game.graphics.components.UIText;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Mr. GodDavid
+ * @since 4/15/2026
+ */
 @SingletonClass
 public final class UIManager {
 
@@ -39,15 +43,21 @@ public final class UIManager {
     }
 
     private void initialize() {
-        editorStateUIComponentsCache.add(new UIPanel(
-                new Vector2i(100, 100),
-                new Size(100, 100)
-        ));
-        pauseStateUIComponentsCache.add(new UIPanel(
-                new Vector2i(Game.GAME_WINDOW_SIZE.getWidth() / 2 - 50, Game.GAME_WINDOW_SIZE.getHeight() / 2 - 50),
-                new Size(100, 100),
-                0.5, 0.5
-        ));
+        pauseStateUIComponentsCache.add(drawPausePanel());
+    }
+
+    private UIPanel drawPausePanel() {
+        final Size SIZE = new Size(200, 200);
+        final Vector2i POSITION = new Vector2i(
+                (Game.GAME_WINDOW_SIZE.getWidth() - SIZE.getWidth()) / 2,
+                (Game.GAME_WINDOW_SIZE.getHeight() - SIZE.getHeight()) / 2
+        );
+        UIPanel pausePanel = new UIPanel(POSITION, SIZE);
+        pausePanel.addChild(
+                new UIText("Hello World!", new Vector2i(0, 0), new Size(128, 64)),
+                new UIText("Hello World!", new Vector2i(0, 0), new Size(128, 64))
+        );
+        return pausePanel;
     }
 
     public void update() {
@@ -71,7 +81,7 @@ public final class UIManager {
 
     public static void repositioningUIComponents() {
         for (UIComponent uiComponent : uiComponentRenderingList) {
-            if (uiComponent instanceof SmartUIComponent component) {
+            if (uiComponent instanceof SmartUI component) {
                 component.rePositioning();
             }
         }

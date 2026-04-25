@@ -14,6 +14,9 @@ import java.awt.image.BufferedImage;
 public abstract class UIComponent {
 
     protected Vector2i position;
+    /**
+     * The size of a UIComponent is the size excluded the margin and padding.
+     */
     protected Size size;
     protected Spacing margin;
     protected Spacing padding;
@@ -23,17 +26,26 @@ public abstract class UIComponent {
     protected Color foreground;
 
     public UIComponent() {
+        this(false);
+    }
+
+    public UIComponent(boolean drawBackground) {
         position = new Vector2i(10, 10);
         size = new Size(10, 10);
         margin = new Spacing(0);
         padding = new Spacing(0);
 
-        background = Color.RED;
+        background = drawBackground ? new Color(255, 0, 0) : new Color(0, 0, 0, 0);
         foreground = Color.WHITE;
     }
 
     protected abstract Image getSprite();
 
+    /**
+     * Calculate the size includes the margin and padding.
+     *
+     * @return the size includes the margin and padding.
+     */
     protected final Size calculateBackgroundImageSize() {
         return new Size(
                 size.getWidth() + margin.getHorizontal() + padding.getHorizontal(),
