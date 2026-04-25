@@ -53,10 +53,10 @@ public final class Game extends JPanel {
 
     // WINDOW SIZE
     public static final int TILE_SIZE = 64;
-    public static final int NUM_OF_TILE_WIDTH = 24;
-    public static final int NUM_OF_TILE_HEIGHT = 18;
-    public static final int WINDOW_WIDTH = TILE_SIZE * NUM_OF_TILE_WIDTH; // 64 * 24 = 1536 px
-    public static final int WINDOW_HEIGHT = TILE_SIZE * NUM_OF_TILE_HEIGHT; // 64 * 18 = 1152 px
+    public static final int NUM_OF_TILE_WIDTH = 16;
+    public static final int NUM_OF_TILE_HEIGHT = 12;
+    public static final int WINDOW_WIDTH = TILE_SIZE * NUM_OF_TILE_WIDTH; // 64 * 16 = 1024 px
+    public static final int WINDOW_HEIGHT = TILE_SIZE * NUM_OF_TILE_HEIGHT; // 64 * 12 = 768 px
     public static final Size GAME_WINDOW_SIZE = new Size(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     // GAME ATTRIBUTES
