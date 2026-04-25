@@ -42,6 +42,9 @@ public final class UIManager {
         return instance;
     }
 
+    /**
+     * Initialize all ui cache once before playing the game.
+     */
     private void initialize() {
         pauseStateUIComponentsCache.add(drawPausePanel());
     }
@@ -49,8 +52,8 @@ public final class UIManager {
     private UIPanel drawPausePanel() {
         final Size SIZE = new Size(256, 256);
         final Vector2i POSITION = new Vector2i(
-                (Game.GAME_WINDOW_SIZE.getWidth() - SIZE.getWidth()) / 2,
-                (Game.GAME_WINDOW_SIZE.getHeight() - SIZE.getHeight()) / 2
+                ((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - SIZE.getWidth()) / 2,
+                ((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - SIZE.getHeight()) / 2
         );
         UIPanel pausePanel = new UIPanel(POSITION, SIZE, 0.5, 0.5);
         pausePanel.addChild(
@@ -81,6 +84,11 @@ public final class UIManager {
         }
     }
 
+    /**
+     * Reposition each ui component that maintains the x-scale and y-scale relative to the screen size.
+     * <p>
+     * Fire {@link SmartUI#rePositioning()} once the user resizes game window.
+     */
     public static void repositioningUIComponents() {
         for (UIComponent uiComponent : uiComponentRenderingList) {
             if (uiComponent instanceof SmartUI component) {

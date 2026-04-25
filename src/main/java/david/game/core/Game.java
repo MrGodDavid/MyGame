@@ -108,7 +108,8 @@ public final class Game extends JPanel {
         this.uiManager = UIManager.getInstance();
         this.questManager = new QuestManager(QuestManager.ObjectivePointer.MOVE_TUTORIAL);
 
-        super.setPreferredSize(new Dimension(GAME_WINDOW_SIZE.getWidth(), GAME_WINDOW_SIZE.getHeight()));
+//        super.setPreferredSize(new Dimension(GAME_WINDOW_SIZE.getWidth(), GAME_WINDOW_SIZE.getHeight()));
+        super.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
         super.setDoubleBuffered(true);
         super.setFocusable(true);
 
