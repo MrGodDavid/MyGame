@@ -87,7 +87,7 @@ public final class UIManager {
     /**
      * Reposition each ui component that maintains the x-scale and y-scale relative to the screen size.
      * <p>
-     * Fire {@link SmartUI#rePositioning()} once the user resizes game window.
+     * Fire the {@link SmartUI#rePositioning()} when the user resizes game window.
      */
     public static void repositioningUIComponents() {
         for (UIComponent uiComponent : uiComponentRenderingList) {
