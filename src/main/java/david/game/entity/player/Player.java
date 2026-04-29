@@ -1,7 +1,10 @@
 package david.game.entity.player;
 
+import bad.code.format.annotation.DebugMethod;
+import com.mrgoddavid.vector.Vector;
 import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
+import david.game.core.GameLoop;
 import david.game.entity.GameCharacter;
 import david.game.entity.GameObject;
 import david.game.entity.component.CollisionBox;
@@ -34,24 +37,49 @@ import java.util.List;
  */
 public final class Player extends GameCharacter {
 
+    /**
+     * This private static class stores the player's statistics in this game.
+     */
     private static class PlayerStat {
 
+        // player attribute constants.
+        private static final int ORBIT_RADIUS = Game.TILE_SIZE;
+
+        // player's in-game attributes.
         private int energy;
+
+        // game states.
+        private boolean isOrbiting;
 
         private PlayerStat() {
             this.energy = 10;
+            this.isOrbiting = false;
         }
 
+        /**
+         * Increment the energy of player.
+         */
         private void increaseEnergy() {
             this.energy++;
         }
 
+        /**
+         * Decrement the energy of player.
+         */
         private void decreaseEnergy() {
             this.energy--;
         }
 
         public int getEnergy() {
             return energy;
+        }
+
+        public boolean isOrbiting() {
+            return isOrbiting;
+        }
+
+        public void setOrbiting(boolean isOrbiting) {
+            this.isOrbiting = isOrbiting;
         }
 
         @Override
@@ -61,6 +89,7 @@ public final class Player extends GameCharacter {
     }
 
     private static Player playerInstance;
+    private static double time;
     private final PlayerStat playerStat;
     private final List<AbstractItem> inventory; // inventory cache?
 
@@ -68,6 +97,7 @@ public final class Player extends GameCharacter {
         super();
         this.inventory = new ArrayList<>();
         this.playerStat = new PlayerStat();
+        time = 0d;
         position = new Vector2d(100, 100);
         velocity = new Vector2d(0, 0);
         size = new Size(48, 48);
@@ -131,6 +161,61 @@ public final class Player extends GameCharacter {
         Vector2d mousePosition = new Vector2d(InputManager.getMousePosition());
         Vector2d direction = mousePosition.subtract(position).normalize();
         this.velocity = direction.scale(speed);
+
+        Vector2d oldPosition = position.copy();
+        if (isMetMouseCursor()) {
+            playerStat.setOrbiting(true);
+        } else {
+            position = oldPosition;
+        }
+
+    }
+
+    /**
+     * Update the subclass of {@code GameObject} 60 times per frame.
+     *
+     * @param deltaTime that is not null.
+     * @see GameLoop
+     */
+    @Override
+    public void update(double deltaTime) {
+        super.update(deltaTime);
+        if (InputManager.isMouseMoved()) {
+            playerStat.setOrbiting(false);
+        }
+        if (playerStat.isOrbiting()) {
+            orbitAroundCursor(deltaTime);
+        }
+    }
+
+    /**
+     * Orbit the player around the mouse cursor. Trigger this condition only if the player character met the position
+     * of mouse's cursor. The position of player's path is calculated by the following parametric equation:
+     * <pre><code>
+     *     x = cos(t) * r + mx - offsetX
+     *     y = sin(t) * r + my - offsetY
+     * </code></pre>
+     * Symbols & their meaningss:
+     * <pre><code>
+     *     x : x position of the player.
+     *     y : y position of the player.
+     *     t : time.
+     *     r : orbiting radius.
+     *     mx : mouse x position.
+     *     my : mouse y position.
+     *     offsetX : offset of the center of the circle in x axis.
+     *     offsetY : offset of the center of the circle in y axis.
+     * </code></pre>
+     *
+     * @param deltaTime a constant in game loop.
+     */
+    private void orbitAroundCursor(double deltaTime) {
+        time += deltaTime * 3;
+        Vector2d mousePosition = new Vector2d(InputManager.getMousePosition());
+        this.position = new Vector2d(
+                Math.cos(time) * PlayerStat.ORBIT_RADIUS + mousePosition.getX() - 16,
+                Math.sin(time) * PlayerStat.ORBIT_RADIUS + mousePosition.getY()
+        );
     }
 
     /**
@@ -171,8 +256,31 @@ public final class Player extends GameCharacter {
         this.playerStat.decreaseEnergy();
     }
 
+    /**
+     * Check if the player currently can shoot projectiles or not. The player can shoot projectiles if and only if
+     * the player's energy point (ep) is greater than 0.
+     *
+     * @return true if player has enough energy (ep > 0) and false otherwise.
+     */
     public boolean canShoot() {
         return playerStat.getEnergy() > 0;
+    }
+
+    /**
+     * Check if the player has met the mouse cursor's positon on screen.
+     *
+     * @return true if the player has met the mouse cursor's positon and false otherwise.
+     */
+    private boolean isMetMouseCursor() {
+        Vector2d mousePosition = new Vector2d(InputManager.getMousePosition());
+        double offset = speed / 2; // TODO find suitable value of offset.
+        return this.position.compareWith(
+                mousePosition.add(new Vector2d(offset, offset)),
+                Vector.ComparisonCommand.LESS_THAN_OR_EQUALS_TO
+        ) && this.position.compareWith(
+                mousePosition.subtract(new Vector2d(offset, offset)),
+                Vector.ComparisonCommand.GREATER_THAN_OR_EQUALS_TO
+        );
     }
 
     /**
@@ -186,10 +294,18 @@ public final class Player extends GameCharacter {
         return "[PLAYER]: " + super.toString();
     }
 
+    /**
+     * Debugging method of development of this game. Prints player's statistics.
+     */
+    @DebugMethod(purpose = DebugMethod.DebugPurpose.PRINT_DEBUG_MESSAGE)
     public void printPlayerStat() {
         System.out.println(playerStat.toString());
     }
 
+    /**
+     * Debugging method of development of this game. Prints player's inventory.
+     */
+    @DebugMethod(purpose = DebugMethod.DebugPurpose.PRINT_DEBUG_MESSAGE)
     public void printInventory() {
         System.out.println(inventory.toString());
     }

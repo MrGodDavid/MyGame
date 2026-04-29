@@ -109,6 +109,10 @@ public final class InputManager {
         MouseInputListener.endFrame();
     }
 
+    public static boolean isMouseMoved() {
+        return MouseInputListener.isMouseMoved();
+    }
+
     // =============================================== [GETTERS & SETTERS] ===============================================
 
     public static Vector2d getMousePosition() {

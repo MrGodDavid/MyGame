@@ -39,10 +39,12 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
     }
 
     private static boolean[] mouseButtonsPressed;
+    private volatile static boolean isMouseMoved;
     private Vector2d mouseCursorPosition;
 
     private MouseInputListener() {
         mouseButtonsPressed = new boolean[MouseInputListener.MouseButton.values().length];
+        isMouseMoved = false;
         this.mouseCursorPosition = new Vector2d(-1, -1);
     }
 
@@ -138,7 +140,7 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
      */
     @Override
     public void mouseDragged(MouseEvent e) {
-
+        isMouseMoved = true;
     }
 
     /**
@@ -150,6 +152,7 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
     @Override
     public void mouseMoved(MouseEvent e) {
         mouseCursorPosition = new Vector2d(e.getX(), e.getY());
+        isMouseMoved = true;
     }
 
     /**
@@ -166,5 +169,11 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
 
     public static void endFrame() {
         Arrays.fill(mouseButtonsPressed, false);
+    }
+
+    static boolean isMouseMoved() {
+        boolean result = isMouseMoved;
+        isMouseMoved = false;
+        return result;
     }
 }
