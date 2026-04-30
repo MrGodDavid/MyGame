@@ -1,6 +1,7 @@
 package david.game.entity;
 
 import david.game.core.GameLoop;
+import david.game.entity.component.ShootPath;
 import david.game.entity.projectile.Projectile;
 import david.game.entity.component.HealthBar;
 import david.game.utils.Math;
@@ -24,11 +25,14 @@ public abstract class GameCharacter extends MovingEntity {
     protected Optional<Projectile> projectile;
     protected Optional<Timer> projectileShootingCoolDownTimer;
     protected HealthBar healthBar;
+    protected ShootPath shootPath;
 
     public GameCharacter() {
         super();
         projectile = Optional.empty();
         projectileShootingCoolDownTimer = Optional.empty();
+        healthBar = null;
+        shootPath  = null;
     }
 
     /**
@@ -44,11 +48,23 @@ public abstract class GameCharacter extends MovingEntity {
         if (healthBar != null) {
             healthBar.update(currentLife);
         }
+        if (shootPath != null) {
+            shootPath.update(position);
+        }
     }
 
+    /**
+     * Render game character's graphics components, such as health bar, particles, etc.
+     *
+     * @param g2d acts like a rendering pipeline.
+     * @apiNote This method DOES NOT draw game character itself.
+     */
     public void render(Graphics2D g2d) {
         if (healthBar != null) {
             healthBar.render(g2d, Math.toVector2i(position), size);
+        }
+        if (shootPath != null) {
+            shootPath.render(g2d);
         }
     }
 

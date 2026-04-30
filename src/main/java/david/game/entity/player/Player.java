@@ -8,6 +8,7 @@ import david.game.core.GameLoop;
 import david.game.entity.GameCharacter;
 import david.game.entity.GameObject;
 import david.game.entity.component.CollisionBox;
+import david.game.entity.component.ShootPath;
 import david.game.entity.component.Size;
 import david.game.entity.item.AbstractItem;
 import david.game.entity.item.fuel.Fuel;
@@ -43,7 +44,7 @@ public final class Player extends GameCharacter {
     private static class PlayerStat {
 
         // player attribute constants.
-        private static final int ORBIT_RADIUS = Game.TILE_SIZE;
+        private static final int ORBIT_RADIUS = Game.UNIT_LENGTH;
 
         // player's in-game attributes.
         private int energy;
@@ -111,6 +112,7 @@ public final class Player extends GameCharacter {
         projectileShootingCoolDownTimer = Optional.of(new Timer(60));
         healthBar = new HealthBar(maxLife);
         healthBar.setDrawHealthBar(true);
+        shootPath = new ShootPath();
 
         sprite = getSprite();
     }
