@@ -33,7 +33,7 @@ public final class ShootTutorial extends Objective {
     }
 
     private boolean requirement() {
-        return InputManager.getMouseInputListener().isButtonDown(MouseInputListener.MouseButton.LEFT_BUTTON);
+        return InputManager.isButtonDown(MouseInputListener.MouseButton.LEFT_BUTTON);
     }
 
     @Override

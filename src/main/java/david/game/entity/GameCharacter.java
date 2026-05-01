@@ -1,5 +1,6 @@
 package david.game.entity;
 
+import com.mrgoddavid.vector.Vector2d;
 import david.game.core.GameLoop;
 import david.game.entity.component.ShootPath;
 import david.game.entity.projectile.Projectile;
@@ -49,7 +50,11 @@ public abstract class GameCharacter extends MovingEntity {
             healthBar.update(currentLife);
         }
         if (shootPath != null) {
-            shootPath.update(position);
+            shootPath.update(position.add(
+                    new Vector2d((double) this.size.getWidth() / 2,
+                            (double) this.size.getHeight() / 2
+                    )
+            ));
         }
     }
 

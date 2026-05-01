@@ -20,6 +20,7 @@ import java.awt.event.KeyEvent;
 @SingletonClass
 public final class InputManager {
 
+    @SuppressWarnings("unused")
     private static KeyboardListener keyboardListener;
     private static MouseInputListener mouseInputListener;
 
@@ -73,34 +74,34 @@ public final class InputManager {
      */
     public void update() {
         // EXIT GAME
-        if (keyboardListener.isKeyTyped(KeyEvent.VK_ESCAPE)) {
+        if (KeyboardListener.isKeyTyped(KeyEvent.VK_ESCAPE)) {
             System.exit(0);
         }
         // MOVE PLAYER
-        if (keyboardListener.isKeyPressed(KeyEvent.VK_W)) {
+        if (KeyboardListener.isKeyPressed(KeyEvent.VK_W)) {
             EntityManager.getPlayer().move();
         } else {
             EntityManager.getPlayer().stop();
         }
         // CHANGE PLAYER'S MOVING DIRECTION
-        if (InputManager.mouseInputListener.isButtonDown(MouseInputListener.MouseButton.LEFT_BUTTON)) {
+        if (InputManager.isButtonDown(MouseInputListener.MouseButton.LEFT_BUTTON)) {
             if (EntityManager.getPlayer().canShoot()) {
                 EntityManager.getPlayer().shoot();
             }
         }
         // PAUSE/RESUME GAME
-        if (keyboardListener.isKeyTyped(KeyEvent.VK_P)) {
+        if (KeyboardListener.isKeyTyped(KeyEvent.VK_P)) {
             Game.toggleGamePauseResume();
         }
         // SWITCHING GAME STATES
-        if (keyboardListener.isKeyTyped(KeyEvent.VK_LEFT)) {
+        if (KeyboardListener.isKeyTyped(KeyEvent.VK_LEFT)) {
             System.out.println("Switching state");
             Game.switchGameState();
             System.out.println("Current state: " + Game.getGameState());
         }
         // DEBUG
         // RENDER GAME CHARACTER'S COLLISION BOX
-        if (keyboardListener.isKeyTyped(KeyEvent.VK_F2)) {
+        if (KeyboardListener.isKeyTyped(KeyEvent.VK_F2)) {
             Renderer.toggleRenderCollisionBox();
         }
     }
@@ -113,17 +114,39 @@ public final class InputManager {
         return MouseInputListener.isMouseMoved();
     }
 
+    /**
+     * Wrapper method of {@link KeyboardListener#isKeyTyped(int)}.
+     *
+     * @param keyCode that indicates which key is typed on keyboard.
+     * @return true if the correspond key is typed.
+     */
+    public static boolean isKeyDown(int keyCode) {
+        return KeyboardListener.isKeyTyped(keyCode);
+    }
+
+    /**
+     * Wrapper method of {@link KeyboardListener#isKeyPressed(int)}.
+     *
+     * @param keyCode that indicates which key is pressed on keyboard.
+     * @return true if the correspond key is pressed.
+     */
+    public static boolean isKeyPressed(int keyCode) {
+        return KeyboardListener.isKeyPressed(keyCode);
+    }
+
+    /**
+     * Wrapper method of {@link MouseInputListener#isButtonDown(MouseInputListener.MouseButton)}.
+     *
+     * @param button that indicates which mouse button is pressed on mouse.
+     * @return true if the correspond mouse button is pressed.
+     */
+    public static boolean isButtonDown(MouseInputListener.MouseButton button) {
+        return MouseInputListener.isButtonDown(button);
+    }
+
     // =============================================== [GETTERS & SETTERS] ===============================================
 
     public static Vector2d getMousePosition() {
         return mouseInputListener.getMouseCursorPosition();
-    }
-
-    public static KeyboardListener getKeyboardListener() {
-        return keyboardListener;
-    }
-
-    public static MouseInputListener getMouseInputListener() {
-        return mouseInputListener;
     }
 }

@@ -162,7 +162,7 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
         return mouseCursorPosition;
     }
 
-    public boolean isButtonDown(MouseButton button) {
+    public static boolean isButtonDown(MouseButton button) {
         if (button.getButton() < 0 || button.getButton() >= mouseButtonsPressed.length) return false;
         return mouseButtonsPressed[button.getButton() - 1];
     }

@@ -16,12 +16,11 @@ public final class KeyboardListener implements KeyListener {
 
     private static KeyboardListener instance;
 
-    private final boolean[] keys;
-    private boolean isPressed;
+    private static final boolean[] keys = new boolean[256];
+    private static boolean isPressed;
 
     private KeyboardListener() {
-        this.keys = new boolean[256];
-        this.isPressed = false;
+        KeyboardListener.isPressed = false;
     }
 
     public static KeyboardListener getInstance() {
@@ -79,7 +78,7 @@ public final class KeyboardListener implements KeyListener {
      * @return a boolean that indicate whether the key event been fired. True represents the user presses down a certain
      * key, and false represents the user does not press a certain key.
      */
-    public boolean isKeyTyped(int keyCode) {
+    public static boolean isKeyTyped(int keyCode) {
         if (keys[keyCode] && !isPressed) {
             isPressed = true;
             return true;
@@ -97,7 +96,7 @@ public final class KeyboardListener implements KeyListener {
      * @return a boolean that indicate whether the key event been fired. True represents the user presses down a certain
      * key, and false represents the user does not press a certain key.
      */
-    public boolean isKeyPressed(int keyCode) {
+    public static boolean isKeyPressed(int keyCode) {
         return keys[keyCode];
     }
 }

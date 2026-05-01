@@ -34,7 +34,7 @@ public final class MoveTutorial extends Objective {
     }
 
     private boolean requirement() {
-        return InputManager.getKeyboardListener().isKeyTyped(KeyEvent.VK_W);
+        return InputManager.isKeyDown(KeyEvent.VK_W);
     }
 
     @Override
