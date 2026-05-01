@@ -57,7 +57,6 @@ public final class GameLoop implements Runnable {
                 update(updateRate);
                 accumulator -= updateRate;
                 render();
-                InputManager.endFrame();
             }
             printStat();
         }

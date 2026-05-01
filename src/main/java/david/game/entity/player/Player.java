@@ -16,6 +16,7 @@ import david.game.entity.projectile.Projectile;
 import david.game.core.Game;
 import david.game.entity.component.HealthBar;
 import david.game.input.InputManager;
+import david.game.input.MouseInputListener;
 import david.game.utils.TextUtils;
 import david.game.utils.Timer;
 
@@ -188,6 +189,15 @@ public final class Player extends GameCharacter {
         if (playerStat.isOrbiting()) {
             orbitAroundCursor(deltaTime);
         }
+        // ===== UPDATE SHOOT PATH =====
+        System.out.println(InputManager.isButtonPressed(MouseInputListener.MouseButton.RIGHT_BUTTON));
+        if (shootPath != null && InputManager.isButtonPressed(MouseInputListener.MouseButton.RIGHT_BUTTON)) {
+            shootPath.update(position.add(
+                    new Vector2d((double) this.size.getWidth() / 2,
+                            (double) this.size.getHeight() / 2
+                    )
+            ));
+        }
     }
 
     /**
@@ -197,7 +207,7 @@ public final class Player extends GameCharacter {
      *     x = cos(t) * r + mx - offsetX
      *     y = sin(t) * r + my - offsetY
      * </code></pre>
-     * Symbols & their meaningss:
+     * Symbols & their meanings:
      * <pre><code>
      *     x : x position of the player.
      *     y : y position of the player.

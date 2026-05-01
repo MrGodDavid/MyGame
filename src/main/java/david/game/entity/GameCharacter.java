@@ -3,8 +3,11 @@ package david.game.entity;
 import com.mrgoddavid.vector.Vector2d;
 import david.game.core.GameLoop;
 import david.game.entity.component.ShootPath;
+import david.game.entity.player.Player;
 import david.game.entity.projectile.Projectile;
 import david.game.entity.component.HealthBar;
+import david.game.input.InputManager;
+import david.game.input.MouseInputListener;
 import david.game.utils.Math;
 import david.game.utils.Timer;
 
@@ -33,7 +36,7 @@ public abstract class GameCharacter extends MovingEntity {
         projectile = Optional.empty();
         projectileShootingCoolDownTimer = Optional.empty();
         healthBar = null;
-        shootPath  = null;
+        shootPath = null;
     }
 
     /**
@@ -46,15 +49,9 @@ public abstract class GameCharacter extends MovingEntity {
     public void update(double deltaTime) {
         super.update(deltaTime);
         projectileShootingCoolDownTimer.ifPresent(Timer::update);
+        // ===== UPDATE HEALTH BAR =====
         if (healthBar != null) {
             healthBar.update(currentLife);
-        }
-        if (shootPath != null) {
-            shootPath.update(position.add(
-                    new Vector2d((double) this.size.getWidth() / 2,
-                            (double) this.size.getHeight() / 2
-                    )
-            ));
         }
     }
 
@@ -68,7 +65,9 @@ public abstract class GameCharacter extends MovingEntity {
         if (healthBar != null) {
             healthBar.render(g2d, Math.toVector2i(position), size);
         }
-        if (shootPath != null) {
+        if (shootPath != null
+                && this instanceof Player
+                && InputManager.isButtonPressed(MouseInputListener.MouseButton.RIGHT_BUTTON)) {
             shootPath.render(g2d);
         }
     }

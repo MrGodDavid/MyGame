@@ -106,10 +106,6 @@ public final class InputManager {
         }
     }
 
-    public static void endFrame() {
-        MouseInputListener.endFrame();
-    }
-
     public static boolean isMouseMoved() {
         return MouseInputListener.isMouseMoved();
     }
@@ -142,6 +138,10 @@ public final class InputManager {
      */
     public static boolean isButtonDown(MouseInputListener.MouseButton button) {
         return MouseInputListener.isButtonDown(button);
+    }
+
+    public static boolean isButtonPressed(MouseInputListener.MouseButton button) {
+        return MouseInputListener.isButtonPressed(button);
     }
 
     // =============================================== [GETTERS & SETTERS] ===============================================

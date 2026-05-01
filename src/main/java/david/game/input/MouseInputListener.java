@@ -38,13 +38,14 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
         }
     }
 
-    private static boolean[] mouseButtonsPressed;
+    private static final boolean[] mouseButtonsPressed = new boolean[MouseInputListener.MouseButton.values().length];
     private volatile static boolean isMouseMoved;
+    private static boolean isButtonPressed;
     private Vector2d mouseCursorPosition;
 
     private MouseInputListener() {
-        mouseButtonsPressed = new boolean[MouseInputListener.MouseButton.values().length];
         isMouseMoved = false;
+        isButtonPressed = false;
         this.mouseCursorPosition = new Vector2d(-1, -1);
     }
 
@@ -103,6 +104,7 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
         if (mouseButtonIndex >= 0 && mouseButtonIndex < mouseButtonsPressed.length) {
             mouseButtonsPressed[mouseButtonIndex] = false;
         }
+        isButtonPressed = false;
     }
 
     /**
@@ -112,7 +114,6 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
      */
     @Override
     public void mouseEntered(MouseEvent e) {
-
     }
 
     /**
@@ -122,7 +123,6 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
      */
     @Override
     public void mouseExited(MouseEvent e) {
-
     }
 
     /**
@@ -140,6 +140,7 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
      */
     @Override
     public void mouseDragged(MouseEvent e) {
+        mouseCursorPosition = new Vector2d(e.getX(), e.getY());
         isMouseMoved = true;
     }
 
@@ -162,15 +163,38 @@ public final class MouseInputListener implements MouseListener, MouseMotionListe
         return mouseCursorPosition;
     }
 
+    /**
+     * Fire a mouse event {@code ONE TIME} when a mouse button is been pressed by user.
+     *
+     * @param button that indicates which mouse button the user presses.
+     * @return true for the correspond mouse button being pressed by user.
+     */
     public static boolean isButtonDown(MouseButton button) {
+        if (button.getButton() < 0 || button.getButton() >= mouseButtonsPressed.length) return false;
+        if (mouseButtonsPressed[button.getButton() - 1] && !isButtonPressed) {
+            isButtonPressed = true;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Fire a mouse event {@code MULTIPLE TIMES} when a mouse button is being pressed by user.
+     *
+     * @param button that indicates which mouse button the user presses.
+     * @return true for the correspond mouse button being pressed by user.
+     */
+    public static boolean isButtonPressed(MouseButton button) {
         if (button.getButton() < 0 || button.getButton() >= mouseButtonsPressed.length) return false;
         return mouseButtonsPressed[button.getButton() - 1];
     }
 
-    public static void endFrame() {
-        Arrays.fill(mouseButtonsPressed, false);
-    }
-
+    /**
+     * Check if the user moves the mouse.
+     *
+     * @return true if the user either moved or dragged the mouse.
+     * @apiNote this method returns true when the user {@code dragged} or {@code moved} the mouse.
+     */
     static boolean isMouseMoved() {
         boolean result = isMouseMoved;
         isMouseMoved = false;
