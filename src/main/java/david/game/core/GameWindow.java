@@ -18,6 +18,7 @@ public final class GameWindow {
     private static Size windowSize;
 
     private final JFrame window;
+    @SuppressWarnings("FieldCanBeLocal")
     private final GameWindowResizeListener resizeListener;
 
     private GameWindow(Game game) {

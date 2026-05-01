@@ -30,6 +30,7 @@ import java.util.List;
  * @since 3/31/2026
  */
 @SingletonClass
+@SuppressWarnings("unused")
 public final class EntityManager {
 
     private static EntityManager instance;

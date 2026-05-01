@@ -1,7 +1,6 @@
 package david.game.core;
 
 import bad.code.format.annotation.SingletonClass;
-import david.game.input.InputManager;
 
 /**
  * Game loop of this game.

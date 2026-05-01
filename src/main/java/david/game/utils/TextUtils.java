@@ -14,6 +14,7 @@ import java.awt.*;
  * @since 3/31/2026
  */
 @UninstantiableClass
+@SuppressWarnings("unused")
 public final class TextUtils {
 
     private TextUtils() {

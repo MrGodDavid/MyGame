@@ -14,6 +14,7 @@ import david.game.core.GameWindow;
  * @since 4/6/2026
  */
 @UninstantiableClass
+@SuppressWarnings("unused")
 public final class Math {
 
     private Math() {

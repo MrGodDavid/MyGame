@@ -15,6 +15,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface DebugMethod {
 
+    @SuppressWarnings("UnnecessarySemicolon")
     enum DebugPurpose {
         /**
          * Indicates that the purpose of debugging method prints debugging messages.

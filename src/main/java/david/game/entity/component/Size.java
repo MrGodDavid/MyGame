@@ -13,6 +13,7 @@ import com.mrgoddavid.vector.Vector2i;
  * @author Mr. GodDavid
  * @since 3/30/2026
  */
+@SuppressWarnings("unused")
 public final class Size extends Vector2i {
 
     public Size() {
@@ -31,12 +32,8 @@ public final class Size extends Vector2i {
         return super.getY();
     }
 
-    public void setWidth(int width) {
-        super.x = width;
-    }
-
-    public void setHeight(int height) {
-        super.y = height;
+    public void setSize(int width, int height) {
+        super.setValues(width, height);
     }
 
     @Override

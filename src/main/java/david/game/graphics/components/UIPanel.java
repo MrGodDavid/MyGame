@@ -2,7 +2,6 @@ package david.game.graphics.components;
 
 import david.game.entity.component.Size;
 import com.mrgoddavid.vector.Vector2i;
-import david.game.graphics.auxiliary.SmartUI;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -103,7 +102,7 @@ public final class UIPanel extends UISmartComponent {
         Graphics2D g2d = ((BufferedImage) image).createGraphics();
         int totalChildrenHeight = calculateTotalChildrenHeight();
         int verticalOffset = (super.calculateBackgroundImageSize().getHeight() - totalChildrenHeight) / 2;
-        int currentX = 0;
+        int currentX;
         int currentY = verticalOffset;
         for (UIComponent child : this.children) {
             currentX = (super.calculateBackgroundImageSize().getWidth() - child.getSize().getWidth()) / 2;

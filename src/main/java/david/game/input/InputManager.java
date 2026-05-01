@@ -18,6 +18,7 @@ import java.awt.event.KeyEvent;
  * @since 3/31/2026
  */
 @SingletonClass
+@SuppressWarnings("unused")
 public final class InputManager {
 
     @SuppressWarnings("unused")

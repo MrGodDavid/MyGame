@@ -4,6 +4,7 @@ package david.game.graphics.auxiliary;
  * @author Mr. GodDavid
  * @since 4/19/2026
  */
+@SuppressWarnings({"unused", "ClassCanBeRecord"})
 public final class Spacing {
 
     private final int left, top, right, bottom;

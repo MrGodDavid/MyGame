@@ -73,6 +73,7 @@ public final class Game extends JPanel {
     private final QuestManager questManager;
     private final UIManager uiManager;
 
+    // Method call counter.
     private static int gameStateMethodCall;
     private static int gamePauseMethodCall;
 

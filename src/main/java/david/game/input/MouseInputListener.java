@@ -6,7 +6,6 @@ import com.mrgoddavid.vector.Vector2d;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.Arrays;
 
 /**
  * Listen to user's mouse inputs.

@@ -1,6 +1,5 @@
 package david.game.entity;
 
-import com.mrgoddavid.vector.Vector2d;
 import david.game.core.GameLoop;
 import david.game.entity.component.ShootPath;
 import david.game.entity.player.Player;

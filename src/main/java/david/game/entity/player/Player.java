@@ -37,6 +37,7 @@ import java.util.List;
  * @author Mr. GodDavid
  * @since 3/30/2026
  */
+@SuppressWarnings("unused")
 public final class Player extends GameCharacter {
 
     /**
