@@ -11,6 +11,7 @@ import java.awt.*;
  * {@code MovingEntity} in game. Once the two collision boxes overlap each other, both of them have to stop. This is
  * the collision event.
  */
+@SuppressWarnings("ClassCanBeRecord")
 public final class CollisionBox {
 
     private final Rectangle boundingBox;

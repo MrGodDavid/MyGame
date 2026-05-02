@@ -1,0 +1,30 @@
+{
+  "item_list": [
+    {
+      "name": "fuel",
+      "heal_effort": 1,
+      "energy": 0
+    },
+    {
+      "name": "battery",
+      "heal_effort": 0,
+      "energy": 2
+    }
+  ],
+  "character_list": [
+    {
+      "name": "player",
+      "projectile": "projectile",
+      "speed": 200.0,
+      "max_life": 10.0,
+      "max_energy": 10
+    },
+    {
+      "name": "enemy",
+      "projectile": "projectile",
+      "speed": 100.0,
+      "max_life": 10.0,
+      "max_energy": -1
+    }
+  ]
+}

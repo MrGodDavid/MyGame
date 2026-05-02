@@ -44,8 +44,7 @@ public final class GameWindow {
     }
 
     public static void updateWindowSize(int width, int height) {
-        windowSize.setWidth(width);
-        windowSize.setHeight(height);
+        windowSize.setSize(width, height);
     }
 
     public void show() {

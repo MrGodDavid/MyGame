@@ -20,7 +20,14 @@ public @interface DebugMethod {
         /**
          * Indicates that the purpose of debugging method prints debugging messages.
          */
-        PRINT_DEBUG_MESSAGE;
+        PRINT_DEBUG_MESSAGE,
+
+        /**
+         * Indicates that the purpose of debugging method prints the entire object's string.
+         *
+         * @apiNote DO NOT use this tag above {@link Object#toString()}.
+         */
+        PRINT_OBJECT;
     }
 
     /**

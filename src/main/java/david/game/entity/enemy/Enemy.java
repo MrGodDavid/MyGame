@@ -3,6 +3,7 @@ package david.game.entity.enemy;
 import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
 import david.game.core.GameLoop;
+import david.game.data.CharacterData;
 import david.game.entity.GameCharacter;
 import david.game.entity.ai.AIManager;
 import david.game.entity.component.CollisionBox;
@@ -29,20 +30,31 @@ public class Enemy extends GameCharacter {
 
     public Enemy() {
         aiManager = new AIManager(AIManager.AIStatePointer.WANDER);
+        super.registerCharacterData();
 
         position = new Vector2d(-1d, -1d);
         size = new Size(64, 64);
         collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
 
-        speed = 100;
-        maxLife = 10;
+        speed = super.getCharacterData().getSpeed();
+        maxLife = super.getCharacterData().getMax_life();
         currentLife = maxLife;
-        projectile = Optional.of(new Projectile());
+        projectile = Optional.ofNullable(super.getCharacterData().getProjectile());
         projectileShootingCoolDownTimer = Optional.of(new Timer(120));
         healthBar = new HealthBar(maxLife);
         healthBar.setDrawHealthBar(true);
 
         sprite = getSprite();
+    }
+
+    /**
+     * Configure a character data struct of this game character.
+     *
+     * @return a character data struct of this game character.
+     */
+    @Override
+    protected CharacterData configCharacterData() {
+        return Game.getConfigManager().getCharacter("enemy");
     }
 
     /**

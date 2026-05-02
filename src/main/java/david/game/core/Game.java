@@ -1,6 +1,7 @@
 package david.game.core;
 
 import bad.code.format.annotation.SingletonClass;
+import david.game.data.ConfigManager;
 import david.game.entity.EntityManager;
 import david.game.entity.component.Size;
 import david.game.graphics.UIManager;
@@ -67,6 +68,7 @@ public final class Game extends JPanel {
     private static GameState gameState;
 
     // MANAGERS
+    private static final ConfigManager configManager = ConfigManager.getInstance();
     private final InputManager inputManager;
     private final EntityManager entityManager;
     private final Renderer renderer;
@@ -233,5 +235,9 @@ public final class Game extends JPanel {
 
     public static GameState getGameState() {
         return gameState;
+    }
+
+    public static ConfigManager getConfigManager() {
+        return configManager;
     }
 }

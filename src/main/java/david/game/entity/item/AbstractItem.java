@@ -1,5 +1,6 @@
 package david.game.entity.item;
 
+import david.game.data.ItemData;
 import david.game.entity.GameObject;
 import david.game.entity.component.CollisionBox;
 
@@ -10,6 +11,7 @@ import david.game.entity.component.CollisionBox;
 public abstract class AbstractItem extends GameObject {
 
     private boolean draw;
+    private ItemData data;
 
     public AbstractItem() {
         super();
@@ -21,6 +23,13 @@ public abstract class AbstractItem extends GameObject {
         return "[ABSTRACT ITEM]";
     }
 
+    /**
+     * Configure item data for this game item.
+     *
+     * @return a ItemData struct.
+     */
+    protected abstract ItemData configItemData();
+
     public boolean isCollidingWith(CollisionBox collisionBox) {
         return this.collisionBox.collidesWith(collisionBox);
     }
@@ -31,5 +40,13 @@ public abstract class AbstractItem extends GameObject {
 
     public boolean isDraw() {
         return draw;
+    }
+
+    protected void registerItemData() {
+        this.data = configItemData();
+    }
+
+    protected ItemData getItemData() {
+        return data;
     }
 }

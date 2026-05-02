@@ -1,4 +1,4 @@
-package david.game.entity.item.fuel;
+package david.game.entity.item.battery;
 
 import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
@@ -16,16 +16,14 @@ import java.awt.image.BufferedImage;
 
 /**
  * @author Mr. GodDavid
- * @since 4/13/2026
+ * @since 5/1/2026
  */
-public final class Fuel extends AbstractItem {
+public final class Battery extends AbstractItem {
 
-    public Fuel(final Vector2d position) {
+    public Battery(final Vector2d position) {
         super();
-        super.registerItemData();
-
         this.position = position;
-        this.size = new Size(GameCharacter.SPRITE_SIZE,  GameCharacter.SPRITE_SIZE);
+        this.size = new Size(GameCharacter.SPRITE_SIZE, GameCharacter.SPRITE_SIZE);
         this.collisionBox = new CollisionBox(new Rectangle(
                 0, 0, GameCharacter.SPRITE_SIZE, GameCharacter.SPRITE_SIZE
         ));
@@ -68,8 +66,8 @@ public final class Fuel extends AbstractItem {
         this.collisionBox.update(this);
     }
 
-    public int getLife() {
-        return super.getItemData().getHealEffort();
+    public int getEnergy() {
+        return super.getItemData().getEnergy();
     }
 
     /**
@@ -79,6 +77,6 @@ public final class Fuel extends AbstractItem {
      */
     @Override
     protected ItemData configItemData() {
-        return Game.getConfigManager().getItem("fuel");
+        return Game.getConfigManager().getItem("battery");
     }
 }

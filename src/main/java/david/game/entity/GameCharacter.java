@@ -1,6 +1,7 @@
 package david.game.entity;
 
 import david.game.core.GameLoop;
+import david.game.data.CharacterData;
 import david.game.entity.component.ShootPath;
 import david.game.entity.player.Player;
 import david.game.entity.projectile.Projectile;
@@ -30,6 +31,8 @@ public abstract class GameCharacter extends MovingEntity {
     protected HealthBar healthBar;
     protected ShootPath shootPath;
 
+    private CharacterData characterData;
+
     public GameCharacter() {
         super();
         projectile = Optional.empty();
@@ -37,6 +40,13 @@ public abstract class GameCharacter extends MovingEntity {
         healthBar = null;
         shootPath = null;
     }
+
+    /**
+     * Configure a character data struct of this game character.
+     *
+     * @return a character data struct of this game character.
+     */
+    protected abstract CharacterData configCharacterData();
 
     /**
      * Update the subclass of {@code GameObject} 60 times per frame.
@@ -82,5 +92,13 @@ public abstract class GameCharacter extends MovingEntity {
 
     public Optional<Projectile> getProjectile() {
         return projectile;
+    }
+
+    protected void registerCharacterData() {
+        this.characterData = configCharacterData();
+    }
+
+    protected CharacterData getCharacterData() {
+        return characterData;
     }
 }

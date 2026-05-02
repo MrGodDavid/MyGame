@@ -5,6 +5,7 @@ import com.mrgoddavid.vector.Vector;
 import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
 import david.game.core.GameLoop;
+import david.game.data.CharacterData;
 import david.game.entity.GameCharacter;
 import david.game.entity.GameObject;
 import david.game.entity.component.CollisionBox;
@@ -92,31 +93,43 @@ public final class Player extends GameCharacter {
     }
 
     private static Player playerInstance;
-    private static double time;
+    private static double orbitingTime;
     private final PlayerStat playerStat;
     private final List<AbstractItem> inventory; // inventory cache?
 
     private Player() {
         super();
+        super.registerCharacterData();
         this.inventory = new ArrayList<>();
         this.playerStat = new PlayerStat();
-        time = 0d;
+
+        orbitingTime = 0d;
         position = new Vector2d(100, 100);
         velocity = new Vector2d(0, 0);
         size = new Size(48, 48);
         collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
 
         // player attributes.
-        speed = 200d;
-        maxLife = 10;
+        speed = super.getCharacterData().getSpeed();
+        maxLife = super.getCharacterData().getMax_life();
         currentLife = maxLife;
-        projectile = Optional.of(new Projectile());
+        projectile = Optional.ofNullable(super.getCharacterData().getProjectile());
         projectileShootingCoolDownTimer = Optional.of(new Timer(60));
         healthBar = new HealthBar(maxLife);
         healthBar.setDrawHealthBar(true);
         shootPath = new ShootPath();
 
         sprite = getSprite();
+    }
+
+    /**
+     * Configure a character data struct of this game character.
+     *
+     * @return a character data struct of this game character.
+     */
+    @Override
+    protected CharacterData configCharacterData() {
+        return Game.getConfigManager().getCharacter("player");
     }
 
     /**
@@ -191,7 +204,6 @@ public final class Player extends GameCharacter {
             orbitAroundCursor(deltaTime);
         }
         // ===== UPDATE SHOOT PATH =====
-        System.out.println(InputManager.isButtonPressed(MouseInputListener.MouseButton.RIGHT_BUTTON));
         if (shootPath != null && InputManager.isButtonPressed(MouseInputListener.MouseButton.RIGHT_BUTTON)) {
             shootPath.update(position.add(
                     new Vector2d((double) this.size.getWidth() / 2,
@@ -223,11 +235,11 @@ public final class Player extends GameCharacter {
      * @param deltaTime a constant in game loop.
      */
     private void orbitAroundCursor(double deltaTime) {
-        time += deltaTime * 3;
+        orbitingTime += deltaTime * 3;
         Vector2d mousePosition = new Vector2d(InputManager.getMousePosition());
         this.position = new Vector2d(
-                Math.cos(time) * PlayerStat.ORBIT_RADIUS + mousePosition.getX() - 16,
-                Math.sin(time) * PlayerStat.ORBIT_RADIUS + mousePosition.getY()
+                Math.cos(orbitingTime) * PlayerStat.ORBIT_RADIUS + mousePosition.getX() - 16,
+                Math.sin(orbitingTime) * PlayerStat.ORBIT_RADIUS + mousePosition.getY()
         );
     }
 
@@ -250,8 +262,11 @@ public final class Player extends GameCharacter {
     public void pickUp(AbstractItem item) {
         if (item == null) return;
         inventory.add(item);
-        if (item instanceof Fuel) {
-            this.increaseEnergy();
+        if (item instanceof Fuel fuel) {
+            currentLife += fuel.getLife();
+            if (currentLife > maxLife) {
+                currentLife = maxLife;
+            }
         }
     }
 
