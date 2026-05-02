@@ -8,8 +8,15 @@ import java.util.*;
 
 /**
  * Parse Json files.
- * Web: <a href = https://vajithc.medium.com/parsing-json-without-libraries-build-your-own-json-reader-in-java-1db8e6165039>
+ * Web:
+ * <a href = https://vajithc.medium.com/parsing-json-without-libraries-build-your-own-json-reader-in-java-1db8e6165039>
  * here</a>
+ * <p>
+ * This class configs the config.json file, which stores all the settings and stats of game characters and items in this
+ * game.
+ * <p>
+ * This class parse the JSON files and allow user to enter the name of the character (in getCharacter()) and the name
+ * of the item (in getItem()).
  *
  * @author Mr. GodDavid (class file)
  * @since 5/1/2026
@@ -34,6 +41,12 @@ public final class ConfigManager {
         load();
     }
 
+    /**
+     * Get the single instance of this class. The class first construct itself and return its instance follow on when
+     * calling the constructor in this game project.
+     *
+     * @return the only instance of this class when call this method.
+     */
     public static ConfigManager getInstance() {
         if (instance == null) {
             instance = new ConfigManager();
@@ -41,6 +54,11 @@ public final class ConfigManager {
         return instance;
     }
 
+    /**
+     * Load the String JSON file and store it in root for later data extraction. This method also contains debugging log
+     * message such as starting loading file and finished laoding/data extraction. Next, this method build look-up table
+     * for item and game character data struct from JSON file.
+     */
     private void load() {
         System.out.println("[MyGame V1 StatPrinter]:\tLoading config file...");
         root = parseJson(readFiledAsString());
@@ -80,7 +98,7 @@ public final class ConfigManager {
         throw new IllegalArgumentException("Invalid list key: " + listKey);
     }
 
-    private String readFiledAsString(){
+    private String readFiledAsString() {
         StringBuilder content = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(configFile))) {
             String line;
@@ -166,7 +184,7 @@ public final class ConfigManager {
             }
         }
 
-        if (entry.length() > 0) {
+        if (!entry.isEmpty()) {
             entries.add(entry.toString().trim());
         }
 

@@ -12,6 +12,8 @@ import java.util.Map;
 @UninstantiableClass
 public final class ObjectMapper {
 
+    public static final String DATA_DELIMITER = "#";
+
     private ObjectMapper() {
         throw new IllegalAccessError("You can't instantiate this class.");
     }

@@ -4,18 +4,15 @@ import bad.code.format.annotation.DebugMethod;
 import com.mrgoddavid.vector.Vector;
 import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
+import david.game.core.Game;
 import david.game.core.GameLoop;
 import david.game.data.CharacterData;
 import david.game.entity.GameCharacter;
 import david.game.entity.GameObject;
-import david.game.entity.component.CollisionBox;
+import david.game.entity.component.HealthBar;
 import david.game.entity.component.ShootPath;
-import david.game.entity.component.Size;
 import david.game.entity.item.AbstractItem;
 import david.game.entity.item.fuel.Fuel;
-import david.game.entity.projectile.Projectile;
-import david.game.core.Game;
-import david.game.entity.component.HealthBar;
 import david.game.input.InputManager;
 import david.game.input.MouseInputListener;
 import david.game.utils.TextUtils;
@@ -23,8 +20,9 @@ import david.game.utils.Timer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Player class. Player class is a subclass of the {@code MovingEntity}. Player class implements the
@@ -104,10 +102,10 @@ public final class Player extends GameCharacter {
         this.playerStat = new PlayerStat();
 
         orbitingTime = 0d;
-        position = new Vector2d(100, 100);
-        velocity = new Vector2d(0, 0);
-        size = new Size(48, 48);
-        collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
+        position = super.getCharacterData().getPosition();
+        velocity = super.getCharacterData().getVelocity();
+        size = super.getCharacterData().getSize();
+        collisionBox = super.getCharacterData().getCollisionBox();
 
         // player attributes.
         speed = super.getCharacterData().getSpeed();

@@ -1,15 +1,11 @@
 package david.game.entity.enemy;
 
-import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
+import david.game.core.Game;
 import david.game.core.GameLoop;
 import david.game.data.CharacterData;
 import david.game.entity.GameCharacter;
 import david.game.entity.ai.AIManager;
-import david.game.entity.component.CollisionBox;
-import david.game.entity.component.Size;
-import david.game.entity.projectile.Projectile;
-import david.game.core.Game;
 import david.game.entity.component.HealthBar;
 import david.game.utils.TextUtils;
 import david.game.utils.Timer;
@@ -32,9 +28,10 @@ public class Enemy extends GameCharacter {
         aiManager = new AIManager(AIManager.AIStatePointer.WANDER);
         super.registerCharacterData();
 
-        position = new Vector2d(-1d, -1d);
-        size = new Size(64, 64);
-        collisionBox = new CollisionBox(new Rectangle(0, 0, 48, 48));
+        position = super.getCharacterData().getPosition();
+        velocity = super.getCharacterData().getVelocity();
+        size = super.getCharacterData().getSize();
+        collisionBox = super.getCharacterData().getCollisionBox();
 
         speed = super.getCharacterData().getSpeed();
         maxLife = super.getCharacterData().getMax_life();

@@ -14,6 +14,10 @@
   "character_list": [
     {
       "name": "player",
+      "position": "100 # 100",
+      "velocity": "0 # 0",
+      "size": "48 # 48",
+      "collision_box": "0 # 0 # 48 # 48",
       "projectile": "projectile",
       "speed": 200.0,
       "max_life": 10.0,
@@ -21,6 +25,10 @@
     },
     {
       "name": "enemy",
+      "position": "-1 # -1",
+      "velocity": "0 # 0",
+      "size": "64 # 64",
+      "collision_box": "0 # 0 # 64 # 64",
       "projectile": "projectile",
       "speed": 100.0,
       "max_life": 10.0,
