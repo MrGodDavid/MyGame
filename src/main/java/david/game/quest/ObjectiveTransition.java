@@ -30,7 +30,7 @@ public final class ObjectiveTransition {
         return optionalRequirement.map(Requirement::isMet).orElse(false);
     }
 
-    public QuestManager.ObjectivePointer getNextState() {
+    public QuestManager.ObjectivePointer getNextObjective() {
         return nextState;
     }
 }

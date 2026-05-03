@@ -25,6 +25,8 @@ public final class ShootTutorial extends Objective {
 
     public ShootTutorial() {
         super();
+        title = "Shoot Tutorial";
+        description = "Press \n[LEFT BUTTON] \nto shoot.";
     }
 
     @Override
@@ -33,7 +35,7 @@ public final class ShootTutorial extends Objective {
     }
 
     private boolean requirement() {
-        return InputManager.isButtonDown(MouseInputListener.MouseButton.LEFT_BUTTON);
+        return InputManager.isButtonPressed(MouseInputListener.MouseButton.LEFT_BUTTON);
     }
 
     @Override

@@ -19,7 +19,12 @@ public abstract class Objective {
 
     private final ObjectiveTransition transition;
 
+    protected String title;
+    protected String description;
+
     public Objective() {
+        title = "";
+        description = "";
         transition = initializeTransition();
     }
 
@@ -51,6 +56,14 @@ public abstract class Objective {
      * @return the pointer class of the subclass of Objective.
      */
     public QuestManager.ObjectivePointer getNextObjective() {
-        return transition.getNextState();
+        return transition.getNextObjective();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

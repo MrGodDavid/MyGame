@@ -1,11 +1,11 @@
 package david.game.graphics;
 
 import bad.code.format.annotation.SingletonClass;
+import com.mrgoddavid.vector.Vector2i;
 import david.game.core.Game;
 import david.game.entity.component.Size;
 import david.game.graphics.auxiliary.SmartUI;
 import david.game.graphics.components.UIComponent;
-import com.mrgoddavid.vector.Vector2i;
 import david.game.graphics.components.UIPanel;
 import david.game.graphics.components.UIText;
 
@@ -20,18 +20,47 @@ import java.util.List;
 @SingletonClass
 public final class UIManager {
 
+    private static class UIRenderingSetting {
+
+        public static UIRenderingSetting instance;
+
+        private boolean renderUIComponentBoundingBox;
+
+        private UIRenderingSetting() {
+            renderUIComponentBoundingBox = false;
+        }
+
+        public static UIRenderingSetting getInstance() {
+            if (instance == null) {
+                instance = new UIRenderingSetting();
+            }
+            return instance;
+        }
+
+        public void toggleRenderUIComponentBoundingBox() {
+            renderUIComponentBoundingBox = !renderUIComponentBoundingBox;
+        }
+
+        public boolean isRenderUIComponentBoundingBox() {
+            return renderUIComponentBoundingBox;
+        }
+    }
+
     // UI CACHES
+    private static final List<UIComponent> playingStateUIComponentsCache = new ArrayList<>();
     private final List<UIComponent> editorStateUIComponentsCache;
     private final List<UIComponent> pauseStateUIComponentsCache;
 
     private static List<UIComponent> uiComponentRenderingList; // acts as a pointer.
     private static UIManager instance;
+    private static UIRenderingSetting uiRenderingSetting;
 
     private UIManager() {
         this.editorStateUIComponentsCache = new ArrayList<>();
         this.pauseStateUIComponentsCache = new ArrayList<>();
-
         UIManager.uiComponentRenderingList = new ArrayList<>();
+
+        uiRenderingSetting = UIRenderingSetting.getInstance();
         this.initialize();
     }
 
@@ -47,6 +76,26 @@ public final class UIManager {
      */
     private void initialize() {
         pauseStateUIComponentsCache.add(drawPausePanel());
+        playingStateUIComponentsCache.add(drawObjectivePanel());
+    }
+
+    private static UIPanel drawObjectivePanel() {
+        final int PADDING = 50;
+        final Size SIZE = new Size(192, 160);
+        final Vector2i POSITION = new Vector2i(
+                ((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - SIZE.getWidth()) - PADDING,
+                PADDING
+        );
+        UIPanel objectivePanel = new UIPanel(POSITION, SIZE);
+        objectivePanel.addChild(
+                new UIText(Game.getCurrentObjective().getTitle(),
+                        new Vector2i(0, 0), new Size(128, 48)
+                ),
+                new UIText(Game.getCurrentObjective().getDescription(),
+                        new Vector2i(0, 0), new Size(128, 96)
+                )
+        );
+        return objectivePanel;
     }
 
     private UIPanel drawPausePanel() {
@@ -65,11 +114,20 @@ public final class UIManager {
         return pausePanel;
     }
 
+    public static void updateObjectivePanel() {
+        playingStateUIComponentsCache.clear();
+        if (Game.getCurrentObjective() != null) {
+            playingStateUIComponentsCache.add(drawObjectivePanel());
+        }
+    }
+
     public void update() {
         switch (Game.getGameState()) {
+            case PLAYING_STATE -> {
+                uiComponentRenderingList = playingStateUIComponentsCache;
+            }
             case EDITOR_STATE -> uiComponentRenderingList = editorStateUIComponentsCache;
             case PAUSE_STATE -> uiComponentRenderingList = pauseStateUIComponentsCache;
-            case PLAYING_STATE -> uiComponentRenderingList = new ArrayList<>();
         }
     }
 
@@ -81,6 +139,9 @@ public final class UIManager {
                     uiComponent.getPosition().getY(),
                     null
             );
+            if (uiRenderingSetting.isRenderUIComponentBoundingBox()) {
+                uiComponent.drawBoundingBox(g2d);
+            }
         }
     }
 
@@ -95,5 +156,9 @@ public final class UIManager {
                 component.rePositioning();
             }
         }
+    }
+
+    public static void toggleRenderUIComponentBoundingBox() {
+        uiRenderingSetting.toggleRenderUIComponentBoundingBox();
     }
 }

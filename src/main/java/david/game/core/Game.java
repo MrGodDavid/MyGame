@@ -9,6 +9,7 @@ import david.game.input.InputManager;
 import david.game.input.KeyboardListener;
 import david.game.input.MouseInputListener;
 import david.game.quest.QuestManager;
+import david.game.quest.objective.Objective;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -69,10 +70,10 @@ public final class Game extends JPanel {
 
     // MANAGERS
     private static final ConfigManager configManager = ConfigManager.getInstance();
+    private static final QuestManager questManager = new QuestManager(QuestManager.ObjectivePointer.MOVE_TUTORIAL);
     private final InputManager inputManager;
     private final EntityManager entityManager;
     private final Renderer renderer;
-    private final QuestManager questManager;
     private final UIManager uiManager;
 
     // Method call counter.
@@ -109,7 +110,6 @@ public final class Game extends JPanel {
         this.entityManager = EntityManager.getInstance();
         this.renderer = Renderer.getInstance();
         this.uiManager = UIManager.getInstance();
-        this.questManager = new QuestManager(QuestManager.ObjectivePointer.MOVE_TUTORIAL);
 
 //        super.setPreferredSize(new Dimension(GAME_WINDOW_SIZE.getWidth(), GAME_WINDOW_SIZE.getHeight()));
         super.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -141,7 +141,7 @@ public final class Game extends JPanel {
             case EDITOR_STATE -> {
                 System.out.println("Editor state");
             }
-            case  PAUSE_STATE -> {
+            case PAUSE_STATE -> {
                 System.out.println("Pause state");
             }
             default -> System.out.println("[WARNING]:  Invalid state [" + Game.gameState + "]");
@@ -239,5 +239,9 @@ public final class Game extends JPanel {
 
     public static ConfigManager getConfigManager() {
         return configManager;
+    }
+
+    public static Objective getCurrentObjective() {
+        return questManager.getCurrentObjective();
     }
 }

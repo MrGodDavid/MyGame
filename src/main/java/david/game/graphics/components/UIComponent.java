@@ -42,6 +42,31 @@ public abstract class UIComponent {
     protected abstract Image getSprite();
 
     /**
+     * Draw a rectangle around the component via Graphics2D class.
+     *
+     * @param g2d acts as a rendering pipeline.
+     */
+    public abstract void drawBoundingBox(Graphics2D g2d);
+
+    /**
+     * Draw a rectangle around the component via Graphics2D class. This method should also calculate the absolute
+     * position of a child UIComponent.
+     *
+     * @param g2d    acts as a rendering pipeline.
+     * @param parent UIPanel/Container that might be null.
+     */
+    public void drawBoundingBox(Graphics2D g2d, UIComponent parent) {
+        if (parent == null) return;
+        g2d.setColor(Color.RED);
+        g2d.drawRect(
+                this.position.getX() + parent.getPosition().getX(),
+                this.position.getY() + parent.getPosition().getY(),
+                this.size.getWidth(),
+                this.size.getHeight()
+        );
+    }
+
+    /**
      * Calculate the size includes the margin and padding.
      *
      * @return the size includes the margin and padding.

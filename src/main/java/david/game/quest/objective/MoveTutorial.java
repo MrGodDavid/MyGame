@@ -26,6 +26,8 @@ public final class MoveTutorial extends Objective {
 
     public MoveTutorial() {
         super();
+        title = "Move Tutorial";
+        description = "Press [W] to \nmove,";
     }
 
     @Override
@@ -34,7 +36,7 @@ public final class MoveTutorial extends Objective {
     }
 
     private boolean requirement() {
-        return InputManager.isKeyDown(KeyEvent.VK_W);
+        return InputManager.isKeyPressed(KeyEvent.VK_W);
     }
 
     @Override

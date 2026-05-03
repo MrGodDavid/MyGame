@@ -31,12 +31,28 @@ public final class UIText extends UISmartComponent {
         Graphics2D g2d = image.createGraphics();
         Vector2i centeredPosition = TextUtils.getCenteredFontPosition(g2d, text, size);
 
-        g2d.setFont(Game.getGameFont().deriveFont(Font.BOLD, 24F));
+        g2d.setFont(Game.getGameFont().deriveFont(Font.PLAIN, 24F));
         g2d.setColor(Color.WHITE);
-        g2d.drawString(text, 0,  centeredPosition.getY());
+        int y = centeredPosition.getY();
+        int height = TextUtils.getTextHeight(g2d, text);
+        for (String line : text.split("\n")) {
+            g2d.drawString(line, 0, y);
+            y += height;
+        }
         g2d.dispose();
 
         return image;
+    }
+
+    /**
+     * Draw a rectangle around the component via Graphics2D class.
+     *
+     * @param g2d acts as a rendering pipeline.
+     */
+    @Override
+    public void drawBoundingBox(Graphics2D g2d) {
+        g2d.setColor(Color.RED);
+        g2d.drawRect(this.position.getX(), this.position.getY(), this.size.getWidth(), this.size.getHeight());
     }
 
     /**

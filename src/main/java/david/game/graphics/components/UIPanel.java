@@ -71,6 +71,20 @@ public final class UIPanel extends UISmartComponent {
         return backgroundImage;
     }
 
+    /**
+     * Draw a rectangle around the component via Graphics2D class.
+     *
+     * @param g2d acts as a rendering pipeline.
+     */
+    @Override
+    public void drawBoundingBox(Graphics2D g2d) {
+        g2d.setColor(Color.BLUE);
+        g2d.drawRect(this.position.getX(), this.position.getY(), this.size.getWidth(), this.size.getHeight());
+        for (UIComponent uiComponent : children) {
+            uiComponent.drawBoundingBox(g2d, this);
+        }
+    }
+
     private void drawPanel(Graphics2D g2d, Size size) {
         g2d.setColor(BACKGROUND_COLOR);
         g2d.fillRoundRect(0, 0, size.getWidth(), size.getHeight(), CORNER_ANGLE, CORNER_ANGLE);
@@ -106,10 +120,11 @@ public final class UIPanel extends UISmartComponent {
         int currentY = verticalOffset;
         for (UIComponent child : this.children) {
             currentX = (super.calculateBackgroundImageSize().getWidth() - child.getSize().getWidth()) / 2;
+            child.setPosition(new Vector2i(currentX, currentY));
             g2d.drawImage(
                     child.getImage(),
-                    currentX,
-                    currentY,
+                    child.getPosition().getX(), // NOTE: The child's position X is the relative position to the parent panel.
+                    child.getPosition().getY(), // NOTE: The child's position Y is the relative position to the parent panel.
                     null
             );
             currentY += child.getImage().getHeight(null);

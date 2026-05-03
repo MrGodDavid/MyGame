@@ -1,6 +1,7 @@
 package david.game.quest;
 
 import david.game.entity.ai.AIManager;
+import david.game.graphics.UIManager;
 import david.game.quest.objective.MoveTutorial;
 import david.game.quest.objective.Objective;
 import david.game.quest.objective.ShootTutorial;
@@ -54,6 +55,7 @@ public final class QuestManager {
 
             if (currentObjective.shouldTransition()) {
                 transitionTo(currentObjective.getNextObjective());
+                UIManager.updateObjectivePanel();
             }
         }
     }
@@ -62,7 +64,7 @@ public final class QuestManager {
         currentObjective = switch (objective) {
             case ObjectivePointer.MOVE_TUTORIAL -> new MoveTutorial();
             case ObjectivePointer.SHOOT_TUTORIAL -> new ShootTutorial();
-            case NULL -> null;
+            case ObjectivePointer.NULL -> null;
         };
     }
 
@@ -71,6 +73,10 @@ public final class QuestManager {
         MOVE_TUTORIAL,
         SHOOT_TUTORIAL,
         NULL;
+    }
+
+    public Objective getCurrentObjective() {
+        return currentObjective;
     }
 
     @Override

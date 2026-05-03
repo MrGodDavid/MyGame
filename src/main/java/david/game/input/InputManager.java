@@ -5,6 +5,7 @@ import com.mrgoddavid.vector.Vector2d;
 import david.game.core.Game;
 import david.game.core.Renderer;
 import david.game.entity.EntityManager;
+import david.game.graphics.UIManager;
 
 import java.awt.event.KeyEvent;
 
@@ -104,6 +105,9 @@ public final class InputManager {
             System.out.println("Current state: " + Game.getGameState());
         }
         // DEBUG
+        if (KeyboardListener.isKeyTyped(KeyEvent.VK_F1)) {
+            UIManager.toggleRenderUIComponentBoundingBox();
+        }
         // RENDER GAME CHARACTER'S COLLISION BOX
         if (KeyboardListener.isKeyTyped(KeyEvent.VK_F2)) {
             Renderer.toggleRenderCollisionBox();
