@@ -4,6 +4,7 @@ import bad.code.format.annotation.SingletonClass;
 import david.game.entity.component.Size;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Create a window for this game.
@@ -32,7 +33,7 @@ public final class GameWindow {
         window.pack();
         windowSize = new Size(window.getWidth(), window.getHeight());
         window.addComponentListener(resizeListener);
-//        window.setResizable(false);
+        window.setCursor(createCursor());
         window.setLocationRelativeTo(null);
     }
 
@@ -45,6 +46,13 @@ public final class GameWindow {
 
     public static void updateWindowSize(int width, int height) {
         windowSize.setSize(width, height);
+    }
+
+    private Cursor createCursor() {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image cursorImage = toolkit.getImage("/icons/Mouse_Icon.png");
+        Point hotSpot = new Point(0, 0);
+        return toolkit.createCustomCursor(cursorImage, hotSpot, "Custom_Cursor");
     }
 
     public void show() {
