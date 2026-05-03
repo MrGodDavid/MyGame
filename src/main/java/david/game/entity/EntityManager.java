@@ -2,9 +2,11 @@ package david.game.entity;
 
 import bad.code.format.annotation.SingletonClass;
 import com.mrgoddavid.vector.Vector2d;
+import david.game.core.Game;
 import david.game.core.spatial_hash_grid.SpatialHashGrid;
 import david.game.entity.enemy.Enemy;
 import david.game.entity.item.AbstractItem;
+import david.game.entity.item.battery.Battery;
 import david.game.entity.item.fuel.Fuel;
 import david.game.entity.player.Player;
 import david.game.entity.projectile.Projectile;
@@ -21,9 +23,11 @@ import java.util.List;
  * This class first constructs the List of {@code MovingEntity} of this game. Secondly, this class initializes the
  * {@code Player} of the game and adds the {@code Player} to the List of {@code MovingEntity}.
  * <p>
- * This class contains an update method and a render method. The update method update all the {@code MovingEntity} inside
+ * This class contains an update method and a render method. The update method update all the {@code MovingEntity}
+ * inside
  * the List of {@code MovingEntity} of this game via {@link MovingEntity#update(double)}. The render method renders all
- * the {@code MovingEntity} by utilizing the {@link Graphics2D#drawImage(Image, int, int, ImageObserver)}. (In this case,
+ * the {@code MovingEntity} by utilizing the {@link Graphics2D#drawImage(Image, int, int, ImageObserver)}. (In this
+ * case,
  * the {@link ImageObserver} is null.) The image parameters is the image got from {@link MovingEntity#getSprite()}.
  *
  * @author Mr. GodDavid
@@ -59,7 +63,8 @@ public final class EntityManager {
     }
 
     /**
-     * Returns the single instance of {@code MovingEntityManager}. This method initializes the {@code MovingEntityManager} if the
+     * Returns the single instance of {@code MovingEntityManager}. This method initializes the
+     * {@code MovingEntityManager} if the
      * instance is not being initialized. Otherwise, returns the instance of {@code MovingEntityManager}.
      *
      * @return the only instance of {@code MovingEntityManager}
@@ -191,7 +196,12 @@ public final class EntityManager {
         int addTo = maxNum - currentNum;
         if (currentNum <= maxNum) {
             for (int i = 0; i < addTo; i++) {
-                items.add(new Fuel(Math.getRandomPositionOnScreen()));
+                int random = Game.getRandomGenerator().nextInt(0, 2);
+                if (random == 0) {
+                    items.add(new Fuel(Math.getRandomPositionOnScreen()));
+                } else if (random == 1) {
+                    items.add(new Battery(Math.getRandomPositionOnScreen()));
+                }
             }
         }
     }

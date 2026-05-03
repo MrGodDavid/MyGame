@@ -18,7 +18,7 @@ import david.game.core.GameWrapper;
  * @author Mr. GodDavid
  * @since 3/30/2026
  */
-@UninstantiableClass
+@UninstantiableClass(reason = UninstantiableClass.Reason.UTILITY_CLASS)
 public final class MyGameLauncher {
 
     private MyGameLauncher() {

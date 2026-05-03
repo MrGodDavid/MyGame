@@ -74,21 +74,24 @@ public final class InputManager {
      * </table>
      */
     public void update() {
+        // PLAYING STATE
+        if (Game.getGameState() == Game.GameState.PLAYING_STATE) {
+            // MOVE PLAYER
+            if (KeyboardListener.isKeyPressed(KeyEvent.VK_W)) {
+                EntityManager.getPlayer().move();
+            } else {
+                EntityManager.getPlayer().stop();
+            }
+            // CHANGE PLAYER'S MOVING DIRECTION
+            if (InputManager.isButtonDown(MouseInputListener.MouseButton.LEFT_BUTTON)) {
+                if (EntityManager.getPlayer().canShoot()) {
+                    EntityManager.getPlayer().shoot();
+                }
+            }
+        }
         // EXIT GAME
         if (KeyboardListener.isKeyTyped(KeyEvent.VK_ESCAPE)) {
             System.exit(0);
-        }
-        // MOVE PLAYER
-        if (KeyboardListener.isKeyPressed(KeyEvent.VK_W)) {
-            EntityManager.getPlayer().move();
-        } else {
-            EntityManager.getPlayer().stop();
-        }
-        // CHANGE PLAYER'S MOVING DIRECTION
-        if (InputManager.isButtonDown(MouseInputListener.MouseButton.LEFT_BUTTON)) {
-            if (EntityManager.getPlayer().canShoot()) {
-                EntityManager.getPlayer().shoot();
-            }
         }
         // PAUSE/RESUME GAME
         if (KeyboardListener.isKeyTyped(KeyEvent.VK_P)) {

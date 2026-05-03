@@ -9,10 +9,11 @@ import java.util.Map;
  * @author Mr. GodDavid
  * @since 5/1/2026
  */
-@UninstantiableClass
+@UninstantiableClass(reason = UninstantiableClass.Reason.UTILITY_CLASS)
 public final class ObjectMapper {
 
     public static final String DATA_DELIMITER = "#";
+    public static final String GUS_DATA_DELIMITER = ",";
 
     private ObjectMapper() {
         throw new IllegalAccessError("You can't instantiate this class.");

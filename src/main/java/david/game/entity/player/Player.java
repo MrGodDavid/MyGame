@@ -12,6 +12,7 @@ import david.game.entity.GameObject;
 import david.game.entity.component.HealthBar;
 import david.game.entity.component.ShootPath;
 import david.game.entity.item.AbstractItem;
+import david.game.entity.item.battery.Battery;
 import david.game.entity.item.fuel.Fuel;
 import david.game.input.InputManager;
 import david.game.input.MouseInputListener;
@@ -265,6 +266,8 @@ public final class Player extends GameCharacter {
             if (currentLife > maxLife) {
                 currentLife = maxLife;
             }
+        } else if (item instanceof Battery) {
+            increaseEnergy();
         }
     }
 

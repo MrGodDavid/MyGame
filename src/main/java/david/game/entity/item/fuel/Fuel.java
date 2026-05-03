@@ -5,9 +5,6 @@ import com.mrgoddavid.vector.Vector2i;
 import david.game.core.Game;
 import david.game.core.GameLoop;
 import david.game.data.ItemData;
-import david.game.entity.GameCharacter;
-import david.game.entity.component.CollisionBox;
-import david.game.entity.component.Size;
 import david.game.entity.item.AbstractItem;
 import david.game.utils.TextUtils;
 
@@ -25,10 +22,8 @@ public final class Fuel extends AbstractItem {
         super.registerItemData();
 
         this.position = position;
-        this.size = new Size(GameCharacter.SPRITE_SIZE,  GameCharacter.SPRITE_SIZE);
-        this.collisionBox = new CollisionBox(new Rectangle(
-                0, 0, GameCharacter.SPRITE_SIZE, GameCharacter.SPRITE_SIZE
-        ));
+        this.size = super.getItemData().getSize();
+        this.collisionBox = super.getItemData().getCollisionBox();
     }
 
     /**

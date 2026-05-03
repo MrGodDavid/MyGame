@@ -12,4 +12,10 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.SOURCE)
 public @interface UninstantiableClass {
+
+    enum Reason {
+        UTILITY_CLASS;
+    }
+
+    Reason[] reason();
 }

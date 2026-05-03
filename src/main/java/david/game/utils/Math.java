@@ -13,7 +13,7 @@ import david.game.core.GameWindow;
  * @author Mr. GodDavid
  * @since 4/6/2026
  */
-@UninstantiableClass
+@UninstantiableClass(reason = UninstantiableClass.Reason.UTILITY_CLASS)
 @SuppressWarnings("unused")
 public final class Math {
 

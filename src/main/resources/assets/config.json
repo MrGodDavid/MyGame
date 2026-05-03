@@ -2,11 +2,15 @@
   "item_list": [
     {
       "name": "fuel",
+      "size": "[GSS, 1] # [GSS, 1]",
+      "collision_box": "[GSS, 0] # [GSS, 0] # [GSS, 1] # [GSS, 1]",
       "heal_effort": 1,
       "energy": 0
     },
     {
       "name": "battery",
+      "size": "[GSS, 1.3] # [GSS, 1]",
+      "collision_box": "[GSS, 0] # [GSS, 0] # [GSS, 1] # [GSS, 1]",
       "heal_effort": 0,
       "energy": 2
     }

@@ -13,7 +13,7 @@ import java.awt.*;
  * @author Mr. GodDavid
  * @since 3/31/2026
  */
-@UninstantiableClass
+@UninstantiableClass(reason = UninstantiableClass.Reason.UTILITY_CLASS)
 @SuppressWarnings("unused")
 public final class TextUtils {
 
