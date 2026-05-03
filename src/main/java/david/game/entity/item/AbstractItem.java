@@ -1,6 +1,6 @@
 package david.game.entity.item;
 
-import david.game.data.ItemData;
+import david.game.data.gus.ItemData;
 import david.game.entity.GameObject;
 import david.game.entity.component.CollisionBox;
 

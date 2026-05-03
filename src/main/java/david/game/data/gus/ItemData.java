@@ -1,4 +1,4 @@
-package david.game.data;
+package david.game.data.gus;
 
 import david.game.entity.component.CollisionBox;
 import david.game.entity.component.Size;

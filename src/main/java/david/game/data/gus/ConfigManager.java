@@ -1,4 +1,4 @@
-package david.game.data;
+package david.game.data.gus;
 
 import bad.code.format.annotation.DebugMethod;
 import bad.code.format.annotation.SingletonClass;

@@ -1,7 +1,7 @@
 package david.game.entity;
 
 import david.game.core.GameLoop;
-import david.game.data.CharacterData;
+import david.game.data.gus.CharacterData;
 import david.game.entity.component.ShootPath;
 import david.game.entity.player.Player;
 import david.game.entity.projectile.Projectile;

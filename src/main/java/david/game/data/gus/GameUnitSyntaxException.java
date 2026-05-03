@@ -1,4 +1,4 @@
-package david.game.data;
+package david.game.data.gus;
 
 /**
  * @author Mr. GodDavid

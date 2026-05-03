@@ -1,7 +1,7 @@
 package david.game.core;
 
 import bad.code.format.annotation.SingletonClass;
-import david.game.data.ConfigManager;
+import david.game.data.gus.ConfigManager;
 import david.game.entity.EntityManager;
 import david.game.entity.component.Size;
 import david.game.graphics.UIManager;

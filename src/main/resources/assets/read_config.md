@@ -1,4 +1,4 @@
-How to read config.json file in this game?
+How to read & edit config.json file in this game?
 ----------------------
 
 ### "item_list"

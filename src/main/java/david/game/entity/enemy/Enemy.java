@@ -3,7 +3,7 @@ package david.game.entity.enemy;
 import com.mrgoddavid.vector.Vector2i;
 import david.game.core.Game;
 import david.game.core.GameLoop;
-import david.game.data.CharacterData;
+import david.game.data.gus.CharacterData;
 import david.game.entity.GameCharacter;
 import david.game.entity.ai.AIManager;
 import david.game.entity.component.HealthBar;

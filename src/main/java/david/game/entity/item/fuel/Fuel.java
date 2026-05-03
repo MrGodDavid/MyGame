@@ -4,7 +4,7 @@ import com.mrgoddavid.vector.Vector2d;
 import com.mrgoddavid.vector.Vector2i;
 import david.game.core.Game;
 import david.game.core.GameLoop;
-import david.game.data.ItemData;
+import david.game.data.gus.ItemData;
 import david.game.entity.item.AbstractItem;
 import david.game.utils.TextUtils;
 

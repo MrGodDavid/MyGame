@@ -1,4 +1,4 @@
-package david.game.data;
+package david.game.data.gus;
 
 import com.mrgoddavid.vector.Vector2d;
 import david.game.entity.component.CollisionBox;
