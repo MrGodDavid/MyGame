@@ -2,6 +2,7 @@ package david.game.core;
 
 import bad.code.format.annotation.SingletonClass;
 import david.game.entity.component.Size;
+import david.game.utils.ImageUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,7 +51,7 @@ public final class GameWindow {
 
     private Cursor createCursor() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image cursorImage = toolkit.getImage("/icons/Mouse_Icon.png");
+        Image cursorImage = ImageUtils.createImageThroughPath("src/main/resources/icons/Mouse_Icon.png");
         Point hotSpot = new Point(0, 0);
         return toolkit.createCustomCursor(cursorImage, hotSpot, "Custom_Cursor");
     }
