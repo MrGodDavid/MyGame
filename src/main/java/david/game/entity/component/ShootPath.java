@@ -7,6 +7,8 @@ import david.game.input.InputManager;
 import java.awt.*;
 
 /**
+ * Define the shoot path of player. You can think of the aiming path of player.
+ *
  * @author Mr. GodDavid
  * @since 4/29/2026
  */

@@ -9,6 +9,12 @@ import david.game.entity.projectile.Projectile;
 import java.awt.*;
 
 /**
+ * Renderer of this game. Renders all game items and characters.
+ * <p>
+ * This class DOES NOT render UI Components. {@link david.game.graphics.UIManager} handles the drawing of all
+ * game UI components.
+ * </p>
+ *
  * @author Mr. GodDavod
  * @since 4/18/2026
  */

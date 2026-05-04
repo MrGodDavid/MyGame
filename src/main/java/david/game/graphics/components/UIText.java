@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
+ * UI Text of this game. This UI component is a subclass of {@link UIComponent}.
+ *
  * @author Mr. GodDavid
  * @since 4/24/2026
  */

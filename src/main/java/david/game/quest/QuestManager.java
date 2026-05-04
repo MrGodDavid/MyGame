@@ -9,10 +9,10 @@ import david.game.quest.tutorial.ShootTutorial;
 
 /**
  * ===== [LinkedList] =====
- * Here is a simple code for traversing a LinkedList.
- * <pre><code>
+ * <p>Here is a simple code for traversing a LinkedList.</p>
+ * <pre>
  * private LinkedList list;
- * // Asume that the list is being correctly initialized in the constructor
+ * // Assume that the list is correctly initialized in the constructor
  * // of this class.
  * public void example() {
  *      Node head = list.getHeadNode();
@@ -22,24 +22,26 @@ import david.game.quest.tutorial.ShootTutorial;
  *          traversePtr = traversePtr.getNext();
  *      }
  * }
- * </code></pre>
+ * </pre>
  * <p>
- * QuestManager class traverses the Objective-ObjectiveTransition LinkedList (OOLL) that created in this game.
- * We once define this class once in Game class. The ObjectiveTransition provide pointer that reference
- * to the next Objective.
+ * QuestManager class traverses the Objective-ObjectiveTransition LinkedList (OOLL) created in this game.
+ * This class is defined once in the Game class. The ObjectiveTransition provides a pointer
+ * that references the next Objective.
+ * </p>
  * <p>
  * Take a look at AALL data structure. Here is a visualization:
- * <pre><code>
+ * </p>
+ * <pre>
  *                           [ObjectiveTransition]          (pointer)
- *      e <------------------------------------------------------------------------------------- s
+ *      e &lt;------------------------------------------------------------------------------------- s
  *      v                                                                                        ^
- * [Objective]  ----------->  [Objective]  ----------->  [Objective]  ----------->  [Objective State]
+ * [Objective]  -----------&gt;  [Objective]  -----------&gt;  [Objective]  -----------&gt;  [Objective State]
  *            [ObjectiveTransition]            [ObjectiveTransition]            [ObjectiveTransition]
  *            (pointer)                        (pointer)                        (pointer)
- * </code></pre>
+ * </pre>
  *
  * @author Mr. GodDavid
- * @see AIManager AIManager class for more information about CircularlyLinkedList.
+ * @see AIManager
  * @since 4/10/2026
  */
 public final class QuestManager {

@@ -9,22 +9,41 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===== Old conventional approach =====
+ * ===== Old Conventional Approach =====
+ *
  * <p>
- * The core logic of Spatial Hash Grid method is in this class. The mean idea is dividing the game map down into
- * grid made of cell. Each cell contains n {@code MovingEntity} (where 0 <= n <= max_number_of_game_character).
+ * The core logic of the Spatial Hash Grid method is implemented in this class.
+ * The main idea is to divide the game map into a grid made of cells.
+ * Each cell contains {@code n} {@code MovingEntity} instances,
+ * where {@code 0 <= n <= max_number_of_game_character}.
+ * </p>
+ *
  * <p>
- * When checking the collision (for example, the player to enemy), the program only get the cell that the player is in,
- * and checks the all the {@code MovingEntity} within all the neighboring cells. The program thus ignores the rest of
- * {@code MovingEntity} in other cells. In this way, the program can efficiently check collision between each
- * {@code MovingEntity}.
+ * When performing collision checks (for example, player vs. enemy),
+ * the program only retrieves the cell that the player is currently in
+ * and checks all {@code MovingEntity} instances within that cell and its neighboring cells.
+ * All other entities in distant cells are ignored.
+ * This significantly improves the efficiency of collision detection.
+ * </p>
+ *
  * <p>
- * This class contains an integer that defines the size of each cell, and a Map that has cell as key and a list of
- * {@code MovingEntity} as value. Initialize this class by sending the size of the cell.
+ * This class contains an integer that defines the size of each cell,
+ * and a map that uses cells as keys and lists of {@code MovingEntity} as values.
+ * The class is initialized by providing the cell size.
+ * </p>
+ *
  * <p>
- * ===== Optimized Spatial hash Grid =====
- * Instead of creating a Cell class as key for {@code grid}, we define a custom hash Long wrapper class for the key.
- * Hashing method: See {@link SpatialHashGrid#hash(int, int)}.
+ * ===== Optimized Spatial Hash Grid =====
+ * </p>
+ *
+ * <p>
+ * Instead of using a dedicated Cell class as the key for {@code grid},
+ * this implementation uses a custom hashed {@code long} value as the key.
+ * </p>
+ *
+ * <p>
+ * Hashing method: see {@link SpatialHashGrid#hash(int, int)}.
+ * </p>
  *
  * @author Mr. GodDavid
  * @since 4/4/2026

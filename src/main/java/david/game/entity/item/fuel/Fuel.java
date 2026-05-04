@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
+ * Fuel is a subclass of {@link AbstractItem}. Fuel can heal player's life if player is injured in game.
+ *
  * @author Mr. GodDavid
  * @since 4/13/2026
  */

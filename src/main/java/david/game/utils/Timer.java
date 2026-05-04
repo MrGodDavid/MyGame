@@ -3,19 +3,30 @@ package david.game.utils;
 import bad.code.exception.TimerNegativeDurationException;
 
 /**
- * Custom timer class. This class is different from Java's built Timer class. The constructor of this class contain
- * the maximum time parameter of this {@code Timer}. This timer is a countdown timer. Meaning that the current time
- * decrements every frame until it reaches 0 in {@code update()}. The Timer class sets the current time to 0 if it
- * is less than or equal to 0. The {@code isFinished()} method checks if the current time of {@code Timer} is below
- * or equal to 0. The {@code reset()} resets the current time to Timer's maximum time. The {@code toString()} method
- * returns a String representation of this class, which consists with like the following:
- * <code><pre>
+ * Custom timer class. This class is different from Java's built-in Timer class.
+ * The constructor of this class contains the maximum time parameter of this {@code Timer}.
+ *
+ * <p>This timer is a countdown timer, meaning that the current time decrements every frame
+ * until it reaches 0 in {@code update()}. The Timer class sets the current time to 0 if it
+ * becomes less than or equal to 0.</p>
+ *
+ * <p>The {@code isFinished()} method checks whether the current time of {@code Timer}
+ * is less than or equal to 0. The {@code reset()} method resets the current time to the
+ * Timer's maximum time.</p>
+ *
+ * <p>The {@code toString()} method returns a string representation of this class,
+ * formatted as follows:</p>
+ *
+ * <pre>
  * public String toString() {
  *     return "[TIMER]: currentTime=" + currentTime + ", maxTime=" + maxTime;
  * }
- * </pre></code>
+ * </pre>
+ *
  * <p>
- * The {@code Timer} class does not contain accessor or mutator methods for {@code currentTime} and {@code maxTime}.
+ * The {@code Timer} class does not provide accessor or mutator methods
+ * for {@code currentTime} and {@code maxTime}.
+ * </p>
  *
  * @author Mr. GodDavid
  * @since 4/3/2026

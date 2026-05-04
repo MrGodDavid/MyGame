@@ -5,6 +5,8 @@ import david.game.entity.component.Size;
 import david.game.graphics.auxiliary.SmartUI;
 
 /**
+ * Smart UI Component that relocate its position based on the portion that specified by user in its constructor.
+ *
  * @author Mr. GodDavid
  * @since 4/23/2026
  */

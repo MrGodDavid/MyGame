@@ -1,6 +1,9 @@
 package david.game.graphics.auxiliary;
 
 /**
+ * Spacing class indicates the UI component's body's left, up, right, and bottom spacing. In this game, spacing is used
+ * to define the left, top, right, and bottom margin and padding.
+ *
  * @author Mr. GodDavid
  * @since 4/19/2026
  */

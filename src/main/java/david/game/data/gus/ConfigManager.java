@@ -27,6 +27,8 @@ import java.util.*;
 public final class ConfigManager {
 
     /**
+     * Parser of GUS syntax.
+     *
      * @author Mr. GodDavid
      * @since 5/2/2026
      */

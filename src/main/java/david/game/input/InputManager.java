@@ -10,12 +10,20 @@ import david.game.graphics.UIManager;
 import java.awt.event.KeyEvent;
 
 /**
- * Manages user's keyboard and mouse inputs. First constructs this class with {@code KeyboardListener}
- * and {@code MouseInputListener}. Utilize the {@code update(double)} method to update user's input.
+ * Manages the user's keyboard and mouse input.
+ * Construct this class by providing {@code KeyboardListener}
+ * and {@code MouseInputListener}.
+ *
+ * <p>
+ * Use the {@code update(double)} method to process and update user input each frame.
+ * </p>
+ *
+ * <p>
+ * Process all input logic within this class. Do not implement any logic inside {@code KeyboardListener}
+ * or {@code MouseInputListener}.
+ * </p>
  *
  * @author Mr. GodDavid
- * @apiNote Process input logics in this class. <b>DO NOT IMPLEMENT ANY LOGICS IN EITHER {@code KeyboardListener}
- * or {@code MouseInputListener}.</b>
  * @since 3/31/2026
  */
 @SingletonClass

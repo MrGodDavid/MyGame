@@ -12,6 +12,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
+ * Battery item which is a subclass of {@link AbstractItem}. Battery can recharge player. If the player runs out of
+ * energy, the player can collect battery to recharge, so the player can shoot projectiles again.
+ *
  * @author Mr. GodDavid
  * @since 5/1/2026
  */

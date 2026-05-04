@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * UI manager of all UI components. This class updates and renders all UI components in game.
+ *
  * @author Mr. GodDavid
  * @since 4/15/2026
  */

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * UI Panel component. UI Panel is a panel that can hold multiple UI Components. It is a subclass of smart ui component.
+ *
  * @author Mr. GodDavid
  * @since 4/20/2026
  */

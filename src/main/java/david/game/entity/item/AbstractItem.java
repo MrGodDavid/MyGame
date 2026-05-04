@@ -5,6 +5,8 @@ import david.game.entity.GameObject;
 import david.game.entity.component.CollisionBox;
 
 /**
+ * Superclass of all game items.
+ *
  * @author Mr. GodDavid
  * @since 4/12/2026
  */

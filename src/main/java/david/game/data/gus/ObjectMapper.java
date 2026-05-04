@@ -6,6 +6,8 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 /**
+ * Object Mapper of custom JSON parsing system.
+ *
  * @author Mr. GodDavid
  * @since 5/1/2026
  */

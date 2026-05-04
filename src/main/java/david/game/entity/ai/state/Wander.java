@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Wander state. This state is a subclass of {@link AIState}.
+ *
  * @author Mr. GodDavid
  * @since 4/6/2026
  */

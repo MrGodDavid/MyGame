@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
+ * Superclass for all UI Components.
+ *
  * @author Mr. GodDavid
  * @since 4/19/2026
  */

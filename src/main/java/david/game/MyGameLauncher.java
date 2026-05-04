@@ -7,13 +7,13 @@ import david.game.core.GameWrapper;
  * Launcher class of this game.
  * <p>
  * Contain only main() method that is the entry point of every Java program.
- * <pre><code>
+ * </p>
+ * <pre>
  * public static void main(String[] args) {
  *     // other codes are not shown
  *     game.launch();
  * }
- * </code></pre>
- * </p>
+ * </pre>
  *
  * @author Mr. GodDavid
  * @since 3/30/2026
