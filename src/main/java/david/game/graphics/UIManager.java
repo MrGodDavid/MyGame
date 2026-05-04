@@ -115,17 +115,18 @@ public final class UIManager {
     }
 
     public static void updateObjectivePanel() {
-        playingStateUIComponentsCache.clear();
-        if (Game.getCurrentObjective() != null) {
+        if (!playingStateUIComponentsCache.isEmpty()) {
+            playingStateUIComponentsCache.clear();
+        }
+        if (Game.getCurrentObjective() == null) return;
+        if (!Game.getCurrentObjective().isFinished()) {
             playingStateUIComponentsCache.add(drawObjectivePanel());
         }
     }
 
     public void update() {
         switch (Game.getGameState()) {
-            case PLAYING_STATE -> {
-                uiComponentRenderingList = playingStateUIComponentsCache;
-            }
+            case PLAYING_STATE -> uiComponentRenderingList = playingStateUIComponentsCache;
             case EDITOR_STATE -> uiComponentRenderingList = editorStateUIComponentsCache;
             case PAUSE_STATE -> uiComponentRenderingList = pauseStateUIComponentsCache;
         }

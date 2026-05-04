@@ -10,7 +10,7 @@ import david.game.quest.QuestManager;
  * <p>
  * The constructor of this class constructs the {@code ObjectiveTransition} pointer class by calling the
  * {@link Objective#initializeTransition()} method, an {@link Objective#update()}, a condition checker,
- * or {@link Objective#shouldTransition()}, and an accesser method of the next Objective in OOLL.
+ * or {@link Objective#shouldTransition()}, and an accessosr method of the next Objective in OOLL.
  *
  * @author Mr. GodDavid
  * @since 4/10/2026
@@ -22,9 +22,12 @@ public abstract class Objective {
     protected String title;
     protected String description;
 
+    protected boolean isFinished;
+
     public Objective() {
         title = "";
         description = "";
+        isFinished = false;
         transition = initializeTransition();
     }
 
@@ -42,6 +45,14 @@ public abstract class Objective {
     public abstract void update();
 
     /**
+     * Check if the current objective is finished. Finishing conditions are specified in child classes.
+     *
+     * @return true if all conditions of this objective are met.
+     * @apiNote This method DOES NOT define the transitioning condition.
+     */
+    public abstract boolean isFinished();
+
+    /**
      * Wrapper method of {@link ObjectiveTransition#shouldTransition()}.
      *
      * @return true if all requirements of current objective are met.
@@ -51,7 +62,7 @@ public abstract class Objective {
     }
 
     /**
-     * Accesser of the pointer class of the subclass of Objective.
+     * Accessor of the pointer class of the subclass of Objective.
      *
      * @return the pointer class of the subclass of Objective.
      */

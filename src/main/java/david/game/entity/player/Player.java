@@ -96,6 +96,8 @@ public final class Player extends GameCharacter {
     private final PlayerStat playerStat;
     private final List<AbstractItem> inventory; // inventory cache?
 
+    private static AbstractItem pickUpItem;
+
     private Player() {
         super();
         super.registerCharacterData();
@@ -117,6 +119,7 @@ public final class Player extends GameCharacter {
         healthBar = new HealthBar(maxLife);
         healthBar.setDrawHealthBar(true);
         shootPath = new ShootPath();
+        pickUpItem = null;
 
         sprite = getSprite();
     }
@@ -259,16 +262,22 @@ public final class Player extends GameCharacter {
      * @param item that has been picked up by player.
      */
     public void pickUp(AbstractItem item) {
-        if (item == null) return;
-        inventory.add(item);
-        if (item instanceof Fuel fuel) {
-            currentLife += fuel.getLife();
-            if (currentLife > maxLife) {
-                currentLife = maxLife;
+        pickUpItem = item;
+        if (item != null) {
+            inventory.add(item);
+            if (item instanceof Fuel fuel) {
+                currentLife += fuel.getLife();
+                if (currentLife > maxLife) {
+                    currentLife = maxLife;
+                }
+            } else if (item instanceof Battery) {
+                increaseEnergy();
             }
-        } else if (item instanceof Battery) {
-            increaseEnergy();
         }
+    }
+
+    public static AbstractItem getPickUpItem() {
+        return pickUpItem;
     }
 
     /**

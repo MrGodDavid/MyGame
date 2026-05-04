@@ -1,9 +1,11 @@
-package david.game.quest.objective;
+package david.game.quest.tutorial;
 
+import david.game.entity.player.Player;
 import david.game.input.InputManager;
 import david.game.input.MouseInputListener;
 import david.game.quest.ObjectiveTransition;
 import david.game.quest.QuestManager;
+import david.game.quest.objective.Objective;
 
 /**
  * The shoot tutorial requires player to left-click on their mouse to shoot a projectile. There os no requirement
@@ -31,15 +33,29 @@ public final class ShootTutorial extends Objective {
 
     @Override
     protected ObjectiveTransition initializeTransition() {
-        return new ObjectiveTransition(QuestManager.ObjectivePointer.NULL, this::requirement);
+        return new ObjectiveTransition(QuestManager.ObjectivePointer.COLLECT_BATTERY_OBJECTIVE, this::requirement);
     }
 
     private boolean requirement() {
-        return InputManager.isButtonPressed(MouseInputListener.MouseButton.LEFT_BUTTON);
+        return InputManager.isButtonPressed(MouseInputListener.MouseButton.LEFT_BUTTON) && !Player.getInstance().canShoot();
     }
 
     @Override
     public void update() {
+        if (InputManager.isButtonPressed(MouseInputListener.MouseButton.LEFT_BUTTON)) {
+            isFinished = true;
+        }
+    }
+
+    /**
+     * Check if the current objective is finished. Finishing conditions are specified in child classes.
+     *
+     * @return true if all conditions of this objective are met.
+     * @apiNote This method DOES NOT define the transitioning condition.
+     */
+    @Override
+    public boolean isFinished() {
+        return isFinished;
     }
 
     @Override

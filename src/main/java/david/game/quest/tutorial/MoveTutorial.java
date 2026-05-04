@@ -1,8 +1,9 @@
-package david.game.quest.objective;
+package david.game.quest.tutorial;
 
 import david.game.input.InputManager;
 import david.game.quest.ObjectiveTransition;
 import david.game.quest.QuestManager;
+import david.game.quest.objective.Objective;
 
 import java.awt.event.KeyEvent;
 
@@ -41,6 +42,14 @@ public final class MoveTutorial extends Objective {
 
     @Override
     public void update() {
+        if (InputManager.isKeyPressed(KeyEvent.VK_W)) {
+            isFinished = true;
+        }
+    }
+
+    @Override
+    public boolean isFinished() {
+        return isFinished;
     }
 
     @Override

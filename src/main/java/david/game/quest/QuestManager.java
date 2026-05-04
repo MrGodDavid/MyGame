@@ -2,9 +2,10 @@ package david.game.quest;
 
 import david.game.entity.ai.AIManager;
 import david.game.graphics.UIManager;
-import david.game.quest.objective.MoveTutorial;
+import david.game.quest.objective.CollectBattery;
 import david.game.quest.objective.Objective;
-import david.game.quest.objective.ShootTutorial;
+import david.game.quest.tutorial.MoveTutorial;
+import david.game.quest.tutorial.ShootTutorial;
 
 /**
  * ===== [LinkedList] =====
@@ -45,6 +46,15 @@ public final class QuestManager {
 
     private Objective currentObjective;
 
+    @SuppressWarnings("UnnecessarySemicolon")
+    public enum ObjectivePointer {
+        MOVE_TUTORIAL,
+        SHOOT_TUTORIAL,
+        COLLECT_FUEL_OBJECTIVE,
+        COLLECT_BATTERY_OBJECTIVE,
+        NULL;
+    }
+
     public QuestManager(ObjectivePointer initialObjective) {
         transitionTo(initialObjective);
     }
@@ -52,27 +62,23 @@ public final class QuestManager {
     public void update() {
         if (currentObjective != null) {
             currentObjective.update();
+            UIManager.updateObjectivePanel();
 
             if (currentObjective.shouldTransition()) {
                 transitionTo(currentObjective.getNextObjective());
-                UIManager.updateObjectivePanel();
             }
         }
     }
 
+    @SuppressWarnings("DuplicateBranchesInSwitch")
     private void transitionTo(ObjectivePointer objective) {
         currentObjective = switch (objective) {
             case ObjectivePointer.MOVE_TUTORIAL -> new MoveTutorial();
             case ObjectivePointer.SHOOT_TUTORIAL -> new ShootTutorial();
+            case ObjectivePointer.COLLECT_BATTERY_OBJECTIVE -> new CollectBattery();
             case ObjectivePointer.NULL -> null;
+            default -> null;
         };
-    }
-
-    @SuppressWarnings("UnnecessarySemicolon")
-    public enum ObjectivePointer {
-        MOVE_TUTORIAL,
-        SHOOT_TUTORIAL,
-        NULL;
     }
 
     public Objective getCurrentObjective() {

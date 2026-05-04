@@ -242,6 +242,7 @@ public final class Game extends JPanel {
     }
 
     public static Objective getCurrentObjective() {
+        System.out.println(questManager.getCurrentObjective());
         return questManager.getCurrentObjective();
     }
 }

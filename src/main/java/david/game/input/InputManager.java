@@ -105,6 +105,7 @@ public final class InputManager {
             System.out.println("Current state: " + Game.getGameState());
         }
         // DEBUG
+        // DRAW THE BOUNDING BOX OF EACH UI COMPONENT
         if (KeyboardListener.isKeyTyped(KeyEvent.VK_F1)) {
             UIManager.toggleRenderUIComponentBoundingBox();
         }
