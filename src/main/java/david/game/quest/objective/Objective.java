@@ -17,7 +17,7 @@ import david.game.quest.QuestManager;
  */
 public abstract class Objective {
 
-    private final ObjectiveTransition transition;
+    private ObjectiveTransition transition;
 
     protected String title;
     protected String description;

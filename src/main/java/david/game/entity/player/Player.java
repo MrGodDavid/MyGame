@@ -31,7 +31,8 @@ import java.util.Optional;
  * methods. The player can move, shoot projectiles, and endure damages from enemies.
  * <p>
  * If player dies, the game is over. When player shoots projectiles and kills enemy, the player gains scores and earns
- * money and experience points. The player can use money to buy skills and equipments to increase its life points, damage
+ * money and experience points. The player can use money to buy skills and equipments to increase its life points,
+ * damage
  * strength, and additional awards.
  *
  * @author Mr. GodDavid
@@ -47,6 +48,9 @@ public final class Player extends GameCharacter {
 
         // player attribute constants.
         private static final int ORBIT_RADIUS = Game.UNIT_LENGTH;
+        private static final double SPRINT_SPEED = 400.0;
+        private static final double NORMAL_SPEED = 200.0;
+        private static final double CROUCH_SPEED = 100.0;
 
         // player's in-game attributes.
         private int energy;
@@ -92,12 +96,16 @@ public final class Player extends GameCharacter {
     }
 
     private static Player playerInstance;
-    private static double orbitingTime;
+
     private final PlayerStat playerStat;
     private final List<AbstractItem> inventory; // inventory cache?
 
+    private static double orbitingTime;
     private static AbstractItem pickUpItem;
 
+    /**
+     * Private constructor that constructs a Player instance.
+     */
     private Player() {
         super();
         super.registerCharacterData();
@@ -187,7 +195,27 @@ public final class Player extends GameCharacter {
         } else {
             position = oldPosition;
         }
+    }
 
+    /**
+     * Set the player's speed to sprinting speed (2 times normal speed).
+     */
+    public void sprint() {
+        speed = PlayerStat.SPRINT_SPEED;
+    }
+
+    /**
+     * Set the player's speed to crouching speed (one half slower than the normal speed).
+     */
+    public void crouch() {
+        speed = PlayerStat.CROUCH_SPEED;
+    }
+
+    /**
+     * Set the player's speed to normal speed.
+     */
+    public void resetSpeed() {
+        speed = PlayerStat.NORMAL_SPEED;
     }
 
     /**
@@ -216,14 +244,16 @@ public final class Player extends GameCharacter {
     }
 
     /**
+     * <p>
      * Orbit the player around the mouse cursor. Trigger this condition only if the player character met the position
      * of mouse's cursor. The position of player's path is calculated by the following parametric equation:
-     * <pre><code>
+     * </p>
+     * <pre>
      *     x = cos(t) * r + mx - offsetX
      *     y = sin(t) * r + my - offsetY
-     * </code></pre>
-     * Symbols & their meanings:
-     * <pre><code>
+     * </pre>
+     * <p>Symbols and their meanings:</p>
+     * <pre>
      *     x : x position of the player.
      *     y : y position of the player.
      *     t : time.
@@ -232,7 +262,7 @@ public final class Player extends GameCharacter {
      *     my : mouse y position.
      *     offsetX : offset of the center of the circle in x axis.
      *     offsetY : offset of the center of the circle in y axis.
-     * </code></pre>
+     * </pre>
      *
      * @param deltaTime a constant in game loop.
      */

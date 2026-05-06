@@ -84,9 +84,22 @@ public final class InputManager {
      */
     public void update() {
         // PLAYING STATE
-        if (Game.getGameState() == Game.GameState.PLAYING_STATE) {
+        if (Game.getGameState() == Game.GameState.PLAYING_STATE || Game.getGameState() == Game.GameState.DEBUG_STATE) {
             // MOVE PLAYER
             if (KeyboardListener.isKeyPressed(KeyEvent.VK_W)) {
+                // SPRINT
+                if (KeyboardListener.isKeyPressed(KeyEvent.VK_TAB)) {
+                    EntityManager.getPlayer().sprint();
+                } else {
+                    EntityManager.getPlayer().resetSpeed();
+                }
+                // CROUCH
+                if (KeyboardListener.isKeyPressed(KeyEvent.VK_SHIFT)) {
+                    EntityManager.getPlayer().crouch();
+                } else {
+                    EntityManager.getPlayer().resetSpeed();
+                }
+                // NORMAL MOVING PLAYER
                 EntityManager.getPlayer().move();
             } else {
                 EntityManager.getPlayer().stop();
@@ -108,9 +121,8 @@ public final class InputManager {
         }
         // SWITCHING GAME STATES
         if (KeyboardListener.isKeyTyped(KeyEvent.VK_LEFT)) {
-            System.out.println("Switching state");
-            Game.switchGameState();
-            System.out.println("Current state: " + Game.getGameState());
+//            Game.switchGameState();
+
         }
         // DEBUG
         // DRAW THE BOUNDING BOX OF EACH UI COMPONENT
@@ -120,6 +132,10 @@ public final class InputManager {
         // RENDER GAME CHARACTER'S COLLISION BOX
         if (KeyboardListener.isKeyTyped(KeyEvent.VK_F2)) {
             Renderer.toggleRenderCollisionBox();
+        }
+        // ENABLE DEBUG MODE
+        if (KeyboardListener.isKeyTyped(KeyEvent.VK_F3)) {
+            Game.toggleDebugMode();
         }
     }
 

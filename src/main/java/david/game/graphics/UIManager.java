@@ -52,6 +52,7 @@ public final class UIManager {
     private static final List<UIComponent> playingStateUIComponentsCache = new ArrayList<>();
     private final List<UIComponent> editorStateUIComponentsCache;
     private final List<UIComponent> pauseStateUIComponentsCache;
+    private final List<UIComponent> debugUIComponentsCache;
 
     private static List<UIComponent> uiComponentRenderingList; // acts as a pointer.
     private static UIManager instance;
@@ -60,6 +61,7 @@ public final class UIManager {
     private UIManager() {
         this.editorStateUIComponentsCache = new ArrayList<>();
         this.pauseStateUIComponentsCache = new ArrayList<>();
+        this.debugUIComponentsCache = new ArrayList<>();
         UIManager.uiComponentRenderingList = new ArrayList<>();
 
         uiRenderingSetting = UIRenderingSetting.getInstance();
@@ -79,6 +81,19 @@ public final class UIManager {
     private void initialize() {
         pauseStateUIComponentsCache.add(drawPausePanel());
         playingStateUIComponentsCache.add(drawObjectivePanel());
+        debugUIComponentsCache.add(drawDebugPanel());
+    }
+
+    private UIPanel drawDebugPanel() {
+        UIPanel debugLabel = new UIPanel(
+                new Vector2i(50, 50), new Size(128, 48)
+        );
+        debugLabel.addChildren(
+                new UIText("Debug Mode",
+                        new Vector2i(0, 0),
+                        new Size(128, 64))
+        );
+        return debugLabel;
     }
 
     private static UIPanel drawObjectivePanel() {
@@ -89,7 +104,7 @@ public final class UIManager {
                 PADDING
         );
         UIPanel objectivePanel = new UIPanel(POSITION, SIZE);
-        objectivePanel.addChild(
+        objectivePanel.addChildren(
                 new UIText(Game.getCurrentObjective().getTitle(),
                         new Vector2i(0, 0), new Size(128, 48)
                 ),
@@ -107,7 +122,7 @@ public final class UIManager {
                 ((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - SIZE.getHeight()) / 2
         );
         UIPanel pausePanel = new UIPanel(POSITION, SIZE, 0.5, 0.5);
-        pausePanel.addChild(
+        pausePanel.addChildren(
                 // The parameters are hard-coded. :)
                 new UIText("PAUSE", new Vector2i(0, 0), new Size(60, 64)),
                 new UIText("PRESS [P] to resume", new Vector2i(0, 0), new Size(192, 64)),
@@ -131,6 +146,10 @@ public final class UIManager {
             case PLAYING_STATE -> uiComponentRenderingList = playingStateUIComponentsCache;
             case EDITOR_STATE -> uiComponentRenderingList = editorStateUIComponentsCache;
             case PAUSE_STATE -> uiComponentRenderingList = pauseStateUIComponentsCache;
+            case DEBUG_STATE -> {
+                uiComponentRenderingList = debugUIComponentsCache;
+                uiComponentRenderingList.addAll(playingStateUIComponentsCache);
+            }
         }
     }
 

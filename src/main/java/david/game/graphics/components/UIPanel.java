@@ -101,7 +101,7 @@ public final class UIPanel extends UISmartComponent {
      * @param child components that this container has.
      * @apiNote Use this method {@code ONCE}. Add all children to panel through this method.
      */
-    public void addChild(UIComponent... child) {
+    public void addChildren(UIComponent... child) {
         if (updateCalledOnce) {
             System.out.println("[WARNING] in method {UIPanel.addChild()} because using " +
                     "method addChild method more than once.");

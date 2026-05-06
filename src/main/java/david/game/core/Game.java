@@ -30,26 +30,36 @@ public final class Game extends JPanel {
     private static class GameSettings {
 
         private boolean pause;
+        private boolean debugMode;
 
         private GameSettings() {
             this.pause = true;
+            this.debugMode = false;
         }
 
         private boolean isGamePause() {
             return pause;
         }
 
+        private boolean isDebugMode() {
+            return debugMode;
+        }
+
         /**
          * Toggle the boolean flag {@code toggleUpdateGame}.
          * Method code:
-         * <pre><code>
+         * <pre>
          * private void toggleUpdateGame() {
          *     updateGame = !updateGame;
          * }
-         * </code></pre>
+         * </pre>
          */
         private void toggleUpdateGame() {
             pause = !pause;
+        }
+
+        private void toggleDebugMode() {
+            debugMode = !debugMode;
         }
     }
 
@@ -93,7 +103,7 @@ public final class Game extends JPanel {
         /**
          * The state when the game is paused by player.
          */
-        PAUSE_STATE;
+        PAUSE_STATE, DEBUG_STATE;
     }
 
     private Game() {
@@ -115,6 +125,7 @@ public final class Game extends JPanel {
         super.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
         super.setDoubleBuffered(true);
         super.setFocusable(true);
+        super.setFocusTraversalKeysEnabled(false);
 
         super.addKeyListener(keyboardListener);
         super.addMouseListener(mouseInputListener);
@@ -131,20 +142,17 @@ public final class Game extends JPanel {
     public void update(double deltaTime) {
         inputManager.update();
         uiManager.update();
-        switch (Game.gameState) {
-            case PLAYING_STATE -> {
-                if (gameSettings.isGamePause()) {
-                    entityManager.update(deltaTime);
-                    questManager.update();
-                }
+        if (Game.gameState == GameState.PLAYING_STATE || Game.gameState == GameState.DEBUG_STATE) {
+            if (gameSettings.isGamePause()) {
+                entityManager.update(deltaTime);
+                questManager.update();
             }
-            case EDITOR_STATE -> {
-                System.out.println("Editor state");
-            }
-            case PAUSE_STATE -> {
-                System.out.println("Pause state");
-            }
-            default -> System.out.println("[WARNING]:  Invalid state [" + Game.gameState + "]");
+        } else if (Game.gameState == GameState.EDITOR_STATE) {
+            System.out.println("Editor state");
+        } else if (Game.gameState == GameState.PAUSE_STATE) {
+            System.out.println("Pause state");
+        } else {
+            System.out.println("[WARNING]:  Invalid state [" + Game.gameState + "]");
         }
     }
 
@@ -196,7 +204,10 @@ public final class Game extends JPanel {
     @SuppressWarnings("SameParameterValue")
     private Font createFont(final String filePath) {
         InputStream iS = Game.class.getResourceAsStream(filePath);
-        if (iS == null) return null;
+        if (iS == null) {
+            System.out.println("[WARNING]:  Unable to find file " + filePath);
+            return null;
+        }
         try {
             return Font.createFont(Font.TRUETYPE_FONT, iS);
         } catch (IOException | FontFormatException e) {
@@ -223,6 +234,15 @@ public final class Game extends JPanel {
         gameStateMethodCall++;
     }
 
+    public static void toggleDebugMode() {
+        gameSettings.toggleDebugMode();
+        gameState = gameSettings.isDebugMode() ? GameState.DEBUG_STATE : GameState.PLAYING_STATE;
+    }
+
+    public static boolean isDebugMode() {
+        return gameSettings.isDebugMode();
+    }
+
     // =============================================== [GETTERS & SETTERS] ===============================================
 
     public static Font getGameFont() {
@@ -242,7 +262,6 @@ public final class Game extends JPanel {
     }
 
     public static Objective getCurrentObjective() {
-        System.out.println(questManager.getCurrentObjective());
         return questManager.getCurrentObjective();
     }
 }

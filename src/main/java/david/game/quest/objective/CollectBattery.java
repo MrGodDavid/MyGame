@@ -42,6 +42,7 @@ public final class CollectBattery extends Objective {
      */
     @Override
     public void update() {
+        if (Player.getPickUpItem() == null) return;
         if (Player.getPickUpItem() instanceof Battery) {
             numOfBatteryCollected++;
         }

@@ -1,11 +1,15 @@
 package david.game.quest;
 
+import david.game.core.Game;
 import david.game.entity.ai.AIManager;
 import david.game.graphics.UIManager;
+import david.game.input.InputManager;
 import david.game.quest.objective.CollectBattery;
 import david.game.quest.objective.Objective;
 import david.game.quest.tutorial.MoveTutorial;
 import david.game.quest.tutorial.ShootTutorial;
+
+import java.awt.event.KeyEvent;
 
 /**
  * ===== [LinkedList] =====
@@ -70,6 +74,12 @@ public final class QuestManager {
                 transitionTo(currentObjective.getNextObjective());
             }
         }
+
+        if (Game.isDebugMode()) {
+            if (InputManager.isKeyDown(KeyEvent.VK_F10)) {
+                advance();
+            }
+        }
     }
 
     @SuppressWarnings("DuplicateBranchesInSwitch")
@@ -81,6 +91,14 @@ public final class QuestManager {
             case ObjectivePointer.NULL -> null;
             default -> null;
         };
+    }
+
+    public void advance() {
+        if (currentObjective.getNextObjective() == ObjectivePointer.NULL) {
+            transitionTo(ObjectivePointer.MOVE_TUTORIAL);
+            return;
+        }
+        transitionTo(currentObjective.getNextObjective());
     }
 
     public Objective getCurrentObjective() {
