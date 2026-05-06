@@ -1,0 +1,13 @@
+// enemy placer in game - ideas
+
+Expectations of enemy place:
+1. Press [LEFT ARROW KEY] to go to editor state. [DONE]
+2. Click on the enemy tile from the right side of the screen. <- I'm in here.
+3. Click on any space in the screen to place down the enemy.
+4. Click on the save button
+    -> The program would write a Json file in the game.
+    -> Once I return to the playing state, the game first read the Json file and load all enemies in game.
+
+How to achieve this?
+For step 2:
+    Code UIPanel I guess.
